@@ -70,3 +70,49 @@ test('one import control accepts both transcripts and backups', () => {
   assert.match(inputs[0], /accept="[^"]*json/, 'the import control must accept backups too');
   assert.match(html, /id="import-btn">Import transcript</, 'the button must say what it imports');
 });
+
+test('every identifier the UI imports actually exists in the module it names', () => {
+  // renderGroupOptions kept calling normalizeQuarter after that helper was renamed.
+  // Nothing failed until a person clicked Add, because an undefined reference in a
+  // click handler is invisible until the click. This walks every named import in
+  // app/ui and app/rules and checks the source module exports it.
+  const files = [
+    'app/ui/main.js', 'app/ui/report.js', 'app/ui/parse-transcript.js',
+    'app/ui/parse-paste.js', 'app/ui/map.js', 'app/storage/plan.js', 'app/rules/index.js',
+  ];
+  for (const file of files) {
+    const source = read(`../../${file}`);
+    const dir = file.slice(0, file.lastIndexOf('/'));
+    for (const m of source.matchAll(/import\s*\{([^}]+)\}\s*from\s*'([^']+)'/g)) {
+      const names = m[1].split(',').map((n) => n.trim().split(/\s+as\s+/)[0]).filter(Boolean);
+      const target = new URL(`../../${dir}/${m[2]}`, import.meta.url);
+      const targetSource = readFileSync(target, 'utf8');
+      for (const name of names) {
+        const exported = new RegExp(
+          `export\\s+(?:async\\s+)?(?:function|const|let|class)\\s+${name}\\b|` +
+          `export\\s*\\{[^}]*\\b${name}\\b[^}]*\\}`,
+        ).test(targetSource);
+        assert.ok(exported, `${file} imports ${name} from ${m[2]}, which does not export it`);
+      }
+    }
+  }
+});
+
+test('no call site passes a bare number where a term id belongs', () => {
+  // Shortest-way Add passed the integer 1 after terms became strings, so it silently
+  // placed courses in the Pre-Fuqua bucket instead of the term it named.
+  const source = read('../../app/ui/main.js');
+  const calls = [...source.matchAll(/addCourse\(([^)]*)\)/g)].map((m) => m[1]);
+  for (const args of calls) {
+    assert.ok(!/,\s*\d+\s*$/.test(args),
+      `addCourse called with a numeric term: addCourse(${args})`);
+  }
+});
+
+test('the removed quarter helpers are gone from the UI', () => {
+  for (const file of ['app/ui/main.js', 'app/ui/report.js']) {
+    const source = read(`../../${file}`);
+    assert.ok(!/normalizeQuarter|TERM_LABELS|SEMESTERS\b/.test(source),
+      `${file} still references a helper removed in ADR-0035`);
+  }
+});

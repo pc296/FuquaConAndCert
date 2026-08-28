@@ -161,3 +161,15 @@ Second takeaway: every field in a data file should have a consumer or a comment 
 **Why.** The reasoning about false positives was applied to the mechanism I was thinking about, the automated detector, and not to the one I wrote afterwards. The two do the same job in different places, and only one inherited the caution. Writing the argument down did not make me apply it, because I had filed it against a component rather than against a category of decision.
 
 **Takeaway.** A safeguard belongs to the decision, not to the component it was first written for. When an ADR says a class of inference is unsafe, grep for every place that inference happens before considering it done. Concretely: suggestions now require the observed title to overlap the candidate's, and a code with no title beside it gets no suggestion at all, on the principle that a wrong course offered as plausible is worse than no hint. It also cost nothing to fix, because a real transcript was run through the finished feature. Synthetic fixtures would not have produced ENVIRON 710.
+
+---
+
+## 2026-08-28: Two of three Add buttons were dead and my verification used the third
+
+**What happened.** Changing `addCourse(courseId, quarter)` to take a term id broke both Add buttons in the detail panel. `renderGroupOptions` still called `normalizeQuarter`, a helper renamed in the same change, so clicking Add in a requirement group's option list threw a ReferenceError and did nothing. `renderNextUp` still passed the integer `1`, which is no longer a term id, so the shortest-way Add silently placed courses in the Pre-Fuqua bucket instead of Fall 1. I ran a browser check after the change, exercised the plan panel's Add course button, watched it work, and reported the phase done. Pat found both within minutes of using it.
+
+**Why.** Two compounding mistakes. I updated the call sites I could see from the function I was editing rather than searching for all of them, which a grep for `addCourse(` would have settled in seconds. Then I verified the entry point I had just written instead of the ones that call into it. An undefined reference inside a click handler is invisible until somebody clicks, so nothing in the page load, the test suite, or the screenshot could have shown it.
+
+**Takeaway.** When a function's signature changes, the change is not finished until every call site has been enumerated mechanically, not recalled. And a UI check must exercise every control that reaches the changed code, not the most convenient one; "I clicked a button and it worked" is evidence about that button alone.
+
+Three checks now exist, and each was proven to fail when its defect is reintroduced: every named import must exist in the module it names, no `addCourse` call may pass a bare number, and identifiers removed by ADR-0035 must not appear in the UI. `addCourse` also throws on an invalid term id now, because silently placing a course somewhere other than where the button said is indistinguishable to a user from the button being broken.

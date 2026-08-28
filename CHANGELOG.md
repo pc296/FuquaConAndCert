@@ -21,6 +21,7 @@ Categories: Added, Changed, Fixed, Removed. Newest at the top. Entries describe 
 
 ### Fixed
 
+- 2026-08-28: The Add buttons in the pathway detail panel stopped working when terms became string ids. Add in a requirement group's option list threw and did nothing; Add on a shortest-way step silently placed the course in the Pre-Fuqua bucket. Every Add now routes through one placement helper, `addCourse` refuses a term id it does not recognise instead of guessing, and three tests guard the class of defect.
 - 2026-08-28: Transcript import put every course in Year 1 Fall 1. The parser matched course codes and discarded the term headings around them, and the confirmation screen then added everything with the term hardcoded. Courses now land in the term their heading names, and coursework from before the program goes to the Pre-Fuqua bucket. Duke records semesters rather than Fuqua's 6-week terms, so Fall 1 versus Fall 2 remains the student's call, made explicit rather than guessed. ADR-0036.
 - 2026-08-28: Suggestions for unmatched codes proposed any course sharing the number, which offered HLTHMGMT 710 Health Institutions as a match for ENVIRON 710 Applied Statistical Modeling. A suggestion now requires the observed title to agree, and a code with no title beside it gets none.
 - 2026-08-28: TESTING.md required a test asserting that two certificates is valid, citing the superseded ADR-0017, while the code and its test correctly reject it. The specification contradicted both the implementation and its own suite.

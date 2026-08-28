@@ -8,7 +8,7 @@ import * as store from '../storage/plan.js';
 import { parseTranscript, inferStartYear } from './parse-transcript.js';
 import { renderMap } from './map.js';
 import {
-  PRE_FUQUA, TERMS, termById, termGroups,
+  PRE_FUQUA, TERMS, termById, termGroups, isTermId,
   placementOptions, normalizeTerm, spansSemester, placementLabel,
 } from './placement.js';
 import { buildReportHtml } from './report.js';
@@ -124,6 +124,12 @@ function persist() {
 }
 
 function addCourse(courseId, termId) {
+  if (!isTermId(termId)) {
+    throw new TypeError(
+      `addCourse needs a term id such as 'y1-fall-1', received ${JSON.stringify(termId)}. ` +
+      'Silently placing the course somewhere else would look like the button was broken.',
+    );
+  }
   const course = catalog.courses.get(courseId);
   if (!course) return false;
   const taken = plan.entries.filter((e) => e.courseId === courseId).length;
@@ -134,6 +140,15 @@ function addCourse(courseId, termId) {
   }
   plan.entries.push({ courseId, term: normalizeTerm(course.isFuqua !== false, termId) });
   return true;
+}
+
+/**
+ * Where a course lands when it is added from a suggestion rather than placed by
+ * hand: the first term of the program that has room, snapped to something legal
+ * for the course. Every Add button routes through here so they cannot drift apart.
+ */
+function defaultTermFor(course) {
+  return normalizeTerm(course?.isFuqua !== false, 'y1-fall-1');
 }
 
 function addFromSearch() {
@@ -752,8 +767,9 @@ function renderNextUp(result) {
     add.className = 'ghost tiny';
     add.textContent = 'Add';
     add.addEventListener('click', () => {
-      if (addCourse(item.courseId, 1)) {
-        setStatus(`Added ${item.course.code}. Set its quarter below.`);
+      const target = defaultTermFor(item.course);
+      if (addCourse(item.courseId, target)) {
+        setStatus(`Added ${item.course.code} to ${placementLabel(item.course.isFuqua !== false, target, plan.startYear)}.`);
         persist();
       }
     });
@@ -799,9 +815,9 @@ function renderGroupOptions(pathwayId, group) {
       add.className = 'ghost tiny';
       add.textContent = 'Add';
       add.addEventListener('click', () => {
-        const placed = normalizeQuarter(course?.isFuqua !== false, 1);
+        const placed = defaultTermFor(course);
         if (addCourse(courseId, placed)) {
-          setStatus(`Added ${course?.code ?? courseId}. Set its placement in the plan.`);
+          setStatus(`Added ${course?.code ?? courseId} to ${placementLabel(course?.isFuqua !== false, placed, plan.startYear)}.`);
           persist();
         }
       });
