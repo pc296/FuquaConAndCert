@@ -39,17 +39,18 @@ Project: **Fuqua ConCert**, a course planner for the Duke Fuqua full-time MBA. R
 
 ## Open questions
 
-Tracked in DECISIONS.md. Anything marked `proposed` is unresolved and blocks code that depends on it. As of 2026-08-28 there are none: ADR-0001 through ADR-0037 are all accepted or superseded. Do not follow ADR-0003, ADR-0014, ADR-0017 or ADR-0021.
+Tracked in DECISIONS.md. Anything marked `proposed` is unresolved and blocks code that depends on it. As of 2026-08-28 there are none: ADR-0001 through ADR-0039 are all accepted or superseded. Do not follow ADR-0003, ADR-0014, ADR-0017 or ADR-0021.
 
 ## Where the project stands
 
-Last save point: **v0.3.0**, tagged 2026-08-28. Everything below is built, tested, and committed.
+Last save point: **v0.4.0**, tagged 2026-08-28. Everything below is built, tested, and committed.
 
 - 18 pathways and 163 courses in `data/catalog/`, verified against the 16 source documents. 15 are the Daytime MBA core (ADR-0029), and cross-listings resolve through `aliases.json` (ADR-0037).
 - Rule engine with within-pathway allocation, group and pathway constraints, the two-specialty cap, Finance Certificate GPA and intermediate qualification, and the HSM core requirement.
 - Recommender: shortest route to each pathway, and a ranking of all 18.
-- Interface: semester-aware planner with a Pre-Fuqua Dual Degree bucket (ADR-0030), paste-with-confirmation entry, SVG Pathway Map, per-pathway detail with expandable option lists, step alternatives on the shortest-way list, a print-styled progress report (ADR-0031), and term-aware transcript PDF import (ADR-0033, ADR-0036). Terms cover Summer through Spring 2 in each year with a program start year driving calendar labels (ADR-0035). Institutional design language throughout (ADR-0032).
-- 79 tests (69 rules and parsing, 10 UI integrity), 6 extraction tests, and `npm run verify` clean.
+- Degree-level planner: the joint cost of one or two specialties taken together, what the same pair costs separately, how many courses count toward both, and whether it fits the elective seats that remain (ADR-0038, ADR-0039). Capacity is set per term by the student; an unset term is counted as nothing and named, never guessed.
+- Interface: semester-aware planner with a Pre-Fuqua Dual Degree bucket (ADR-0030), paste-with-confirmation entry, SVG Pathway Map, per-pathway detail with expandable option lists, step alternatives on the shortest-way list, a print-styled progress report (ADR-0031), and term-aware transcript PDF import (ADR-0033, ADR-0036). Terms cover Summer through Spring 2 in each year with a program start year driving calendar labels (ADR-0035). A Degree Plan panel with per-term capacity and up to three scenario comparisons (ADR-0038). Institutional design language throughout (ADR-0032).
+- 110 tests (98 rules and parsing, 12 UI integrity), 6 extraction tests, and `npm run verify` clean.
 
 Checks to run before believing any of that again:
 
@@ -66,6 +67,7 @@ Open questions, in the order they matter:
 2. The Marketing concentration's narrative calls MARKETNG 796 required while listing it inside the choose-four elective set. Treated as one of the four.
 3. Prerequisites and course offering years are mentioned throughout the sources and listed reliably in none of them, so the planner cannot warn that a course is not offered in the term you placed it.
 4. Scanned transcript PDFs cannot be read, by design. OCR stays out of scope because a misread course code looks correct (ADR-0033).
+5. Elective capacity per term is the student's own figure. The prefill is a reading of Fuqua's published structure, not a per-student entitlement, and exemptions or dual-degree status will move it.
 
 Stages 2 to 4 of ADR-0013 that remain unbuilt: grades beyond the Finance Certificate, MEM and dual-degree coursework, and user-added substitutions.
 

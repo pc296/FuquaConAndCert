@@ -8,6 +8,12 @@ Categories: Added, Changed, Fixed, Removed. Newest at the top. Entries describe 
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [0.4.0] - 2026-08-28
+
+The degree-level planner: what a combination of specialties costs together, and whether it fits. Tagged `v0.4.0`.
+
 ### Added
 
 - 2026-08-28: **Degree Plan.** A panel spanning the page that answers what a whole combination costs rather than one pathway at a time. Pick one or two specialties and it reports the joint cost, what the same pair would cost pursued separately, how many courses count toward both, whether it fits in the seats you have left, and the route to finish, with one-click adds that land in the next term with room. Up to three combinations side by side. Management and DEI cost seven courses together against twelve apart; that number was not obtainable anywhere in the app before. ADR-0038.
