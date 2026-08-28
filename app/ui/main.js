@@ -8,9 +8,10 @@ import * as store from '../storage/plan.js';
 import { parseTranscript, inferStartYear } from './parse-transcript.js';
 import { renderMap } from './map.js';
 import {
-  PRE_FUQUA, TERMS, termById, termGroups, isTermId,
-  placementOptions, normalizeTerm, spansSemester, placementLabel,
+  PRE_FUQUA, TERMS, termById, termGroups, isTermId, nextOpenTerm,
+  placementOptions, normalizeTerm, spansSemester, placementLabel, currentTermFrom,
 } from './placement.js';
+import { renderDegree, countByTerm } from './degree.js';
 import { buildReportHtml } from './report.js';
 import { extractPdfText, looksLikePdf } from './pdf-import.js';
 
@@ -20,7 +21,10 @@ const GRADES = [
 ];
 
 const $ = (id) => document.getElementById(id);
-const state = { selected: null, blocked: new Set(), pending: null, showClosest: false };
+const state = {
+  selected: null, blocked: new Set(), pending: null,
+  showClosest: false, showCapacity: false,
+};
 
 let catalog;
 let layout;
@@ -44,6 +48,7 @@ async function init() {
   }
 
   buildStartYearControl();
+  buildCurrentTermControl();
   buildQuarterSelect();
   buildCourseList();
   bindControls();
@@ -86,7 +91,40 @@ function buildStartYearControl() {
   }
   select.onchange = () => {
     plan.startYear = select.value === '' ? null : Number(select.value);
+    // A start year makes today's term computable, so an unset current term gets
+    // seeded rather than left blank for the student to work out by hand.
+    if (plan.currentTerm == null) plan.currentTerm = currentTermFrom(plan.startYear);
+    buildCurrentTermControl();
     buildQuarterSelect();
+    persist();
+  };
+}
+
+/**
+ * The term the student is in now. Everything in the Degree Plan is measured from
+ * here: terms ahead, seats free, whether a combination still fits. Seeded from
+ * the calendar when a start year is known, because a default a student has to
+ * compute is a default they will get wrong.
+ */
+function buildCurrentTermControl() {
+  const select = $('current-term');
+  select.replaceChildren();
+  const blank = document.createElement('option');
+  blank.value = '';
+  blank.textContent = 'not set — plan the whole program';
+  select.appendChild(blank);
+
+  const derived = currentTermFrom(plan.startYear);
+  for (const option of placementOptions(true, plan.startYear)) {
+    if (option.value === PRE_FUQUA) continue;
+    const el = document.createElement('option');
+    el.value = option.value;
+    el.textContent = option.label + (option.value === derived ? ' — today' : '');
+    el.selected = plan.currentTerm === option.value;
+    select.appendChild(el);
+  }
+  select.onchange = () => {
+    plan.currentTerm = select.value === '' ? null : select.value;
     persist();
   };
 }
@@ -369,6 +407,7 @@ function render() {
   renderMap($('map'), layout, results, state, (id) => { state.selected = id; render(); });
   renderClosest();
   renderDetail(results);
+  renderDegree($('degree'), degreeContext());
 
   const done = results.filter((r) => r.status === STATUS.COMPLETE).length;
   const going = results.filter((r) => r.status === STATUS.IN_PROGRESS).length;
@@ -708,6 +747,37 @@ function renderDetail(results) {
   }
 
   host.appendChild(renderNextUp(result));
+}
+
+/* ---------- degree view ---------- */
+
+function degreeContext() {
+  return {
+    catalog,
+    plan,
+    state,
+    actions: { persist, rerender: render, addPlanned },
+  };
+}
+
+/**
+ * Add a course the planner suggested, into the first term that still has room.
+ *
+ * When no remaining term has capacity set, it lands in the current term and says
+ * so, rather than refusing: the student can move the chip. Silence in either
+ * direction is the failure mode — a course that vanishes, or a term quietly
+ * overfilled past the number the student typed.
+ */
+function addPlanned(courseId) {
+  const course = catalog.courses.get(courseId);
+  const open = nextOpenTerm(plan.currentTerm ?? TERMS[1].id, plan.capacities, countByTerm(plan.entries));
+  const target = normalizeTerm(course?.isFuqua !== false, open ?? plan.currentTerm ?? 'y1-fall-1');
+  if (!addCourse(courseId, target)) return;
+  const where = placementLabel(course?.isFuqua !== false, target, plan.startYear);
+  setStatus(open
+    ? `Added ${course?.code ?? courseId} to ${where}, the next term with room.`
+    : `Added ${course?.code ?? courseId} to ${where}. No remaining term has free capacity, so check where it landed.`);
+  persist();
 }
 
 /** The shortest remaining route to a pathway, with one-click adds. */

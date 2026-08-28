@@ -22,6 +22,12 @@ export const emptyPlan = () => ({
   updated: null,
   /** Calendar year the program's Year 1 Fall begins. Null until set or inferred. */
   startYear: null,
+  /** Term the student is in now, so the planner knows what remains (ADR-0039). */
+  currentTerm: null,
+  /** Elective capacity per term id, set by the student. Absent means not set. */
+  capacities: {},
+  /** Named specialty combinations to compare. One transcript, several targets. */
+  scenarios: [],
   declared: [],
   entries: [],
 });
@@ -65,9 +71,35 @@ export function migrate(data) {
     ...data,
     formatVersion: PLAN_FORMAT_VERSION,
     startYear: Number.isInteger(data.startYear) ? data.startYear : null,
+    // Fields added after format 2. Absent in an older file, which is why they are
+    // defaulted here rather than versioned: nothing is lost either way.
+    currentTerm: isTermId(data.currentTerm) ? data.currentTerm : null,
+    capacities: sanitizeCapacities(data.capacities),
+    scenarios: sanitizeScenarios(data.scenarios),
     declared: Array.isArray(data.declared) ? data.declared : [],
     entries,
   };
+}
+
+function sanitizeCapacities(raw) {
+  const out = {};
+  if (!raw || typeof raw !== 'object') return out;
+  for (const [termId, value] of Object.entries(raw)) {
+    const n = Number(value);
+    if (isTermId(termId) && Number.isInteger(n) && n >= 0 && n <= 12) out[termId] = n;
+  }
+  return out;
+}
+
+function sanitizeScenarios(raw) {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter((s) => s && typeof s.name === 'string' && Array.isArray(s.pathwayIds))
+    .slice(0, 3)
+    .map((s) => ({
+      name: s.name.slice(0, 60),
+      pathwayIds: s.pathwayIds.filter((id) => typeof id === 'string').slice(0, 2),
+    }));
 }
 
 /** Re-snap every entry after a catalog change, since Fuqua status drives placement. */

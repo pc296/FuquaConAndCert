@@ -588,3 +588,41 @@ The confirmation screen proposes candidates when an imported code misses, so eve
 **What is deliberately not automated.** Nothing is aliased on similarity. The detector scored the FCCP practicums between 0.65 and 0.88 on title similarity, and the source documents state directly that a Marketing 895 does not satisfy a requirement for Strategy 895. `aliases.json` records 895, 894 and 898 as families that must never be merged whatever their titles look like.
 
 **Consequences.** ENVIRON 520 folded into ENERGY 520, taking the catalog from 164 courses to 163, and that one course now counts toward both Energy & Environment and Social Entrepreneurship. `verify.py` had to fold aliases on both the source and pathway sides; folding one made an aliased reference read as simultaneously missing from its document and orphaned in it.
+
+---
+
+## ADR-0038: A degree-level view, because the cost of two pathways is not the sum of two costs
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** Everything in the app answered one question at a time: how far along is *this* pathway, what does *this* one still need. A student does not choose one pathway; they choose a combination, inside a fixed number of terms, and the number that decides it is not on the screen anywhere. Because a course counts toward every pathway that lists it (ADR-0018), the cost of a pair is sublinear and cannot be read off two lists. Management and DEI need twelve courses separately and seven together. No amount of staring at two progress bars produces that seven.
+
+**Decision.** A Degree Plan panel spanning both columns, holding three things:
+
+*Where you are.* A current-term control beside the program start year, seeded from today's date. Everything else measures from it.
+
+*Capacity per term.* The student types how many electives fit in each term, with a one-click prefill of Fuqua's typical load. Blank means unknown and is never counted as capacity; the verdict says how many terms it had to ignore. A guessed capacity would produce a confident verdict from invented data, which is the failure this project exists to avoid.
+
+*Up to three scenarios.* Each is one or two specialties. Each shows the joint cost, what it would have cost separately, how many courses do double duty, whether it fits in the seats that remain, and the route, with one-click adds that land in the next term with room.
+
+`app/rules/plan-ahead.js` does the arithmetic and calls `evaluatePathway` on every candidate rather than reasoning about requirements itself (ADR-0027), so the Degree Plan can never contradict the Pathway Map. Candidates come from the per-pathway recommender, which keeps the search small; measured at 33-185 ms per combination, memoised on the plan contents.
+
+**Alternatives.** Ranking all 153 pairs automatically, rejected: it costs minutes of compute, and it answers a question the student did not ask — most pairs are irrelevant to anyone's actual interests. Pat asked to compare two or three combinations he picks himself. A single "best combination" recommendation, rejected for the same reason plus a worse one: the cheapest pair is rarely the one someone wants.
+
+**What it deliberately does not model.** Prerequisites and term offerings. Pat's instruction was to say nothing about them rather than guess, and the catalog holds neither. A planner that silently assumes every course is offered every term is wrong in a way the student cannot see; one that stays quiet is merely incomplete, and the student knows it.
+
+---
+
+## ADR-0039: Capacity is asked for, never inferred
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** "Does this fit?" needs a number of elective seats per term. That number depends on exemptions, on dual-degree status, on whether the student takes a Winter workshop, and on how hard a year someone wants. Fuqua publishes a typical structure, not a per-student one.
+
+**Decision.** The student sets capacity per term. Pat chose this directly over a single courses-per-term figure. A term left blank contributes zero seats *and* is reported by name as uncounted, so a shortfall is never quietly wrong in either direction. `SUGGESTED_CAPACITY` exists as a one-click prefill, never applied silently.
+
+**A distinction that cost a defect.** A term set to zero, or full of courses already placed, is a *known* quantity: it counts as a counted term contributing zero seats. Only genuinely unset capacity goes in `termsWithoutCapacity`. Conflating the two made the panel print "16 seats across 7 terms; 3 unknown" in its header and "16 seats across 6 terms; 4 unknown" in the verdict directly beneath, from the same data.
+
+**Consequences.** Seats are counted net of what is already placed: a course sitting in Y2 Fall 1 both advances the pathways and occupies a seat, and counting it on one side only is how a planner tells a student something fits when it does not. A test asserts the header and the verdict count the same terms.

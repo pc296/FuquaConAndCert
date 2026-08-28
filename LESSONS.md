@@ -173,3 +173,15 @@ Second takeaway: every field in a data file should have a consumer or a comment 
 **Takeaway.** When a function's signature changes, the change is not finished until every call site has been enumerated mechanically, not recalled. And a UI check must exercise every control that reaches the changed code, not the most convenient one; "I clicked a button and it worked" is evidence about that button alone.
 
 Three checks now exist, and each was proven to fail when its defect is reintroduced: every named import must exist in the module it names, no `addCourse` call may pass a bare number, and identifiers removed by ADR-0035 must not appear in the UI. `addCourse` also throws on an invalid term id now, because silently placing a course somewhere other than where the button said is indistinguishable to a user from the button being broken.
+
+---
+
+## 2026-08-28: One field carrying two meanings printed "already complete" over a list of five courses still needed
+
+**What happened.** `jointRemaining` returned `complete: true` to mean "a full route to finishing was found". The Degree Plan read it as "you are finished", so both scenario cards showed *Already complete. Nothing further is needed here.* immediately above a list of five courses they said were still required, and suppressed the fit verdict entirely. Every unit test passed. The bug existed only in the sentence a person reads.
+
+**Why.** The field was named for what the search concluded, not for what a caller would ask it. `complete` and `reachable` were assigned the same value on the success path, which should have been the tell: two names for one fact means neither name is the right one. I wrote the consumer from the name rather than the definition, which is exactly what a name is for.
+
+**Takeaway.** When two returned fields are always equal, one of them is wrong. A boolean whose meaning needs a sentence of explanation at the call site should be split until it does not: `reachable` (a route exists) and `alreadyComplete` (the route is empty) are now separate, and a test asserts they differ for a plan mid-flight. More generally, unit tests verify arithmetic; only rendering the screen verifies that the arithmetic was asked the right question. This was caught by a screenshot, not by 107 passing tests.
+
+**Related, from the same screenshot.** The panel's header and its verdict printed different counts of the same terms, because a term whose seats were full was filed as a term whose capacity was unknown. Two numbers describing one thing must be computed from one predicate; the fix was to make "known but zero" and "unknown" distinct everywhere, and to assert in a test that the two lines agree. See ADR-0039.

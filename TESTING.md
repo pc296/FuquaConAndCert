@@ -76,6 +76,13 @@ Per-rule examples are necessary and not sufficient: a test written from the same
 - From an empty plan, the recommended course count equals the number the source document states.
 - Every pathway evaluates without throwing, with a percentage between 0 and 100.
 
+## Degree-level planning
+
+- The joint cost of a pair that shares courses must be strictly less than the sum of the two separate costs. If those are ever equal for a sharing pair, the panel is selling a saving that is not there.
+- `alreadyComplete` and `reachable` must never be conflated: a route existing is not the same as being finished. Assert they differ for a plan mid-flight.
+- The header's term count and the verdict's term count are computed from the same data a few pixels apart and must agree. A term that is full is *known*, not unknown.
+- Seats are counted net of courses already placed. A test must show a term with capacity 3 and two courses placed offering one seat, not three.
+
 ## What verified means
 
 1. The relevant suite passes locally and the actual output is pasted, not summarized.

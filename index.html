@@ -33,9 +33,15 @@
       </div>
     </header>
     <div class="panel-body">
-      <div class="row startyear">
-        <label class="label" for="start-year">Program start</label>
-        <select id="start-year"></select>
+      <div class="startyear">
+        <div class="row">
+          <label class="label" for="start-year">Program start</label>
+          <select class="grow" id="start-year"></select>
+        </div>
+        <div class="row" style="margin-top:6px">
+          <label class="label" for="current-term">You are in</label>
+          <select class="grow" id="current-term"></select>
+        </div>
       </div>
       <input type="search" id="course-search" list="course-list" style="width:100%" placeholder="Search a course, e.g. FINANCE 646" autocomplete="off">
       <div class="row" style="margin-top:8px">
@@ -78,6 +84,13 @@
     </div>
     <div id="closest" hidden></div>
     <div class="detail" id="detail"></div>
+  </section>
+  <section class="panel span-both" aria-labelledby="degree-heading">
+    <header>
+      <h2 id="degree-heading">Degree Plan</h2>
+      <span class="muted">What a combination costs together, and whether it fits in the terms you have left.</span>
+    </header>
+    <div class="panel-body" id="degree"></div>
   </section>
 </div>
 

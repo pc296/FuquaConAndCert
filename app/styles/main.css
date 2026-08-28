@@ -698,6 +698,171 @@ svg.map { display: block; width: 100%; height: auto; }
 }
 .confirm .amb { color: var(--copper); font-size: 11px; font-weight: 700; }
 
+/* ---------- degree plan ----------
+   The one place in the app that answers a question about the whole degree
+   rather than one pathway, so it gets the full width under both columns.
+   Its numbers are the loudest type on the page because they are the point. */
+
+.span-both { grid-column: 1 / -1; }
+
+.where {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding-bottom: 12px;
+  border-bottom: var(--rule-mid);
+}
+.where-line {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 15px;
+  color: var(--duke-navy);
+  font-variant-numeric: var(--tabular);
+}
+.where p.muted { margin: 0; flex: 1 1 240px; }
+
+.capacity {
+  margin: 14px 0 4px;
+  padding: 12px 14px;
+  background: var(--whisper);
+  border-left: 3px solid var(--duke-royal);
+}
+.capacity h3 {
+  font-family: var(--sans);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--duke-navy);
+}
+.capacity .band-note { margin: 4px 0 10px; }
+/* Six across, so the two rows read as Year 1 and Year 2 — the shape of the
+   program rather than whatever the container width happens to allow. */
+.capacity-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 10px;
+}
+@media (max-width: 900px) { .capacity-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .capacity-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.capacity-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  background: var(--paper);
+  border: var(--rule-hair);
+  padding: 5px 6px 5px 9px;
+}
+.capacity-term {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--graphite);
+  white-space: nowrap;
+}
+.capacity-cell input {
+  width: 58px;
+  flex: 0 0 auto;
+  padding: 4px 6px;
+  text-align: right;
+  font-variant-numeric: var(--tabular);
+}
+.capacity-cell input::placeholder { font-size: 11px; }
+
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+  align-items: start;
+}
+.scenario {
+  border: var(--rule-hair);
+  border-top: var(--rule-accent);
+  background: var(--paper);
+  padding: 10px 12px 12px;
+}
+.scenario > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.scenario .drop {
+  background: none;
+  border: none;
+  color: var(--granite);
+  font-size: 17px;
+  line-height: 1;
+  padding: 0 2px;
+  cursor: pointer;
+}
+.scenario .drop:hover { color: var(--copper); background: none; }
+.scenario-picks { display: grid; gap: 6px; }
+.scenario-picks select { width: 100%; }
+.scenario-empty { margin: 10px 0 0; }
+
+.cost { margin-top: 12px; }
+.cost-figure {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.cost .big {
+  font-family: var(--serif);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--duke-navy);
+  font-variant-numeric: var(--tabular);
+}
+.cost-unit { font-size: 13.5px; color: var(--graphite); }
+.cost p.muted { margin: 4px 0 0; }
+.cost-done { margin: 0; font-size: 13.5px; color: var(--graphite); line-height: 1.5; }
+
+.verdict {
+  margin-top: 10px;
+  padding: 7px 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  background: var(--whisper);
+  border-left: 3px solid var(--granite);
+  font-variant-numeric: var(--tabular);
+}
+.verdict.good { border-left-color: var(--eno); }
+.verdict.bad { border-left-color: var(--copper); color: var(--cast-iron); }
+.verdict.unknown { border-left-color: var(--persimmon); }
+
+.route { margin-top: 12px; border-top: var(--rule-hair); padding-top: 8px; }
+.route ul { margin: 0; padding: 0; list-style: none; }
+.route li {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  font-size: 13px;
+  padding: 4px 0;
+  border-bottom: var(--rule-hair);
+  line-height: 1.4;
+}
+.route li:last-child { border-bottom: none; }
+.route strong { color: var(--duke-navy); font-variant-numeric: var(--tabular); }
+.route .serves {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--eno);
+  white-space: nowrap;
+}
+.add-scenario {
+  min-height: 96px;
+  border-style: dashed;
+  border-color: var(--granite);
+  align-self: start;
+}
+
 /* ---------- footer ---------- */
 
 footer.foot {

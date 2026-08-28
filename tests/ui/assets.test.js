@@ -78,7 +78,8 @@ test('every identifier the UI imports actually exists in the module it names', (
   // app/ui and app/rules and checks the source module exports it.
   const files = [
     'app/ui/main.js', 'app/ui/report.js', 'app/ui/parse-transcript.js',
-    'app/ui/parse-paste.js', 'app/ui/map.js', 'app/storage/plan.js', 'app/rules/index.js',
+    'app/ui/parse-paste.js', 'app/ui/map.js', 'app/ui/degree.js',
+    'app/storage/plan.js', 'app/rules/index.js', 'app/rules/plan-ahead.js',
   ];
   for (const file of files) {
     const source = read(`../../${file}`);
@@ -115,4 +116,24 @@ test('the removed quarter helpers are gone from the UI', () => {
     assert.ok(!/normalizeQuarter|TERM_LABELS|SEMESTERS\b/.test(source),
       `${file} still references a helper removed in ADR-0035`);
   }
+});
+
+test('every element main.js reaches for by id exists in index.html', () => {
+  // The degree view is three new controls in two files. A control the script
+  // looks up and the markup never declares fails as `null.replaceChildren`, at
+  // startup, before anything renders — the same silent-dead-page shape as the
+  // TDZ bug and the renamed-helper bug. Cheap to check, so check it.
+  const source = read('../../app/ui/main.js');
+  const html = read('../../index.html');
+  const ids = new Set([...source.matchAll(/\$\('([a-z0-9-]+)'\)/g)].map((m) => m[1]));
+  assert.ok(ids.size > 10, `expected many id lookups, found ${ids.size}`);
+  for (const id of ids) {
+    assert.ok(html.includes(`id="${id}"`), `main.js reads #${id}, which index.html does not declare`);
+  }
+});
+
+test('the degree panel is wired to the module that fills it', () => {
+  const source = read('../../app/ui/main.js');
+  assert.match(source, /renderDegree\(\$\('degree'\)/,
+    'render() must fill the degree panel, or it stays permanently empty');
 });

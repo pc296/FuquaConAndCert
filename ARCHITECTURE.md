@@ -55,12 +55,16 @@ Pure ES modules. No DOM access, no fetch, no localStorage. Given a course list a
 
 `recommend.js` answers "what should I take next" by greedy search that calls the evaluator on each candidate rather than reasoning about requirements itself, so advice and progress can never disagree (ADR-0027).
 
+`plan-ahead.js` answers the degree-level question: what one or two pathways cost *together*. Because a course counts toward every pathway that lists it (ADR-0018), a pair costs less than the sum of its parts, and no student can derive that from two lists. Like `recommend.js` it calls the evaluator on each candidate rather than reimplementing requirements (ADR-0027, ADR-0038). It also owns `feasibility`, which measures a cost against the elective seats the student says remain, counting only terms whose capacity is known (ADR-0039).
+
 `allocate.js` handles the one place where courses do compete: within a single pathway, a course is assigned to at most one group, because several pathways have groups whose lists overlap on purpose. Exact search with a node budget, falling back to a flagged approximation (ADR-0022).
 
 **[3] ui** (JavaScript, `app/ui/`)
 Owns the plan column where courses are placed across the Pre-Fuqua bucket and each year's Summer, Fall 1, Fall 2, Winter, Spring 1 and Spring 2 terms (ADR-0030, ADR-0035), the Pathway Map rendered as SVG from hand-authored layout coordinates (ADR-0010), and the confirmation screen that every input path routes through before anything is saved (ADR-0012). Contains no requirement logic. If the UI needs to know whether something is satisfied, it calls `rules`.
 
 `parse-transcript.js` reads a transcript's school records and term headings so courses land in the term they were taken, mapping calendar terms onto program terms through a start year stored with the plan. Duke records semesters rather than Fuqua's 6-week terms, so a Fall course is marked inexact and the student sorts Fall 1 from Fall 2 at the confirmation screen (ADR-0036).
+
+`degree.js` renders the Degree Plan: where you are, elective seats per term, and up to three specialty combinations side by side with cost, saving, fit and route. It holds no requirement logic and no placement policy — cost comes from `plan-ahead.js`, and every Add button routes through `main.js` so the whole app agrees where an unplaced course lands.
 
 `pdf-import.js` reads the text layer of a transcript PDF and hands the text to the same confirmation screen the paste box uses. It loads the vendored pdf.js through a dynamic import on first use, so 1.7 MB downloads only for users who actually import a PDF (ADR-0033). A PDF with no text layer is a scan; it fails loudly rather than returning an empty result.
 

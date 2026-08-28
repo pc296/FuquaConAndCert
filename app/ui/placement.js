@@ -163,6 +163,92 @@ export function mapCalendarTerm(calendar, startYear) {
   };
 }
 
+/**
+ * Elective capacity per term as Fuqua's published structure implies it: Year 1 is
+ * core-heavy and holds few electives, Year 2 is three per term. Offered as a
+ * one-click prefill, never applied silently, because the real number depends on
+ * exemptions and on the student (ADR-0039).
+ */
+export const SUGGESTED_CAPACITY = {
+  'y1-summer': 0, 'y1-fall-1': 0, 'y1-fall-2': 1, 'y1-winter': 1,
+  'y1-spring-1': 2, 'y1-spring-2': 2,
+  'y2-summer': 0, 'y2-fall-1': 3, 'y2-fall-2': 3, 'y2-winter': 1,
+  'y2-spring-1': 3, 'y2-spring-2': 3,
+};
+
+/**
+ * Terms from `termId` onward, inclusive, in program order. Pre-Fuqua is never in
+ * the result: it is behind you by definition.
+ */
+export function termsFrom(termId) {
+  const index = TERMS.findIndex((t) => t.id === termId);
+  if (index < 0) return TERMS.filter((t) => t.id !== PRE_FUQUA);
+  return TERMS.slice(index).filter((t) => t.id !== PRE_FUQUA);
+}
+
+/**
+ * The first term at or after `from` that still has room, given the capacities the
+ * student set and what is already placed there.
+ *
+ * Returns null when no remaining term has declared room. The caller says so
+ * rather than stacking another course into a term the student called full —
+ * a planner that silently overfills a term is worse than one that admits it.
+ */
+export function nextOpenTerm(from, capacities, countByTerm) {
+  for (const term of termsFrom(from)) {
+    const capacity = capacities?.[term.id];
+    if (!Number.isInteger(capacity) || capacity <= 0) continue;
+    if ((countByTerm?.[term.id] ?? 0) < capacity) return term.id;
+  }
+  return null;
+}
+
+/** Terms from `after` onward, in program order. `after` itself is excluded. */
+export function termsAfter(termId) {
+  const index = TERMS.findIndex((t) => t.id === termId);
+  if (index < 0) return TERMS.filter((t) => t.id !== PRE_FUQUA);
+  return TERMS.slice(index + 1);
+}
+
+/**
+ * Which program term a calendar date falls in, from Fuqua's published calendar.
+ *
+ * The 6-week terms change over mid-month, so October and January carry a
+ * day-of-month split rather than pretending a term boundary lands on the 1st.
+ * March through July all sit in or after Spring 2: May, June and July resolve to
+ * the term just finished rather than guessing forward into a term that may not
+ * exist, since the summer between years is an internship, not coursework.
+ *
+ * Returns [season, part] naming a term in TERMS.
+ */
+function seasonPartFor(month, day, programYear) {
+  // Year 1 opens with an August orientation block; year 2 goes straight to Fall 1.
+  if (month === 8) return programYear === 1 ? ['Summer', 0] : ['Fall', 1];
+  if (month === 9) return ['Fall', 1];
+  if (month === 10) return day <= 15 ? ['Fall', 1] : ['Fall', 2];
+  if (month === 11 || month === 12) return ['Fall', 2];
+  if (month === 1) return day <= 10 ? ['Winter', 0] : ['Spring', 1];
+  if (month === 2) return ['Spring', 1];
+  return ['Spring', 2]; // March through July
+}
+
+/** Best guess at the current term from today's date, used only as a default. */
+export function currentTermFrom(startYear, today = new Date()) {
+  if (!Number.isInteger(startYear)) return null;
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
+  // The academic year turns over in August, when the entering class arrives.
+  const academicYear = month >= 8 ? year : year - 1;
+  const programYear = academicYear - startYear + 1;
+  if (programYear < 1) return null;
+  if (programYear > 2) return 'y2-spring-2';
+  const [season, part] = seasonPartFor(month, day, programYear);
+  const match = TERMS.find((t) => t.year === programYear && t.season === season
+    && (t.part === 0 || t.part === part));
+  return match?.id ?? `y${programYear}-fall-1`;
+}
+
 /** Migration from the integer quarters used up to v0.3.0 (ADR-0035). */
 const LEGACY = {
   0: PRE_FUQUA,
