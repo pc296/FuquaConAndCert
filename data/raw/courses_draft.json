@@ -676,11 +676,16 @@
   },
   "FINANCE 898": {
     "titles": [
-      "Entrepreneurship Through Acquisition"
+      "Entrepreneurship Through Acquisition",
+      "Project Finance"
     ],
     "creditsSeen": [],
     "sources": [
-      "Entreprenuership and Innovation Concentration.pdf"
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Finance Certificate.pdf"
+    ],
+    "crossListed": [
+      "FINANCE 652"
     ]
   },
   "FUQINTRD 693": {
@@ -1414,6 +1419,18 @@
     "creditsSeen": [],
     "sources": [
       "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "PUBPOL 559S": {
+    "titles": [
+      "Philanthropy, Voluntarism & Not-For-Profit Management"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Social Entrepreneurship Concentration.pdf"
+    ],
+    "crossListed": [
+      "LAW 585"
     ]
   },
   "PUBPOL 642S": {

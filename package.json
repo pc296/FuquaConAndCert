@@ -5,7 +5,10 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "test": "node --test tests/rules",
-    "serve": "node tools/serve.js"
+    "test": "node --test tests/rules/*.test.js",
+    "test:extraction": "python -m pytest tests/extraction -q",
+    "serve": "node tools/serve.js",
+    "extract": "python tools/extraction/extract.py && python tools/extraction/build_courses.py",
+    "verify": "python tools/extraction/verify.py"
   }
 }

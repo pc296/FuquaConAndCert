@@ -125,6 +125,7 @@ export function evaluatePathway(pathway, plan, catalog) {
 
   const pathwayConstraints = checkPathwayConstraints(pathway, countable, catalog, creditsOf);
   const gpa = evaluateGpa(pathway, countable);
+  const intermediate = evaluateIntermediate(pathway, countable, catalog, gpa);
 
   const totals = {
     credits: totalCredits,
@@ -157,6 +158,7 @@ export function evaluatePathway(pathway, plan, catalog) {
     totals,
     constraints: pathwayConstraints,
     gpa,
+    intermediate,
     approximate,
     notes: pathway.notes ?? [],
     source: pathway.source,
@@ -247,6 +249,31 @@ function evaluateGpa(pathway, countable) {
     known: graded.length >= needed,
     gradedCount: graded.length,
     note: pathway.gpa.note,
+  };
+}
+
+/**
+ * Some certificates have a named partial state worth showing before completion.
+ * The Finance Certificate lets a student write "Qualifying for a Certificate of
+ * Academic Excellence in Finance" on a resume once they have 3 finance electives,
+ * 1 non-finance elective, and a qualifying GPA.
+ */
+function evaluateIntermediate(pathway, countable, catalog, gpa) {
+  const rule = pathway.intermediate;
+  if (!rule) return null;
+  const areaOf = (entry) => catalog.courses.get(entry.courseId)?.area;
+  const inArea = countable.filter((e) => areaOf(e) === rule.area).length;
+  const outsideArea = countable.filter((e) => areaOf(e) && areaOf(e) !== rule.area).length;
+  const countsMet = inArea >= rule.minFinanceElectives && outsideArea >= rule.minNonFinanceElectives;
+  // An unknown GPA does not block the claim; a known failing one does.
+  const gpaBlocks = gpa?.satisfied === false;
+  return {
+    label: rule.label,
+    satisfied: countsMet && !gpaBlocks,
+    detail: `${inArea} of ${rule.minFinanceElectives} ${rule.area} electives, ` +
+      `${outsideArea} of ${rule.minNonFinanceElectives} outside ${rule.area}` +
+      (gpaBlocks ? ', but the GPA is below the threshold' : ''),
+    note: rule.note,
   };
 }
 

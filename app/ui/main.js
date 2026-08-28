@@ -432,6 +432,15 @@ function renderDetail(results) {
     host.appendChild(flag(text, g.satisfied === true));
   }
 
+  if (result.intermediate && result.status !== STATUS.COMPLETE) {
+    const i = result.intermediate;
+    host.appendChild(flag(
+      i.satisfied
+        ? `${i.label}: yes. ${i.note}`
+        : `${i.label}: not yet — ${i.detail}.`,
+      i.satisfied));
+  }
+
   if (result.notes.length > 0) {
     const notes = document.createElement('ul');
     notes.className = 'notes';

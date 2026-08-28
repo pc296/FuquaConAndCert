@@ -75,3 +75,19 @@ Entry format: date, what happened, why, durable takeaway.
 **Why.** Rule logic is covered by tests and UI wiring is not, by design (TESTING.md). That trade is defensible, but it means UI defects can only be caught by loading the page.
 
 **Takeaway.** Every UI change gets loaded in a browser with the console open before it is called done. Silent failure is the normal failure mode for module initialization order, so "the page looks fine" is not evidence. `init()` now runs at the end of the module with a `.catch` that reports startup failure to the user instead of only to the console.
+
+---
+
+## 2026-08-28: The verification pass found parser gaps, not catalog errors
+
+**What happened.** The catalog audit compared all 18 pathway records against the 16 source documents. The requirement structures were correct: every group minimum, total, and constraint matched what the documents state. What it did find was two defects in the extraction parser and one gap in the engine.
+
+The parser could not read a cross-listed line. `PUBPOL 559S/LAW 585 — Philanthropy, Voluntarism & Not-For-Profit Management` was dropped whole, because the pattern expected a separator immediately after the course number and found a slash. The catalog had the course anyway, but only because the title had been supplied by hand in the curated override table. Nothing would have revealed the omission if that course had not happened to need a curated title.
+
+The engine gap: the Finance Certificate's intermediate qualification was recorded in the catalog and read by nothing. Data with no consumer looks like a feature until someone checks.
+
+**Why.** The catalog was authored by reading the source text directly, and the parser output was used mainly to supply titles. That made the catalog robust to parser bugs and made parser bugs invisible. Two independent paths to the same data hid the failure of one of them.
+
+**Takeaway.** When a hand-authored artifact and a generated one cover the same ground, the hand-authored one masks defects in the generator. Check the generator against the source on its own terms, not through the artifact. `tools/extraction/verify.py` now does that mechanically after every catalog change, and a fixture of real source lines guards the parser from both sides.
+
+Second takeaway: every field in a data file should have a consumer or a comment saying why it does not yet. Search the code for each new catalog key before considering the record done.

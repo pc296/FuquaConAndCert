@@ -127,6 +127,20 @@ PRACTICUM = {
     "SOCENT 895", "STRATEGY 895", "HLTHMGMT 895", "HLTHMGMT 896", "FINANCE 894",
 }
 
+# Alternate codes for the same course. Two kinds appear in the sources: genuine
+# cross-listings (PUBPOL 559S is also LAW 585) and spelling variants inside the
+# documents themselves (MARKETING for MARKETNG, ENERGY 590-05 for 590.05). Both
+# need to resolve to one course when a student pastes a transcript.
+ALIASES = {
+    "PUBPOL 559S": ["LAW 585"],
+    "MARKETNG 807": ["MARKETING 807"],
+    "MANAGEMT 754": ["MANAGEMENT 754"],
+    "MANAGEMT 754::energy-env": ["MANAGEMENT 754"],
+    "ENERGY 590.05": ["ENERGY 590-05"],
+    "ACCOUNTG 597": ["ACCT 597"],
+    "OPERATNS 828": ["OPERATNS 828"],
+}
+
 # Courses counted at a credit value different from their catalog credits within a
 # specific pathway. Operations Management states this explicitly for SOCENT 895.
 COUNTED_CREDITS = {"operations-management": {"SOCENT 895": 3}}
@@ -176,6 +190,9 @@ def main() -> None:
             record["maxTimes"] = REPEATABLE[course_id]
         if course_id in PRACTICUM:
             record["isPracticum"] = True
+        aliases = ALIASES.get(course_id) or ALIASES.get(base)
+        if aliases:
+            record["aliases"] = [a for a in aliases if a != base]
         courses[course_id] = record
 
     out = {

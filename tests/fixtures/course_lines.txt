@@ -1,0 +1,13 @@
+# Excerpts from Source_docs, kept as a fixture so the suite does not depend on the
+# PDFs (TESTING.md). Each line is a real line from a real document.
+# from: Social Entrepreneurship Concentration.pdf
+GLHLTH 671 — Global Health and Health Systems in Africa
+PUBPOL 559S/LAW 585 — Philanthropy, Voluntarism & Not-For-Profit Management
+# from: Energy & Environment Concentration.pdf
+ENRGYENV 628 - EDGE Seminar on Energy & Environment – Energy Focus (1.5 credits, may be taken twice)
+ENERGY 590.01 - ESG Investing (3 credits)
+ENVIRON 801 - Approaches to a Low Carbon Economy (1 credit)
+# from: Finance Concentrations.pdf
+FINANCE 646 — Corporate Finance
+# from: Operations Management Concentration.pdf
+DECISION 894 – AI for Managers (1.5 cr)

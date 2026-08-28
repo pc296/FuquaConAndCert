@@ -2,7 +2,7 @@
 
 Purpose: the test strategy for Fuqua ConCert, and the definition of verified.
 
-Last updated: 2026-08-27
+Last updated: 2026-08-28
 
 ## Frameworks and commands
 
@@ -11,15 +11,24 @@ Two suites, matching the two languages in ADR-0008.
 **Rules and application** — `node --test`, Node 22 standard library. No dependencies, no config, no build.
 
 ```
-node --test tests/rules
+npm test            # node --test tests/rules/*.test.js
 ```
+
+Pass the glob, not the directory. `node --test tests/rules` tries to load the path as a module in this Node build and fails with MODULE_NOT_FOUND.
 
 **Extraction** — pytest.
 
 ```
-pytest tests/extraction
-pytest --cov=tools/extraction --cov-report=term-missing
+npm run test:extraction      # python -m pytest tests/extraction -q
 ```
+
+**Catalog verification** — a standing mechanical check, not a test, run after any catalog or extraction change:
+
+```
+npm run verify               # python tools/extraction/verify.py
+```
+
+It cross-checks every catalog course against the document it came from, flags courses listed in a document but missing from its pathways, compares stated credits against the catalog, and checks that group minimums can add up to the stated totals. It cannot tell whether a requirement was understood correctly. A clean report is necessary, not sufficient.
 
 Both run offline. No test reaches the network. No test opens a browser.
 

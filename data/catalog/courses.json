@@ -37,7 +37,10 @@
       "title": "Financial Statement Analysis",
       "area": "ACCOUNTG",
       "credits": 3,
-      "isFuqua": true
+      "isFuqua": true,
+      "aliases": [
+        "ACCT 597"
+      ]
     },
     {
       "id": "ACCOUNTG 598",
@@ -165,7 +168,10 @@
       "title": "Economics of Modern Power Systems",
       "area": "ENERGY",
       "credits": 3,
-      "isFuqua": false
+      "isFuqua": false,
+      "aliases": [
+        "ENERGY 590-05"
+      ]
     },
     {
       "id": "ENERGY 590.50",
@@ -787,7 +793,10 @@
       "title": "Mentored Study in Entrepreneurship",
       "area": "MANAGEMT",
       "credits": 3,
-      "isFuqua": true
+      "isFuqua": true,
+      "aliases": [
+        "MANAGEMENT 754"
+      ]
     },
     {
       "id": "MANAGEMT 754::energy-env",
@@ -800,6 +809,9 @@
         1,
         2,
         3
+      ],
+      "aliases": [
+        "MANAGEMENT 754"
       ]
     },
     {
@@ -883,7 +895,10 @@
       "title": "Marketing Strategy",
       "area": "MARKETNG",
       "credits": 3,
-      "isFuqua": true
+      "isFuqua": true,
+      "aliases": [
+        "MARKETING 807"
+      ]
     },
     {
       "id": "MARKETNG 808",
@@ -988,7 +1003,8 @@
       "title": "Value Chain Innovation in Business Processes",
       "area": "OPERATNS",
       "credits": 3,
-      "isFuqua": true
+      "isFuqua": true,
+      "aliases": []
     },
     {
       "id": "OPERATNS 894::sustainable-ops",
@@ -1028,7 +1044,10 @@
       "title": "Philanthropy, Voluntarism & Not-For-Profit Management",
       "area": "PUBPOL",
       "credits": 3,
-      "isFuqua": false
+      "isFuqua": false,
+      "aliases": [
+        "LAW 585"
+      ]
     },
     {
       "id": "PUBPOL 642S",

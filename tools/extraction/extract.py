@@ -21,9 +21,12 @@ SOURCE_DIR = REPO_ROOT.parent / "Source_docs"
 RAW_DIR = REPO_ROOT / "data" / "raw"
 
 # A course line looks like: "FINANCE 646 - Corporate Finance (3 credits)".
-# Separators vary across documents: hyphen, en dash, em dash.
+# Separators vary across documents: hyphen, en dash, em dash. A cross-listed course
+# carries a second code before the separator: "PUBPOL 559S/LAW 585 - Philanthropy".
+CODE = r"[A-Z][A-Z&]{2,9}\s+\d{3}[A-Za-z]?(?:[.\-]\d{1,2})?"
 COURSE_RE = re.compile(
-    r"^(?P<area>[A-Z][A-Z&]{2,9})\s+(?P<number>\d{3}[A-Za-z]?(?:[.\-]\d{1,2})?)\s*"
+    rf"^(?P<area>[A-Z][A-Z&]{{2,9}})\s+(?P<number>\d{{3}}[A-Za-z]?(?:[.\-]\d{{1,2}})?)"
+    rf"(?P<alts>(?:\s*/\s*{CODE})*)\s*"
     r"[-–—:]\s*(?P<title>.+?)\s*$"
 )
 CREDIT_RE = re.compile(r"\((?P<credits>\d+(?:\.\d+)?)\s*(?:cr|credits?)\b[^)]*\)", re.I)
@@ -38,6 +41,7 @@ class DraftCourse:
     titles: list[str] = field(default_factory=list)
     credits: list[float] = field(default_factory=list)
     sources: list[str] = field(default_factory=list)
+    crossListed: list[str] = field(default_factory=list)
 
 
 def read_lines(pdf_path: Path) -> list[str]:
@@ -54,8 +58,13 @@ def read_lines(pdf_path: Path) -> list[str]:
     return lines
 
 
-def parse_course(line: str) -> tuple[str, str, float | None] | None:
-    """Parse one course line into (code, title, credits) or None if it is prose."""
+def parse_course(line: str) -> tuple[str, str, float | None, list[str]] | None:
+    """Parse a course line into (code, title, credits, cross_listed_codes).
+
+    Returns None for prose. The fourth element holds alternate codes for a
+    cross-listed course, which must not be dropped: a student may have taken
+    PUBPOL 559S under its LAW 585 number.
+    """
     match = COURSE_RE.match(line)
     if not match:
         return None
@@ -72,7 +81,8 @@ def parse_course(line: str) -> tuple[str, str, float | None] | None:
     if len(title) < 3 or last_word in {"the", "and", "of", "a", "or"}:
         return None
     code = f"{match.group('area')} {match.group('number')}"
-    return code, title.strip(" .*+–-"), credits
+    alts = [re.sub(r"\s+", " ", a).strip() for a in match.group("alts").split("/") if a.strip()]
+    return code, title.strip(" .*+–-"), credits, alts
 
 
 def main() -> None:
@@ -89,7 +99,7 @@ def main() -> None:
             parsed = parse_course(line)
             if parsed is None:
                 continue
-            code, title, credits = parsed
+            code, title, credits, alts = parsed
             draft = drafts.setdefault(code, DraftCourse(code=code))
             if title not in draft.titles:
                 draft.titles.append(title)
@@ -97,6 +107,9 @@ def main() -> None:
                 draft.credits.append(credits)
             if pdf_path.name not in draft.sources:
                 draft.sources.append(pdf_path.name)
+            for alt in alts:
+                if alt not in draft.crossListed:
+                    draft.crossListed.append(alt)
 
     RAW_DIR.mkdir(parents=True, exist_ok=True)
     (RAW_DIR / "courses_draft.json").write_text(
@@ -106,6 +119,7 @@ def main() -> None:
                     "titles": d.titles,
                     "creditsSeen": sorted(d.credits),
                     "sources": d.sources,
+                    **({"crossListed": d.crossListed} if d.crossListed else {}),
                 }
                 for code, d in sorted(drafts.items())
             },
@@ -120,7 +134,10 @@ def main() -> None:
         )
 
     conflicts = {c: d.titles for c, d in drafts.items() if len(d.titles) > 1}
+    cross = {c: d.crossListed for c, d in drafts.items() if d.crossListed}
     print(f"courses: {len(drafts)}")
+    if cross:
+        print(f"cross-listed codes needing aliases: {cross}")
     print(f"documents: {len(per_document)}")
     print(f"title conflicts needing review: {len(conflicts)}")
     for code in sorted(conflicts)[:15]:

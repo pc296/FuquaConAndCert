@@ -220,3 +220,27 @@ test('every pathway in the catalog evaluates without throwing', () => {
     assert.ok(r.percent >= 0 && r.percent <= 100, `${p.id} percent ${r.percent}`);
   }
 });
+
+test('finance certificate: the intermediate qualification is reported before completion', () => {
+  const notYet = evalOf('cert-finance', ['FINANCE 646', 'FINANCE 647', 'FINANCE 648']);
+  assert.equal(notYet.intermediate.satisfied, false);
+  assert.match(notYet.intermediate.detail, /0 of 1 outside FINANCE/);
+
+  const qualifying = evalOf('cert-finance', [
+    'FINANCE 646', 'FINANCE 647', 'FINANCE 648', 'ACCOUNTG 597',
+  ]);
+  assert.equal(qualifying.intermediate.satisfied, true);
+  assert.equal(qualifying.status, STATUS.IN_PROGRESS, 'qualifying is not the same as earned');
+});
+
+test('finance certificate: a failing GPA blocks the intermediate claim', () => {
+  const courses = ['FINANCE 646', 'FINANCE 647', 'FINANCE 648', 'ACCOUNTG 597'];
+  const grades = Object.fromEntries(courses.map((c) => [c, 2.0]));
+  const r = evalOf('cert-finance', courses, grades);
+  assert.equal(r.intermediate.satisfied, false);
+  assert.match(r.intermediate.detail, /GPA is below the threshold/);
+});
+
+test('pathways without an intermediate state report null rather than a default', () => {
+  assert.equal(evalOf('strategy', ['STRATEGY 837']).intermediate, null);
+});

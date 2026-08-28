@@ -1048,7 +1048,8 @@
         "label": "Qualifying for the certificate",
         "minFinanceElectives": 3,
         "minNonFinanceElectives": 1,
-        "note": "May be noted on a resume after at least 3 finance electives and 1 non-finance elective, while maintaining a qualifying GPA."
+        "note": "May be noted on a resume after at least 3 finance electives and 1 non-finance elective, while maintaining a qualifying GPA.",
+        "area": "FINANCE"
       },
       "groups": [
         {
@@ -1111,6 +1112,9 @@
             "FINANCE 663"
           ]
         }
+      ],
+      "notes": [
+        "The source lists Project Finance as 'FINANCE 898/FINANCE 652', one course under two numbers. Both codes are in the corporate elective list so either transcript spelling matches; a transcript cannot contain both."
       ]
     },
     {
