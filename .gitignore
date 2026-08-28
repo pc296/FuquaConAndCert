@@ -1,0 +1,21 @@
+# Plan data and anything derived from a real transcript
+*.plan.json
+plans/
+data/plans/
+exports/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+
+# OS and editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

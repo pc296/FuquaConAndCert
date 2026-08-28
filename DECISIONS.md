@@ -1,0 +1,314 @@
+# DECISIONS.md
+
+Purpose: append-only Architecture Decision Record log. Past entries are never edited. Supersede them with a new entry.
+
+Last updated: 2026-08-27
+
+Entry format: ID, date, status (proposed / accepted / superseded), context, decision, alternatives considered, consequences.
+
+---
+
+## ADR-0001: Repo root at Work_folder
+
+Date: 2026-08-27
+Status: accepted
+
+**Context.** The connected folder holds `master_prompt.docx`, `Source_docs/` with 16 requirement PDFs, and an empty `Work_folder/`. The repo needed a root.
+
+**Decision.** Repo root is `Concentrations_and_Certificates/Work_folder`. `Source_docs/` stays outside the repo as read-only input.
+
+**Alternatives.** Root at the connected folder level, which would put the source PDFs and the prompt document inside version control. A new sibling folder, which adds a level for no gain.
+
+**Consequences.** Source documents are not versioned with the code, so their retrieval dates must be recorded in the extracted data instead. Paths from the repo to sources are relative and go up one level.
+
+---
+
+## ADR-0002: Governance files at repo root, not /docs
+
+Date: 2026-08-27
+Status: accepted
+
+**Context.** master_prompt allowed either location.
+
+**Decision.** Governance files sit at the repo root.
+
+**Alternatives.** A `/docs` folder, which is tidier once the repo has many files.
+
+**Consequences.** The repo root has nine markdown files in it, which is visually noisy. Accepted because GOVERNANCE.md and PREFLIGHT.md are read at the start of every session and being unavoidable is the point. Revisit if the root becomes hard to scan.
+
+---
+
+## ADR-0003: Python and FastAPI with a plain frontend
+
+Date: 2026-08-27
+Status: accepted
+
+**Context.** The work splits into PDF parsing, rule evaluation, and a visual map. Pat selected this stack.
+
+**Decision.** Python 3.11 or later with FastAPI on the backend. Frontend is vanilla HTML, CSS, and ES modules with no framework and no build step.
+
+**Alternatives.** Node with React and Vite. A split stack with Python extraction and a React frontend. Both add a second toolchain to maintain for a single-user local app.
+
+**Consequences.** PDF and rule work stays in the language with the better libraries for it. The skill map has to be built with the DOM, SVG, or canvas directly, which is more work than a chart library would be. No build step means no dependency install for the frontend and the app runs offline.
+
+**Unverified.** Whether Python 3.11+ is installed on the Windows machine where Pat will run this has not been checked. The Linux sandbox reachable from the assistant session has Python 3.10, which is a different machine and does not settle the question.
+
+---
+
+## ADR-0004: Catalog is reviewed data, not live parser output
+
+Date: 2026-08-27
+Status: accepted
+
+**Context.** The source documents contain conditional rules, footnotes, and substitution clauses. A parser that runs at request time would turn every parse defect into a wrong answer in the UI.
+
+**Decision.** Extraction is an offline developer tool. Its output is written to `data/catalog/`, reviewed by a human, and committed. The running app reads the committed catalog and never parses PDFs.
+
+**Alternatives.** Parse on startup, which is simpler and always current but unreviewable. Hand-write the catalog with no extraction, which is accurate but tedious across 16 documents and hard to refresh.
+
+**Consequences.** Refreshing requirements is a deliberate step with a reviewable diff. The catalog can drift from the live Fuqua pages, so the app must display the retrieval date of its data. Extraction quality problems surface at review time rather than at user time.
+
+---
+
+## ADR-0005: PDF extraction library
+
+Date: 2026-08-27
+Status: proposed
+
+**Context.** The documents are text-based web page prints with indentation that carries meaning. `pdftotext -layout` reads them cleanly in a first look. pdfplumber gives programmatic access to layout position, which may matter for grouping courses under section headers.
+
+**Decision.** Not made. Candidates are pdfplumber, pypdf, and shelling out to `pdftotext -layout`.
+
+**Alternatives.** As above.
+
+**Consequences.** Blocks the first extraction work. Resolve by trying the leading candidate against two structurally different documents, for example Energy Finance and Health Sector Management, before committing.
+
+---
+
+## ADR-0006: Skill map rendering approach
+
+Date: 2026-08-27
+Status: proposed
+
+**Context.** The requested interface is an RPG-style skill tree across 16 concentrations and certificates, several with overlapping courses. Layout is the hard part, not drawing.
+
+**Decision.** Not made. Options are hand-authored SVG with a fixed layout per concentration, computed layout from the requirement graph, or canvas.
+
+**Alternatives.** As above. A no-build-step frontend rules out most graph layout libraries unless a single file is vendored into the repo, which would need its own ADR.
+
+**Consequences.** Blocks frontend work beyond the quarter grid. Worth prototyping one concentration before deciding, since a fixed hand-authored layout may look better and cost less than a generic graph layout.
+
+---
+
+## ADR-0007: Plan storage in SQLite
+
+Date: 2026-08-27
+Status: proposed
+
+**Context.** The app needs to persist one user's course plan across sessions. Data volume is trivial, roughly 20 to 25 courses.
+
+**Decision.** Not made. SQLite via the standard library is the leading option. A single JSON file is the simpler alternative and may be enough.
+
+**Alternatives.** As above.
+
+**Consequences.** Low stakes either way. Decide before the first persistence code. JSON is easier to inspect and back up. SQLite is easier if plan versioning or scenario comparison gets added later.
+
+---
+
+## ADR-0008: Static-first architecture, superseding ADR-0003
+
+Date: 2026-08-27
+Status: accepted
+Supersedes: ADR-0003
+
+**Context.** ADR-0003 chose Python and FastAPI. Pat then stated the app is for personal use now and to be shared with fellow students later, and delegated the choice. A FastAPI app requires each user to install Python 3.13, create a virtual environment, install dependencies, and run a server. Most students will not complete that. Pivoting later would mean rewriting the rule engine in another language after it is already written and tested.
+
+**Decision.** Split by lifecycle rather than by layer. Python remains the language for extraction, which runs offline on Pat's machine as a developer tool and produces reviewed catalog JSON. The shipped application is a static site: HTML, CSS, and ES modules, with the rule engine in JavaScript. No server, no backend, no build step. Deployed to GitHub Pages from the repo root.
+
+**Alternatives.** Keep FastAPI and share the repo, which limits the audience to students comfortable with a terminal. Host the app, which makes Pat the operator of a service holding other students' academic records. Package a Windows executable, which adds build complexity and antivirus friction.
+
+**Consequences.** Rule logic lives in JavaScript, not in Python, which reverses the boundary ADR-0003 set. ARCHITECTURE.md, CONVENTIONS.md, and TESTING.md are revised accordingly. The Python domain layer described in ADR-0003 is not built. Sharing becomes a URL. No user data reaches any server, which removes the operator responsibility entirely. Extraction cannot be run by anyone who clones the repo, since `Source_docs/` sits outside it per ADR-0001; the committed catalog is what they get.
+
+**Note.** This reverses a stack choice Pat made explicitly. It stands only until Pat says otherwise.
+
+---
+
+## ADR-0009: pdfplumber for extraction, resolving ADR-0005
+
+Date: 2026-08-27
+Status: accepted
+Resolves: ADR-0005
+
+**Context.** `pdftotext -layout` was tested against Energy Finance and Health Sector Management and produced clean, readable output with indentation preserved. It requires the poppler binary, which is not present on a default Windows install. pdfplumber is pip-installable, cross-platform, needs no external binary, and exposes layout coordinates.
+
+**Decision.** pdfplumber, run from Python on Pat's machine.
+
+**Alternatives.** `pdftotext -layout`, rejected on the Windows dependency. pypdf, rejected because it does not preserve the column layout these documents rely on.
+
+**Consequences.** One Python dependency for the extraction tool. Extraction output is compared against the `pdftotext` output already seen during discovery as an informal cross-check on the first two documents.
+
+---
+
+## ADR-0010: Hand-authored SVG layout for the skill map, resolving ADR-0006
+
+Date: 2026-08-27
+Status: accepted
+Resolves: ADR-0006
+
+**Context.** The requested interface is an RPG-style talent tree across 16 specialties. A generic graph layout algorithm would need a vendored library, and computed layouts of small graphs tend to look arbitrary. The set of specialties is fixed and changes about once a year.
+
+**Decision.** SVG rendered with plain DOM calls. Node positions per specialty are authored by hand and stored as coordinates in a layout JSON file alongside the catalog. No layout library.
+
+**Alternatives.** A computed force or tree layout, which is less work per specialty and worse looking. Canvas, which complicates accessibility and hit testing for no gain at this scale.
+
+**Consequences.** Adding a specialty means authoring its layout, roughly 20 minutes of work. Layout data is separate from requirement data, so a catalog refresh does not disturb the visual design. SVG nodes are real DOM elements, so keyboard focus and screen reader labels are available.
+
+---
+
+## ADR-0011: localStorage with JSON export and import, resolving ADR-0007
+
+Date: 2026-08-27
+Status: accepted
+Resolves: ADR-0007
+
+**Context.** ADR-0008 removes the server, which removes server-side storage as an option. Pat delegated the choice. localStorage alone is easy to lose, since clearing browser data wipes the plan with no warning.
+
+**Decision.** localStorage as the working store, with explicit Export Plan and Import Plan buttons that write and read a plain JSON file. The exported file is the backup and the sharing format.
+
+**Alternatives.** localStorage alone, rejected because silent data loss on a multi-year plan is unacceptable. IndexedDB, rejected as more machinery for the same guarantees at this data size.
+
+**Consequences.** The user owns a portable file they can back up, keep in a folder, or send to an advisor. The export schema becomes a compatibility surface and needs a version field from the first release. No academic data leaves the user's browser unless they deliberately export it.
+
+---
+
+## ADR-0012: Manual and paste entry, no OCR and no AI in the input path
+
+Date: 2026-08-27
+Status: accepted
+
+**Context.** Pat asked for an input method that needs no API key and no AI functionality. Local OCR via Tesseract.js is the only key-free image route; it reads multi-column transcript tables poorly, and a misread course code is worse than no extraction because it looks correct. Fuqua transcripts and schedules are text-based PDFs, so their text can be selected and copied directly.
+
+**Decision.** Two input paths, both routed through a confirmation screen before anything is saved: search-and-click entry from the catalog, and a paste box that parses pasted transcript or schedule text for course codes. No image upload in v1.
+
+**Alternatives.** Tesseract.js image OCR, rejected on accuracy and on bundle size in a no-build-step app. A vision model API, ruled out by Pat.
+
+**Consequences.** Paste from a PDF gives near-perfect fidelity at a fraction of the complexity of OCR, so the practical loss versus image upload is small. The confirmation screen is built in v1 regardless, so an image path could be added later behind it without rework.
+
+---
+
+## ADR-0013: All four rule complexities in the data model, staged in implementation
+
+Date: 2026-08-27
+Status: accepted
+
+**Context.** Pat selected all four: double-counting, grades and GPA, MEM and dual-degree courses, and substitutions with approval. Building all four at once is a large v1 and delays anything usable.
+
+**Decision.** The data model accommodates all four from the start, so none requires a schema migration later. Implementation is staged: stage 1 covers course entry, credit and group evaluation, and the two-specialty cap; stage 2 adds grades and the Finance Certificate GPA rule; stage 3 adds non-Fuqua and MEM courses with the 6-credit cap seen in Social Entrepreneurship; stage 4 adds user-added substitutions marked pending approval.
+
+**Alternatives.** Build all four before shipping anything, rejected because it delays feedback on the map itself, which is the part most likely to need redesign.
+
+**Consequences.** Grade fields exist in the schema from day one but are optional and unused until stage 2. A plan file written in stage 1 remains readable in stage 4.
+
+---
+
+## ADR-0014: Double-counting is a configurable rule pending confirmation
+
+Date: 2026-08-27
+Status: accepted
+
+**Context.** None of the 16 source documents states whether one course may count toward two specialties at once. This determines whether the map is 16 independent trees or one graph with contention between branches, which is the difference between an additive display and an allocation problem.
+
+**Decision.** The rule engine takes double-counting as a configuration flag rather than hardcoding either behavior. Default is off, meaning each course is allocated to one specialty, because that is the conservative reading and it will not overstate progress. The UI states which mode is active and that the rule is unconfirmed.
+
+**Alternatives.** Assume double-counting is allowed, rejected because it would show students progress they may not have. Block the feature until confirmed, rejected because it stops all rule work on an unanswered question.
+
+**Consequences.** The allocation solver needed for the off case is the harder of the two, so building it first means the on case is a simplification rather than a rewrite. Confirm the actual rule with Fuqua advising and log the answer as a new ADR.
+
+---
+
+## ADR-0015: Site served from repo root for zero-config GitHub Pages
+
+Date: 2026-08-27
+Status: accepted
+
+**Context.** GitHub Pages deploys from a branch root or a `/docs` folder without configuration. Governance files already sit at the repo root per ADR-0002, and naming an application folder `/docs` alongside them would be confusing.
+
+**Decision.** `index.html` at the repo root, application modules under `app/`, catalog data under `data/`. Pages deploys from the main branch root with no workflow file.
+
+**Alternatives.** A GitHub Actions Pages workflow, which allows a cleaner tree at the cost of CI configuration. `/docs` as the site root, rejected on naming.
+
+**Consequences.** The repo root holds nine governance files plus `index.html`. Publishing is a push, with no build and no deploy step to break.
+
+---
+
+## ADR-0016: Tool name is Fuqua ConCert
+
+Date: 2026-08-27
+Status: accepted
+
+**Context.** Pat named the tool.
+
+**Decision.** The tool is called **Fuqua ConCert**, with that exact capitalization: capital F, capital C on Con, capital C on Cert, one word with no space inside ConCert. The repo remains `pc296/FuquaConAndCert`.
+
+**Alternatives.** None considered. This is Pat's call.
+
+**Consequences.** The name appears in the page title, the header, the export file metadata, and the README. Do not lowercase or hyphenate it. The repo name and the product name differ, which is worth a line in the README so it does not read as a mistake.
+
+---
+
+## ADR-0017: The cap is two specialties in any combination
+
+Date: 2026-08-27
+Status: accepted
+
+**Context.** The initial premise was a maximum of 2 concentrations, or 1 concentration plus 1 certificate. `Finance Concentrations.pdf` states only "Two concentrations are the maximum number of academic specialties one can earn." The official Fuqua page states the allowed combinations directly: "2 concentrations, 2 certificates, 1 concentration + 1 certificate."
+
+**Decision.** The rule is a cap of two academic specialties, in any combination of concentrations and certificates. Two certificates is a valid combination and was missing from the premise this repo started with.
+
+**Alternatives.** Encode the three combinations as an explicit allowlist, rejected because it is the same rule expressed less clearly and would need editing if a third certificate is ever added.
+
+**Consequences.** The cap check is a count, not a category rule. Since only two certificates exist today, "2 certificates" means Finance plus HSM. The Dual Finance Concentration still counts as 2 by itself per `Finance Concentrations.pdf` and consumes the cap alone, so it stays a special case in the data rather than a special case in the code: each specialty record carries how many slots it consumes.
+
+**Source.** https://www.fuqua.duke.edu/programs/daytime-mba/concentrations-certificates retrieved 2026-08-27.
+
+---
+
+## ADR-0018: Courses count toward every pathway they appear on, superseding ADR-0014
+
+Date: 2026-08-27
+Status: accepted
+Supersedes: ADR-0014
+
+**Context.** ADR-0014 made double-counting a configuration flag defaulting to off, because no source document stated the rule. Pat has since specified the behavior directly.
+
+**Decision.** A course counts toward every instance of its occurrence across every concentration and certificate pathway, simultaneously. No allocation, no contention, no solver.
+
+**Alternatives.** The configurable flag from ADR-0014, now unnecessary. Retained as dead complexity it would be a cost with no benefit.
+
+**Consequences.** The rule engine is substantially simpler than ADR-0014 anticipated. Each pathway is evaluated independently against the full course list, which means evaluation is 18 independent passes and is trivially parallel and trivially testable. The skill map becomes an additive display rather than an allocation problem, so a course node lights up on every branch it belongs to at once, which is closer to the RPG talent tree the tool is meant to resemble. This is Pat's stated rule rather than a rule found in a source document, so if advising contradicts it later, the change is contained to the evaluation function.
+
+---
+
+## ADR-0019: MSTeM second majors are out of scope
+
+Date: 2026-08-27
+Status: accepted
+
+**Context.** `Health Sector Management Certificate.pdf` names the MSTeM second major as a third category of academic specialty. Pat has ruled it out.
+
+**Decision.** Fuqua ConCert models concentrations and certificates only. MSTeM is not represented.
+
+**Consequences.** A student pursuing MSTeM will see a cap calculation that does not account for it. If that changes, the specialty record already carries a slot count per ADR-0017, so adding MSTeM is data plus a layout, not a code change.
+
+---
+
+## ADR-0020: 16 source documents yield 18 pathways
+
+Date: 2026-08-27
+Status: accepted
+
+**Context.** `Source_docs/` holds 16 PDFs. The Fuqua page names 16 concentrations and 2 certificates. The gap is `Finance Concentrations.pdf`, which contains Finance (Corporate), Finance (Investment), and Dual Finance in a single document.
+
+**Decision.** Extraction maps documents to pathways many-to-one where needed. The catalog is keyed by pathway, not by source file, and each pathway record names the file and page section it came from.
+
+**Consequences.** Extraction cannot assume one file equals one pathway, and the Finance document needs section-aware splitting that the others do not. This is the known case; a second one may surface during extraction and would be handled the same way.
