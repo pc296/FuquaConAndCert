@@ -371,3 +371,17 @@ Status: accepted
 **Alternatives.** Convert to classic scripts with data inlined as JavaScript so `file://` works, rejected because it costs the module structure that makes the rule engine testable under `node --test`. Load fonts from the Google CDN, rejected because it breaks offline use and adds a third-party request.
 
 **Consequences.** Anyone who clones the repo needs Node or Python to run it locally, which is fine because the shared artifact is the Pages URL. Typography currently falls back to Georgia and the system sans on most machines, which is on-brand but not the intended pairing. Vendoring the two font families is a small follow-up.
+
+---
+
+## ADR-0025: The one-certificate rule is settled
+
+Date: 2026-08-28
+Status: accepted
+Supersedes: ADR-0021
+
+**Context.** ADR-0021 adopted a one-certificate cap but recorded it as unresolved and flagged it for advising, because the Fuqua program page lists "2 certificates" under Combinations Allowed. Pat has confirmed the rule as final for this build.
+
+**Decision.** Two specialties maximum, at most one of which may be a certificate. This is settled. The catalog note no longer asks anyone to confirm it, and the contradicting line on the Fuqua page is treated as stale or erroneous rather than as an open question.
+
+**Consequences.** Finance Certificate plus HSM Certificate is rejected, and the app says so plainly rather than hedging. The rule still lives in `combinationRule` in the catalog, so a future correction is one data edit. The citation to the contradicting page stays recorded, because a future reader who finds that page deserves to know it was seen and set aside deliberately.

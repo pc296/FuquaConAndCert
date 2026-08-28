@@ -5,7 +5,7 @@
   "combinationRule": {
     "maxSlots": 2,
     "maxCertificates": 1,
-    "note": "A student may earn at most two academic specialties. Per Pat (2026-08-27), two certificates is not an allowed combination, so certificates are capped at one. The Fuqua program page lists '2 certificates' under Combinations Allowed and separately states that a student pursuing a certificate may pursue no more than one concentration. Unresolved; confirm with advising. See ADR-0021.",
+    "note": "A student may earn at most two academic specialties, and at most one of them may be a certificate. Confirmed by Pat on 2026-08-28 as the final rule for this build. The Fuqua program page lists '2 certificates' under Combinations Allowed; that listing is treated as stale or erroneous. See ADR-0025.",
     "citations": [
       "Finance Concentrations.pdf: 'Two concentrations are the maximum number of academic specialties one can earn.'",
       "https://www.fuqua.duke.edu/programs/daytime-mba/concentrations-certificates retrieved 2026-08-27"
@@ -19,12 +19,49 @@
       "slots": 1,
       "source": "Decision Sciences Concentration.pdf",
       "minCredits": 18,
-      "notes": ["Requirements updated effective September 2025.", "The final 3 credits may come from either category.", "Strongly suggested that Applications courses span at least three area designations."],
+      "notes": [
+        "Requirements updated effective September 2025.",
+        "The final 3 credits may come from either category.",
+        "Strongly suggested that Applications courses span at least three area designations."
+      ],
       "groups": [
-        {"id": "tools", "label": "Business Analytics Tools", "type": "credits", "min": 6,
-         "courses": ["DECISION 611", "DECISION 614", "DECISION 618", "DECISION 894::modern-ai", "DECISION 894::tech-analytics"]},
-        {"id": "applications", "label": "Business Analytics Applications", "type": "credits", "min": 9,
-         "courses": ["ACCOUNTG 597", "ACCOUNTG 598", "DECISION 617", "DECISION 619", "FINANCE 647", "FINANCE 648", "FINANCE 661", "FUQINTRD 697", "MARKETNG 796", "MARKETNG 808", "MARKETNG 809", "MGRECON 784", "MGRECON 788", "OPERATNS 823", "OPERATNS 828", "STRATEGY 842"]}
+        {
+          "id": "tools",
+          "label": "Business Analytics Tools",
+          "type": "credits",
+          "min": 6,
+          "courses": [
+            "DECISION 611",
+            "DECISION 614",
+            "DECISION 618",
+            "DECISION 894::modern-ai",
+            "DECISION 894::tech-analytics"
+          ]
+        },
+        {
+          "id": "applications",
+          "label": "Business Analytics Applications",
+          "type": "credits",
+          "min": 9,
+          "courses": [
+            "ACCOUNTG 597",
+            "ACCOUNTG 598",
+            "DECISION 617",
+            "DECISION 619",
+            "FINANCE 647",
+            "FINANCE 648",
+            "FINANCE 661",
+            "FUQINTRD 697",
+            "MARKETNG 796",
+            "MARKETNG 808",
+            "MARKETNG 809",
+            "MGRECON 784",
+            "MGRECON 788",
+            "OPERATNS 823",
+            "OPERATNS 828",
+            "STRATEGY 842"
+          ]
+        }
       ]
     },
     {
@@ -34,14 +71,60 @@
       "slots": 1,
       "source": "DEI Concentration.pdf",
       "groups": [
-        {"id": "required", "label": "Required Courses", "type": "all",
-         "courses": ["MANAGEMT 748", "MANAGEMT 894"]},
-        {"id": "additional", "label": "Additional Courses", "type": "courses", "min": 2,
-         "courses": ["MANAGEMT 738", "MANAGEMT 745", "MANAGEMT 746", "MANAGEMT 747", "MANAGEMT 749", "MANAGEMT 750", "MANAGEMT 762", "MANAGEMT 898"]},
-        {"id": "analytic", "label": "Analytic Tools for Decision Making", "type": "courses", "min": 1,
-         "courses": ["DECISION 611", "DECISION 614", "DECISION 618", "FINANCE 646", "MARKETNG 796", "MGRECON 784", "MGRECON 788", "STRATEGY 842"]},
-        {"id": "implementation", "label": "Implementation and Managing Processes", "type": "courses", "min": 1,
-         "courses": ["ACCOUNTG 591", "MARKETNG 807", "OPERATNS 823", "OPERATNS 828", "STRATEGY 841"]}
+        {
+          "id": "required",
+          "label": "Required Courses",
+          "type": "all",
+          "courses": [
+            "MANAGEMT 748",
+            "MANAGEMT 894"
+          ]
+        },
+        {
+          "id": "additional",
+          "label": "Additional Courses",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "MANAGEMT 738",
+            "MANAGEMT 745",
+            "MANAGEMT 746",
+            "MANAGEMT 747",
+            "MANAGEMT 749",
+            "MANAGEMT 750",
+            "MANAGEMT 762",
+            "MANAGEMT 898"
+          ]
+        },
+        {
+          "id": "analytic",
+          "label": "Analytic Tools for Decision Making",
+          "type": "courses",
+          "min": 1,
+          "courses": [
+            "DECISION 611",
+            "DECISION 614",
+            "DECISION 618",
+            "FINANCE 646",
+            "MARKETNG 796",
+            "MGRECON 784",
+            "MGRECON 788",
+            "STRATEGY 842"
+          ]
+        },
+        {
+          "id": "implementation",
+          "label": "Implementation and Managing Processes",
+          "type": "courses",
+          "min": 1,
+          "courses": [
+            "ACCOUNTG 591",
+            "MARKETNG 807",
+            "OPERATNS 823",
+            "OPERATNS 828",
+            "STRATEGY 841"
+          ]
+        }
       ]
     },
     {
@@ -51,12 +134,88 @@
       "slots": 1,
       "source": "Energy & Environment Concentration.pdf",
       "minCredits": 18,
-      "notes": ["Other relevant graduate courses may be substituted with approval.", "FCCP courses (895) must carry the required subject prefix.", "Not all electives are offered each year."],
+      "notes": [
+        "Other relevant graduate courses may be substituted with approval.",
+        "FCCP courses (895) must carry the required subject prefix.",
+        "Not all electives are offered each year."
+      ],
       "groups": [
-        {"id": "depth", "label": "Depth in Energy and Environment", "type": "credits", "min": 12,
-         "courses": ["ACCOUNTG 894::sustainability-reporting", "ENRGYENV 625", "ENRGYENV 628", "ENRGYENV 629", "ENRGYENV 895", "MANAGEMT 754::energy-env", "MANAGEMT 750", "MANAGEMT 762", "OPERATNS 894::sustainable-ops", "STRATEGY 627", "ENERGY 520", "ENERGY 579", "ENERGY 588", "ENERGY 590.01", "ENERGY 590.05", "ENERGY 590.50", "ENERGY 630", "ENERGY 631", "ENERGY 635", "ENERGY 711", "ENERGY 716L", "ENERGY 727", "ENERGY 790-1::clean-energy", "ENERGY 790-1::emerging-tech", "ENVIRON 592", "ENVIRON 638", "ENVIRON 640", "ENVIRON 717", "ENVIRON 801", "I&E 590", "LAW 235", "LAW 327", "LAW 520", "PUBPOL 790.01"]},
-        {"id": "breadth", "label": "Breadth in Leadership Skillsets", "type": "credits", "min": 6,
-         "courses": ["ACCOUNTG 591", "ACCOUNTG 598", "DECISION 611", "DECISION 614", "FINANCE 646", "FINANCE 648", "FINANCE 651", "FINANCE 652", "FINANCE 660", "FINANCE 661", "MANAGEMT 738", "MANAGEMT 745", "MANAGEMT 746", "MANAGEMT 748", "MANAGEMT 749", "MARKETNG 796", "MARKETNG 797", "MARKETNG 802", "MGRECON 781", "MGRECON 788", "OPERATNS 827", "OPERATNS 828", "STRATEGY 838", "STRATEGY 841", "STRATEGY 842", "STRATEGY 853"]}
+        {
+          "id": "depth",
+          "label": "Depth in Energy and Environment",
+          "type": "credits",
+          "min": 12,
+          "courses": [
+            "ACCOUNTG 894::sustainability-reporting",
+            "ENRGYENV 625",
+            "ENRGYENV 628",
+            "ENRGYENV 629",
+            "ENRGYENV 895",
+            "MANAGEMT 754::energy-env",
+            "MANAGEMT 750",
+            "MANAGEMT 762",
+            "OPERATNS 894::sustainable-ops",
+            "STRATEGY 627",
+            "ENERGY 520",
+            "ENERGY 579",
+            "ENERGY 588",
+            "ENERGY 590.01",
+            "ENERGY 590.05",
+            "ENERGY 590.50",
+            "ENERGY 630",
+            "ENERGY 631",
+            "ENERGY 635",
+            "ENERGY 711",
+            "ENERGY 716L",
+            "ENERGY 727",
+            "ENERGY 790-1::clean-energy",
+            "ENERGY 790-1::emerging-tech",
+            "ENVIRON 592",
+            "ENVIRON 638",
+            "ENVIRON 640",
+            "ENVIRON 717",
+            "ENVIRON 801",
+            "I&E 590",
+            "LAW 235",
+            "LAW 327",
+            "LAW 520",
+            "PUBPOL 790.01"
+          ]
+        },
+        {
+          "id": "breadth",
+          "label": "Breadth in Leadership Skillsets",
+          "type": "credits",
+          "min": 6,
+          "courses": [
+            "ACCOUNTG 591",
+            "ACCOUNTG 598",
+            "DECISION 611",
+            "DECISION 614",
+            "FINANCE 646",
+            "FINANCE 648",
+            "FINANCE 651",
+            "FINANCE 652",
+            "FINANCE 660",
+            "FINANCE 661",
+            "MANAGEMT 738",
+            "MANAGEMT 745",
+            "MANAGEMT 746",
+            "MANAGEMT 748",
+            "MANAGEMT 749",
+            "MARKETNG 796",
+            "MARKETNG 797",
+            "MARKETNG 802",
+            "MGRECON 781",
+            "MGRECON 788",
+            "OPERATNS 827",
+            "OPERATNS 828",
+            "STRATEGY 838",
+            "STRATEGY 841",
+            "STRATEGY 842",
+            "STRATEGY 853"
+          ]
+        }
       ]
     },
     {
@@ -66,16 +225,62 @@
       "slots": 1,
       "source": "Energy Finance Concentration.pdf",
       "minCredits": 18,
-      "notes": ["Other energy-related graduate-level courses may be substituted with approval.", "Not all Energy courses are offered each year."],
+      "notes": [
+        "Other energy-related graduate-level courses may be substituted with approval.",
+        "Not all Energy courses are offered each year."
+      ],
       "groups": [
-        {"id": "finance-core", "label": "Finance Courses", "type": "courses", "min": 2,
-         "courses": ["FINANCE 646", "FINANCE 647", "FINANCE 648"]},
-        {"id": "finance-electives", "label": "Elective Courses", "type": "courses", "min": 2,
-         "courses": ["FINANCE 652", "FINANCE 654", "FINANCE 663", "DECISION 611"],
-         "overflowFrom": {"group": "finance-core", "max": 1,
-           "note": "If a student takes all 3 courses from section 1, the third can count toward one of the two electives in section 2."}},
-        {"id": "energy-content", "label": "Energy Content Courses", "type": "credits", "min": 6,
-         "courses": ["ENRGYENV 625", "ENRGYENV 628", "ENRGYENV 895", "MANAGEMT 754::energy-env", "ENERGY 579", "ENERGY 588", "ENERGY 590.05", "ENERGY 630", "ENERGY 631", "ENERGY 635", "ENERGY 711", "ENERGY 716L", "ENERGY 790-1::emerging-tech", "ENVIRON 717", "LAW 327"]}
+        {
+          "id": "finance-core",
+          "label": "Finance Courses",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "FINANCE 646",
+            "FINANCE 647",
+            "FINANCE 648"
+          ]
+        },
+        {
+          "id": "finance-electives",
+          "label": "Elective Courses",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "FINANCE 652",
+            "FINANCE 654",
+            "FINANCE 663",
+            "DECISION 611"
+          ],
+          "overflowFrom": {
+            "group": "finance-core",
+            "max": 1,
+            "note": "If a student takes all 3 courses from section 1, the third can count toward one of the two electives in section 2."
+          }
+        },
+        {
+          "id": "energy-content",
+          "label": "Energy Content Courses",
+          "type": "credits",
+          "min": 6,
+          "courses": [
+            "ENRGYENV 625",
+            "ENRGYENV 628",
+            "ENRGYENV 895",
+            "MANAGEMT 754::energy-env",
+            "ENERGY 579",
+            "ENERGY 588",
+            "ENERGY 590.05",
+            "ENERGY 630",
+            "ENERGY 631",
+            "ENERGY 635",
+            "ENERGY 711",
+            "ENERGY 716L",
+            "ENERGY 790-1::emerging-tech",
+            "ENVIRON 717",
+            "LAW 327"
+          ]
+        }
       ]
     },
     {
@@ -85,14 +290,56 @@
       "slots": 1,
       "source": "Entreprenuership and Innovation Concentration.pdf",
       "minCourses": 6,
-      "notes": ["FCCP courses (895) must carry the required subject prefix. A Marketing 895 does not satisfy a Strategy 895 requirement."],
+      "notes": [
+        "FCCP courses (895) must carry the required subject prefix. A Marketing 895 does not satisfy a Strategy 895 requirement."
+      ],
       "groups": [
-        {"id": "required", "label": "Required Courses", "type": "all",
-         "courses": ["STRATEGY 845", "STRATEGY 838"]},
-        {"id": "experiential", "label": "Experiential", "type": "courses", "min": 1,
-         "courses": ["BME 788", "FINANCE 894", "MANAGEMT 754", "MANAGEMT 895", "MANAGEMT 896", "MARKETNG 895", "STRATEGY 848", "STRATEGY 849", "STRATEGY 851"]},
-        {"id": "additional", "label": "Additional Courses", "type": "courses", "min": 3,
-         "courses": ["ACCOUNTG 591", "ACCOUNTG 597", "FINANCE 651", "FINANCE 660", "FINANCE 661", "FINANCE 662", "FINANCE 898", "HLTHMGMT 712", "MANAGEMT 738", "MANAGEMT 750", "MARKETNG 796", "MARKETNG 802"]}
+        {
+          "id": "required",
+          "label": "Required Courses",
+          "type": "all",
+          "courses": [
+            "STRATEGY 845",
+            "STRATEGY 838"
+          ]
+        },
+        {
+          "id": "experiential",
+          "label": "Experiential",
+          "type": "courses",
+          "min": 1,
+          "courses": [
+            "BME 788",
+            "FINANCE 894",
+            "MANAGEMT 754",
+            "MANAGEMT 895",
+            "MANAGEMT 896",
+            "MARKETNG 895",
+            "STRATEGY 848",
+            "STRATEGY 849",
+            "STRATEGY 851"
+          ]
+        },
+        {
+          "id": "additional",
+          "label": "Additional Courses",
+          "type": "courses",
+          "min": 3,
+          "courses": [
+            "ACCOUNTG 591",
+            "ACCOUNTG 597",
+            "FINANCE 651",
+            "FINANCE 660",
+            "FINANCE 661",
+            "FINANCE 662",
+            "FINANCE 898",
+            "HLTHMGMT 712",
+            "MANAGEMT 738",
+            "MANAGEMT 750",
+            "MARKETNG 796",
+            "MARKETNG 802"
+          ]
+        }
       ]
     },
     {
@@ -104,14 +351,50 @@
       "sourceSection": "Option 1",
       "minCourses": 6,
       "groups": [
-        {"id": "required", "label": "Required Courses", "type": "all",
-         "courses": ["FINANCE 646", "FINANCE 647"]},
-        {"id": "accounting", "label": "Accounting Elective", "type": "courses", "min": 1,
-         "courses": ["ACCOUNTG 592", "ACCOUNTG 597", "ACCOUNTG 598"]},
-        {"id": "quant", "label": "Quantitative Elective", "type": "courses", "min": 1,
-         "courses": ["DECISION 611", "FUQINTRD 697"]},
-        {"id": "finance-electives", "label": "Finance Electives", "type": "courses", "min": 2,
-         "courses": ["FINANCE 651", "FINANCE 652", "FINANCE 654", "FINANCE 658", "FINANCE 660", "FINANCE 661"]}
+        {
+          "id": "required",
+          "label": "Required Courses",
+          "type": "all",
+          "courses": [
+            "FINANCE 646",
+            "FINANCE 647"
+          ]
+        },
+        {
+          "id": "accounting",
+          "label": "Accounting Elective",
+          "type": "courses",
+          "min": 1,
+          "courses": [
+            "ACCOUNTG 592",
+            "ACCOUNTG 597",
+            "ACCOUNTG 598"
+          ]
+        },
+        {
+          "id": "quant",
+          "label": "Quantitative Elective",
+          "type": "courses",
+          "min": 1,
+          "courses": [
+            "DECISION 611",
+            "FUQINTRD 697"
+          ]
+        },
+        {
+          "id": "finance-electives",
+          "label": "Finance Electives",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "FINANCE 651",
+            "FINANCE 652",
+            "FINANCE 654",
+            "FINANCE 658",
+            "FINANCE 660",
+            "FINANCE 661"
+          ]
+        }
       ]
     },
     {
@@ -123,14 +406,49 @@
       "sourceSection": "Option 2",
       "minCourses": 6,
       "groups": [
-        {"id": "required", "label": "Required Courses", "type": "all",
-         "courses": ["FINANCE 646", "FINANCE 647"]},
-        {"id": "accounting", "label": "Accounting Elective", "type": "courses", "min": 1,
-         "courses": ["ACCOUNTG 597", "ACCOUNTG 598"]},
-        {"id": "quant", "label": "Quantitative Elective", "type": "courses", "min": 1,
-         "courses": ["DECISION 611", "DECISION 614", "FUQINTRD 697", "MGRECON 781"]},
-        {"id": "finance-electives", "label": "Finance Electives", "type": "courses", "min": 2,
-         "courses": ["FINANCE 648", "FINANCE 653", "FINANCE 656", "FINANCE 663"]}
+        {
+          "id": "required",
+          "label": "Required Courses",
+          "type": "all",
+          "courses": [
+            "FINANCE 646",
+            "FINANCE 647"
+          ]
+        },
+        {
+          "id": "accounting",
+          "label": "Accounting Elective",
+          "type": "courses",
+          "min": 1,
+          "courses": [
+            "ACCOUNTG 597",
+            "ACCOUNTG 598"
+          ]
+        },
+        {
+          "id": "quant",
+          "label": "Quantitative Elective",
+          "type": "courses",
+          "min": 1,
+          "courses": [
+            "DECISION 611",
+            "DECISION 614",
+            "FUQINTRD 697",
+            "MGRECON 781"
+          ]
+        },
+        {
+          "id": "finance-electives",
+          "label": "Finance Electives",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "FINANCE 648",
+            "FINANCE 653",
+            "FINANCE 656",
+            "FINANCE 663"
+          ]
+        }
       ]
     },
     {
@@ -141,20 +459,86 @@
       "source": "Finance Concentrations.pdf",
       "sourceSection": "Option 3",
       "minCourses": 10,
-      "notes": ["The dual concentration counts as 2 concentrations and fills the entire two-specialty allowance."],
+      "notes": [
+        "The dual concentration counts as 2 concentrations and fills the entire two-specialty allowance."
+      ],
       "groups": [
-        {"id": "required", "label": "Required Courses", "type": "all",
-         "courses": ["FINANCE 646", "FINANCE 647"]},
-        {"id": "accounting", "label": "Accounting Elective", "type": "courses", "min": 1,
-         "courses": ["ACCOUNTG 592", "ACCOUNTG 597", "ACCOUNTG 598"]},
-        {"id": "quant", "label": "Quantitative Elective", "type": "courses", "min": 1,
-         "courses": ["DECISION 611", "DECISION 614", "FUQINTRD 697", "MGRECON 781"]},
-        {"id": "corporate", "label": "Corporate Electives", "type": "courses", "min": 2,
-         "courses": ["FINANCE 651", "FINANCE 652", "FINANCE 654", "FINANCE 658", "FINANCE 660", "FINANCE 661"]},
-        {"id": "investment", "label": "Investment Electives", "type": "courses", "min": 2,
-         "courses": ["FINANCE 648", "FINANCE 653", "FINANCE 656", "FINANCE 663"]},
-        {"id": "either", "label": "Additional Corporate or Investment Electives", "type": "courses", "min": 2,
-         "courses": ["FINANCE 651", "FINANCE 652", "FINANCE 654", "FINANCE 658", "FINANCE 660", "FINANCE 661", "FINANCE 648", "FINANCE 653", "FINANCE 656", "FINANCE 663"]}
+        {
+          "id": "required",
+          "label": "Required Courses",
+          "type": "all",
+          "courses": [
+            "FINANCE 646",
+            "FINANCE 647"
+          ]
+        },
+        {
+          "id": "accounting",
+          "label": "Accounting Elective",
+          "type": "courses",
+          "min": 1,
+          "courses": [
+            "ACCOUNTG 592",
+            "ACCOUNTG 597",
+            "ACCOUNTG 598"
+          ]
+        },
+        {
+          "id": "quant",
+          "label": "Quantitative Elective",
+          "type": "courses",
+          "min": 1,
+          "courses": [
+            "DECISION 611",
+            "DECISION 614",
+            "FUQINTRD 697",
+            "MGRECON 781"
+          ]
+        },
+        {
+          "id": "corporate",
+          "label": "Corporate Electives",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "FINANCE 651",
+            "FINANCE 652",
+            "FINANCE 654",
+            "FINANCE 658",
+            "FINANCE 660",
+            "FINANCE 661"
+          ]
+        },
+        {
+          "id": "investment",
+          "label": "Investment Electives",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "FINANCE 648",
+            "FINANCE 653",
+            "FINANCE 656",
+            "FINANCE 663"
+          ]
+        },
+        {
+          "id": "either",
+          "label": "Additional Corporate or Investment Electives",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "FINANCE 651",
+            "FINANCE 652",
+            "FINANCE 654",
+            "FINANCE 658",
+            "FINANCE 660",
+            "FINANCE 661",
+            "FINANCE 648",
+            "FINANCE 653",
+            "FINANCE 656",
+            "FINANCE 663"
+          ]
+        }
       ]
     },
     {
@@ -165,12 +549,41 @@
       "source": "Financial Analysis Concentration.pdf",
       "minCourses": 6,
       "groups": [
-        {"id": "required", "label": "Required Courses", "type": "all",
-         "courses": ["ACCOUNTG 597", "ACCOUNTG 598", "ACCOUNTG 591"]},
-        {"id": "accounting-elective", "label": "Accounting Elective", "type": "courses", "min": 1,
-         "courses": ["ACCOUNTG 592", "ACCOUNTG 596", "ACCOUNTG 601"]},
-        {"id": "other-electives", "label": "Other Electives", "type": "courses", "min": 2,
-         "courses": ["DECISION 614", "DECISION 617", "FINANCE 646", "FINANCE 658", "MARKETNG 799", "MGRECON 788"]}
+        {
+          "id": "required",
+          "label": "Required Courses",
+          "type": "all",
+          "courses": [
+            "ACCOUNTG 597",
+            "ACCOUNTG 598",
+            "ACCOUNTG 591"
+          ]
+        },
+        {
+          "id": "accounting-elective",
+          "label": "Accounting Elective",
+          "type": "courses",
+          "min": 1,
+          "courses": [
+            "ACCOUNTG 592",
+            "ACCOUNTG 596",
+            "ACCOUNTG 601"
+          ]
+        },
+        {
+          "id": "other-electives",
+          "label": "Other Electives",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "DECISION 614",
+            "DECISION 617",
+            "FINANCE 646",
+            "FINANCE 658",
+            "MARKETNG 799",
+            "MGRECON 788"
+          ]
+        }
       ]
     },
     {
@@ -182,14 +595,52 @@
       "minCredits": 18,
       "minCourses": 6,
       "groups": [
-        {"id": "required", "label": "Required Courses", "type": "all",
-         "courses": ["FINANCE 646", "FINANCE 647"]},
-        {"id": "fintech-core", "label": "FinTech Core", "type": "courses", "min": 2,
-         "courses": ["FINANCE 661", "FUQINTRD 697", "DECISION 618"]},
-        {"id": "finance-elective", "label": "Finance Elective", "type": "courses", "min": 1,
-         "courses": ["FINANCE 648", "FINANCE 651", "FINANCE 660", "FINANCE 663"]},
-        {"id": "innovation", "label": "Innovation Elective", "type": "courses", "min": 1,
-         "courses": ["MANAGEMT 738", "MARKETNG 802", "MGRECON 784", "OPERATNS 828", "STRATEGY 838", "STRATEGY 845"]}
+        {
+          "id": "required",
+          "label": "Required Courses",
+          "type": "all",
+          "courses": [
+            "FINANCE 646",
+            "FINANCE 647"
+          ]
+        },
+        {
+          "id": "fintech-core",
+          "label": "FinTech Core",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "FINANCE 661",
+            "FUQINTRD 697",
+            "DECISION 618"
+          ]
+        },
+        {
+          "id": "finance-elective",
+          "label": "Finance Elective",
+          "type": "courses",
+          "min": 1,
+          "courses": [
+            "FINANCE 648",
+            "FINANCE 651",
+            "FINANCE 660",
+            "FINANCE 663"
+          ]
+        },
+        {
+          "id": "innovation",
+          "label": "Innovation Elective",
+          "type": "courses",
+          "min": 1,
+          "courses": [
+            "MANAGEMT 738",
+            "MARKETNG 802",
+            "MGRECON 784",
+            "OPERATNS 828",
+            "STRATEGY 838",
+            "STRATEGY 845"
+          ]
+        }
       ]
     },
     {
@@ -199,14 +650,54 @@
       "slots": 1,
       "source": "Leadership and Ethics Concentration.pdf",
       "minCourses": 6,
-      "notes": ["Students may petition to apply other relevant Duke graduate courses.", "One elective may be fulfilled through an independent study arranged with COLE."],
+      "notes": [
+        "Students may petition to apply other relevant Duke graduate courses.",
+        "One elective may be fulfilled through an independent study arranged with COLE."
+      ],
       "groups": [
-        {"id": "required", "label": "Required Courses", "type": "all",
-         "courses": ["MANAGEMT 747", "MANAGEMT 749"]},
-        {"id": "electives", "label": "Leadership and Ethics Electives", "type": "courses", "min": 4,
-         "courses": ["MANAGEMT 738", "MANAGEMT 744", "MANAGEMT 745", "MANAGEMT 746", "MANAGEMT 748", "ACCOUNTG 597", "DECISION 611", "HLTHMGMT 717", "MANAGEMT 750", "MARKETNG 796", "STRATEGY 842", "STRATEGY 845", "LAW 561", "PHIL 503S", "PUBPOL 816", "LAW 539", "PSY 739", "XTIANETH 890"],
-         "constraints": [{"type": "minOutsideArea", "area": "MANAGEMT", "n": 2,
-           "note": "At least 2 of these 4 courses must be outside the Management area."}]}
+        {
+          "id": "required",
+          "label": "Required Courses",
+          "type": "all",
+          "courses": [
+            "MANAGEMT 747",
+            "MANAGEMT 749"
+          ]
+        },
+        {
+          "id": "electives",
+          "label": "Leadership and Ethics Electives",
+          "type": "courses",
+          "min": 4,
+          "courses": [
+            "MANAGEMT 738",
+            "MANAGEMT 744",
+            "MANAGEMT 745",
+            "MANAGEMT 746",
+            "MANAGEMT 748",
+            "ACCOUNTG 597",
+            "DECISION 611",
+            "HLTHMGMT 717",
+            "MANAGEMT 750",
+            "MARKETNG 796",
+            "STRATEGY 842",
+            "STRATEGY 845",
+            "LAW 561",
+            "PHIL 503S",
+            "PUBPOL 816",
+            "LAW 539",
+            "PSY 739",
+            "XTIANETH 890"
+          ],
+          "constraints": [
+            {
+              "type": "minOutsideArea",
+              "area": "MANAGEMT",
+              "n": 2,
+              "note": "At least 2 of these 4 courses must be outside the Management area."
+            }
+          ]
+        }
       ]
     },
     {
@@ -217,12 +708,50 @@
       "source": "Management Concentration.pdf",
       "minCourses": 6,
       "groups": [
-        {"id": "organizing", "label": "Organizing and Motivating", "type": "courses", "min": 4,
-         "courses": ["MANAGEMT 738", "MANAGEMT 744", "MANAGEMT 745", "MANAGEMT 746", "MANAGEMT 747", "MANAGEMT 748", "MANAGEMT 749"]},
-        {"id": "decisions", "label": "Managing Decisions", "type": "courses", "min": 1,
-         "courses": ["DECISION 611", "DECISION 614", "DECISION 618", "FINANCE 646", "MARKETNG 796", "MGRECON 784", "MGRECON 788", "STRATEGY 842"]},
-        {"id": "implementation", "label": "Implementation and Managing Processes", "type": "courses", "min": 1,
-         "courses": ["ACCOUNTG 591", "MARKETNG 807", "OPERATNS 823", "OPERATNS 828", "STRATEGY 841"]}
+        {
+          "id": "organizing",
+          "label": "Organizing and Motivating",
+          "type": "courses",
+          "min": 4,
+          "courses": [
+            "MANAGEMT 738",
+            "MANAGEMT 744",
+            "MANAGEMT 745",
+            "MANAGEMT 746",
+            "MANAGEMT 747",
+            "MANAGEMT 748",
+            "MANAGEMT 749"
+          ]
+        },
+        {
+          "id": "decisions",
+          "label": "Managing Decisions",
+          "type": "courses",
+          "min": 1,
+          "courses": [
+            "DECISION 611",
+            "DECISION 614",
+            "DECISION 618",
+            "FINANCE 646",
+            "MARKETNG 796",
+            "MGRECON 784",
+            "MGRECON 788",
+            "STRATEGY 842"
+          ]
+        },
+        {
+          "id": "implementation",
+          "label": "Implementation and Managing Processes",
+          "type": "courses",
+          "min": 1,
+          "courses": [
+            "ACCOUNTG 591",
+            "MARKETNG 807",
+            "OPERATNS 823",
+            "OPERATNS 828",
+            "STRATEGY 841"
+          ]
+        }
       ]
     },
     {
@@ -232,12 +761,55 @@
       "slots": 1,
       "source": "Marketing Concentration.pdf",
       "minCourses": 6,
-      "notes": ["MARKETNG 796 Market Research is described in the narrative as a required course for the concentration, but it is listed inside the choose-4 elective list. Treated here as one of the four. Confirm with advising."],
+      "notes": [
+        "MARKETNG 796 Market Research is described in the narrative as a required course for the concentration, but it is listed inside the choose-4 elective list. Treated here as one of the four. Confirm with advising."
+      ],
       "groups": [
-        {"id": "marketing-electives", "label": "Marketing Electives", "type": "courses", "min": 4,
-         "courses": ["MARKETNG 796", "MARKETNG 797", "MARKETNG 799", "MARKETNG 802", "MARKETNG 807", "MARKETNG 808", "MARKETNG 809", "MARKETNG 898"]},
-        {"id": "non-marketing", "label": "Non-Marketing Electives", "type": "courses", "min": 2,
-         "courses": ["ACCOUNTG 591", "ACCOUNTG 592", "ACCOUNTG 598", "DECISION 611", "DECISION 614", "DECISION 618", "FINANCE 646", "FINANCE 658", "FINANCE 660", "HLTHMGMT 715", "MANAGEMT 745", "MANAGEMT 746", "MANAGEMT 747", "MANAGEMT 754", "MGRECON 788", "OPERATNS 823", "OPERATNS 824", "OPERATNS 828", "STRATEGY 842", "STRATEGY 853", "STRATEGY 895"]}
+        {
+          "id": "marketing-electives",
+          "label": "Marketing Electives",
+          "type": "courses",
+          "min": 4,
+          "courses": [
+            "MARKETNG 796",
+            "MARKETNG 797",
+            "MARKETNG 799",
+            "MARKETNG 802",
+            "MARKETNG 807",
+            "MARKETNG 808",
+            "MARKETNG 809",
+            "MARKETNG 898"
+          ]
+        },
+        {
+          "id": "non-marketing",
+          "label": "Non-Marketing Electives",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "ACCOUNTG 591",
+            "ACCOUNTG 592",
+            "ACCOUNTG 598",
+            "DECISION 611",
+            "DECISION 614",
+            "DECISION 618",
+            "FINANCE 646",
+            "FINANCE 658",
+            "FINANCE 660",
+            "HLTHMGMT 715",
+            "MANAGEMT 745",
+            "MANAGEMT 746",
+            "MANAGEMT 747",
+            "MANAGEMT 754",
+            "MGRECON 788",
+            "OPERATNS 823",
+            "OPERATNS 824",
+            "OPERATNS 828",
+            "STRATEGY 842",
+            "STRATEGY 853",
+            "STRATEGY 895"
+          ]
+        }
       ]
     },
     {
@@ -247,14 +819,55 @@
       "slots": 1,
       "source": "Operations Management Concentration.pdf",
       "minCredits": 18,
-      "notes": ["SOCENT 895 practicum counts as one course (3 credits) toward the requirement even though it is a 6-credit course."],
+      "notes": [
+        "SOCENT 895 practicum counts as one course (3 credits) toward the requirement even though it is a 6-credit course."
+      ],
       "groups": [
-        {"id": "operations", "label": "Operations Electives", "type": "credits", "min": 4.5,
-         "courses": ["OPERATNS 823", "OPERATNS 828", "OPERATNS 894::sustainable-ops"]},
-        {"id": "methods", "label": "Methods and Applications Electives", "type": "credits", "min": 7.5,
-         "courses": ["DECISION 611", "DECISION 614", "DECISION 618", "DECISION 894::modern-ai", "DECISION 894::tech-analytics", "HLTHMGMT 714", "MARKETNG 808", "MGRECON 788", "SOCENT 895"]},
-        {"id": "breadth", "label": "Breadth Electives", "type": "credits", "min": 6,
-         "courses": ["ACCOUNTG 591", "MANAGEMT 738", "MANAGEMT 748", "MARKETNG 799", "MARKETNG 802", "MARKETNG 807", "MGRECON 784", "STRATEGY 838", "STRATEGY 842"]}
+        {
+          "id": "operations",
+          "label": "Operations Electives",
+          "type": "credits",
+          "min": 4.5,
+          "courses": [
+            "OPERATNS 823",
+            "OPERATNS 828",
+            "OPERATNS 894::sustainable-ops"
+          ]
+        },
+        {
+          "id": "methods",
+          "label": "Methods and Applications Electives",
+          "type": "credits",
+          "min": 7.5,
+          "courses": [
+            "DECISION 611",
+            "DECISION 614",
+            "DECISION 618",
+            "DECISION 894::modern-ai",
+            "DECISION 894::tech-analytics",
+            "HLTHMGMT 714",
+            "MARKETNG 808",
+            "MGRECON 788",
+            "SOCENT 895"
+          ]
+        },
+        {
+          "id": "breadth",
+          "label": "Breadth Electives",
+          "type": "credits",
+          "min": 6,
+          "courses": [
+            "ACCOUNTG 591",
+            "MANAGEMT 738",
+            "MANAGEMT 748",
+            "MARKETNG 799",
+            "MARKETNG 802",
+            "MARKETNG 807",
+            "MGRECON 784",
+            "STRATEGY 838",
+            "STRATEGY 842"
+          ]
+        }
       ]
     },
     {
@@ -265,17 +878,85 @@
       "source": "Social Entrepreneurship Concentration.pdf",
       "minCourses": 6,
       "minCredits": 18,
-      "notes": ["Non-Fuqua courses beyond those listed may be considered by petition to CASE in advance.", "Mentored or independent study may fulfill some requirements with CASE approval."],
-      "groups": [
-        {"id": "required", "label": "Required Course", "type": "all",
-         "courses": ["MANAGEMT 750"]},
-        {"id": "core", "label": "Social Entrepreneurship Core", "type": "courses", "min": 2,
-         "courses": ["MANAGEMT 762", "MANAGEMT 898", "SOCENT 895"],
-         "constraints": [{"type": "maxPracticum", "n": 1, "note": "Only 1 of these can be a practicum course."}]},
-        {"id": "breadth", "label": "Fuqua and Non-Fuqua Electives", "type": "courses", "min": 2,
-         "courses": ["STRATEGY 627", "FINANCE 646", "FINANCE 651", "HLTHMGMT 712", "MANAGEMT 746", "MANAGEMT 747", "MANAGEMT 748", "MANAGEMT 749", "MANAGEMT 754", "MARKETNG 796", "MGMTCOM 570", "MGRECON 787", "STRATEGY 838", "STRATEGY 840", "STRATEGY 845", "STRATEGY 848", "STRATEGY 849", "STRATEGY 850", "STRATEGY 851", "STRATEGY 852", "LAW 541", "PUBPOL 559S", "PUBPOL 544S", "ENVIRON 520", "LAW 235", "PUBPOL 721S", "GLHLTH 671", "GLHLTH 701", "GLHLTH 750", "PUBPOL 642S", "PUBPOL 723", "PUBPOL 726"]}
+      "notes": [
+        "Non-Fuqua courses beyond those listed may be considered by petition to CASE in advance.",
+        "Mentored or independent study may fulfill some requirements with CASE approval."
       ],
-      "constraints": [{"type": "maxNonFuquaCredits", "n": 6, "note": "In total, only 6 credits of non-Fuqua courses may count toward the concentration."}]
+      "groups": [
+        {
+          "id": "required",
+          "label": "Required Course",
+          "type": "all",
+          "courses": [
+            "MANAGEMT 750"
+          ]
+        },
+        {
+          "id": "core",
+          "label": "Social Entrepreneurship Core",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "MANAGEMT 762",
+            "MANAGEMT 898",
+            "SOCENT 895"
+          ],
+          "constraints": [
+            {
+              "type": "maxPracticum",
+              "n": 1,
+              "note": "Only 1 of these can be a practicum course."
+            }
+          ]
+        },
+        {
+          "id": "breadth",
+          "label": "Fuqua and Non-Fuqua Electives",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "STRATEGY 627",
+            "FINANCE 646",
+            "FINANCE 651",
+            "HLTHMGMT 712",
+            "MANAGEMT 746",
+            "MANAGEMT 747",
+            "MANAGEMT 748",
+            "MANAGEMT 749",
+            "MANAGEMT 754",
+            "MARKETNG 796",
+            "MGMTCOM 570",
+            "MGRECON 787",
+            "STRATEGY 838",
+            "STRATEGY 840",
+            "STRATEGY 845",
+            "STRATEGY 848",
+            "STRATEGY 849",
+            "STRATEGY 850",
+            "STRATEGY 851",
+            "STRATEGY 852",
+            "LAW 541",
+            "PUBPOL 559S",
+            "PUBPOL 544S",
+            "ENVIRON 520",
+            "LAW 235",
+            "PUBPOL 721S",
+            "GLHLTH 671",
+            "GLHLTH 701",
+            "GLHLTH 750",
+            "PUBPOL 642S",
+            "PUBPOL 723",
+            "PUBPOL 726"
+          ]
+        }
+      ],
+      "constraints": [
+        {
+          "type": "maxNonFuquaCredits",
+          "n": 6,
+          "note": "In total, only 6 credits of non-Fuqua courses may count toward the concentration."
+        }
+      ]
     },
     {
       "id": "strategy",
@@ -285,13 +966,70 @@
       "source": "Strategy Concentration.pdf",
       "minCourses": 6,
       "groups": [
-        {"id": "advanced-strategy", "label": "Advanced Strategy Courses", "type": "courses", "min": 2,
-         "courses": ["MGRECON 788", "MGRECON 784", "STRATEGY 837", "STRATEGY 838", "STRATEGY 839", "STRATEGY 840", "STRATEGY 841", "STRATEGY 842", "STRATEGY 853"]},
-        {"id": "analytic", "label": "Advanced Analytic Skills", "type": "courses", "min": 2,
-         "courses": ["ACCOUNTG 591", "ACCOUNTG 597", "DECISION 611", "DECISION 614", "FINANCE 646"]},
-        {"id": "additional", "label": "Additional Strategy-Oriented Courses", "type": "courses", "min": 2,
-         "courses": ["ACCOUNTG 598", "ENRGYENV 626", "FINANCE 651", "FINANCE 654", "FINANCE 658", "FINANCE 661", "HLTHMGMT 711", "HLTHMGMT 712", "HLTHMGMT 714", "HLTHMGMT 716", "HLTHMGMT 717", "MANAGEMT 738", "MANAGEMT 743", "MANAGEMT 748", "MARKETNG 796", "MARKETNG 799", "MARKETNG 802", "MARKETNG 807", "MARKETNG 808", "MGRECON 781", "OPERATNS 823", "OPERATNS 824", "OPERATNS 827", "OPERATNS 828", "STRATEGY 895"],
-         "includesGroup": "advanced-strategy"}
+        {
+          "id": "advanced-strategy",
+          "label": "Advanced Strategy Courses",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "MGRECON 788",
+            "MGRECON 784",
+            "STRATEGY 837",
+            "STRATEGY 838",
+            "STRATEGY 839",
+            "STRATEGY 840",
+            "STRATEGY 841",
+            "STRATEGY 842",
+            "STRATEGY 853"
+          ]
+        },
+        {
+          "id": "analytic",
+          "label": "Advanced Analytic Skills",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "ACCOUNTG 591",
+            "ACCOUNTG 597",
+            "DECISION 611",
+            "DECISION 614",
+            "FINANCE 646"
+          ]
+        },
+        {
+          "id": "additional",
+          "label": "Additional Strategy-Oriented Courses",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "ACCOUNTG 598",
+            "ENRGYENV 626",
+            "FINANCE 651",
+            "FINANCE 654",
+            "FINANCE 658",
+            "FINANCE 661",
+            "HLTHMGMT 711",
+            "HLTHMGMT 712",
+            "HLTHMGMT 714",
+            "HLTHMGMT 716",
+            "HLTHMGMT 717",
+            "MANAGEMT 738",
+            "MANAGEMT 743",
+            "MANAGEMT 748",
+            "MARKETNG 796",
+            "MARKETNG 799",
+            "MARKETNG 802",
+            "MARKETNG 807",
+            "MARKETNG 808",
+            "MGRECON 781",
+            "OPERATNS 823",
+            "OPERATNS 824",
+            "OPERATNS 827",
+            "OPERATNS 828",
+            "STRATEGY 895"
+          ],
+          "includesGroup": "advanced-strategy"
+        }
       ]
     },
     {
@@ -302,20 +1040,77 @@
       "slots": 1,
       "source": "Finance Certificate.pdf",
       "minCourses": 10,
-      "gpa": {"min": 3.75, "note": "GPA is computed over the 10 qualifying courses, using the highest qualifying grades if more are taken."},
-      "intermediate": {"label": "Qualifying for the certificate", "minFinanceElectives": 3, "minNonFinanceElectives": 1,
-        "note": "May be noted on a resume after at least 3 finance electives and 1 non-finance elective, while maintaining a qualifying GPA."},
+      "gpa": {
+        "min": 3.75,
+        "note": "GPA is computed over the 10 qualifying courses, using the highest qualifying grades if more are taken."
+      },
+      "intermediate": {
+        "label": "Qualifying for the certificate",
+        "minFinanceElectives": 3,
+        "minNonFinanceElectives": 1,
+        "note": "May be noted on a resume after at least 3 finance electives and 1 non-finance elective, while maintaining a qualifying GPA."
+      },
       "groups": [
-        {"id": "required", "label": "Required Courses", "type": "all",
-         "courses": ["FINANCE 646", "FINANCE 647"]},
-        {"id": "accounting", "label": "Accounting Electives", "type": "courses", "min": 2,
-         "courses": ["ACCOUNTG 592", "ACCOUNTG 597", "ACCOUNTG 598"]},
-        {"id": "quant", "label": "Quantitative Electives", "type": "courses", "min": 2,
-         "courses": ["MGRECON 781", "DECISION 611", "DECISION 614", "DECISION 618", "FUQINTRD 697"]},
-        {"id": "corporate", "label": "Corporate Electives", "type": "courses", "min": 2,
-         "courses": ["FINANCE 651", "FINANCE 654", "FINANCE 658", "FINANCE 660", "FINANCE 661", "FINANCE 652", "FINANCE 898"]},
-        {"id": "investment", "label": "Investment Electives", "type": "courses", "min": 2,
-         "courses": ["FINANCE 648", "FINANCE 653", "FINANCE 656", "FINANCE 663"]}
+        {
+          "id": "required",
+          "label": "Required Courses",
+          "type": "all",
+          "courses": [
+            "FINANCE 646",
+            "FINANCE 647"
+          ]
+        },
+        {
+          "id": "accounting",
+          "label": "Accounting Electives",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "ACCOUNTG 592",
+            "ACCOUNTG 597",
+            "ACCOUNTG 598"
+          ]
+        },
+        {
+          "id": "quant",
+          "label": "Quantitative Electives",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "MGRECON 781",
+            "DECISION 611",
+            "DECISION 614",
+            "DECISION 618",
+            "FUQINTRD 697"
+          ]
+        },
+        {
+          "id": "corporate",
+          "label": "Corporate Electives",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "FINANCE 651",
+            "FINANCE 654",
+            "FINANCE 658",
+            "FINANCE 660",
+            "FINANCE 661",
+            "FINANCE 652",
+            "FINANCE 898"
+          ]
+        },
+        {
+          "id": "investment",
+          "label": "Investment Electives",
+          "type": "courses",
+          "min": 2,
+          "courses": [
+            "FINANCE 648",
+            "FINANCE 653",
+            "FINANCE 656",
+            "FINANCE 663"
+          ]
+        }
       ]
     },
     {
@@ -325,16 +1120,89 @@
       "kind": "certificate",
       "slots": 1,
       "source": "Health Sector Management Certificate.pdf",
-      "notes": ["Requires completion of all Fuqua Daytime MBA core course requirements.", "Enrollment requires sending a resume and statement of interest to the HSM office."],
+      "notes": [
+        "Requires completion of all Fuqua Daytime MBA core course requirements.",
+        "Enrollment requires sending a resume and statement of interest to the HSM office."
+      ],
       "groups": [
-        {"id": "required", "label": "Required Courses", "type": "all",
-         "courses": ["HLTHMGMT 710", "HLTHMGMT 705", "HLTHMGMT 706"]},
-        {"id": "electives", "label": "HSM Electives", "type": "courses", "min": 4,
-         "courses": ["HLTHMGMT 711", "HLTHMGMT 712", "HLTHMGMT 714", "HLTHMGMT 717", "HLTHMGMT 715", "HLTHMGMT 716", "HLTHMGMT 895", "HLTHMGMT 896", "HLTHMGMT 898::new-ventures", "HLTHMGMT 898::design-1", "HLTHMGMT 898::design-2", "HLTHMGMT 898::design-3", "HLTHMGMT 898::health-law", "ACCOUNTG 591", "DECISION 611", "DECISION 614", "FINANCE 646", "FINANCE 651", "FUQINTRD 693", "MANAGEMT 738", "MANAGEMT 745", "MANAGEMT 746", "MANAGEMT 748", "MANAGEMT 754", "MARKETNG 796", "MARKETNG 802", "MARKETNG 808", "MGRECON 784", "OPERATNS 824", "STRATEGY 838", "STRATEGY 840", "STRATEGY 842", "STRATEGY 848", "STRATEGY 849", "STRATEGY 850", "STRATEGY 851", "STRATEGY 852", "GLHLTH 755", "I&E 720", "LAW 347", "LAW 527"],
-         "constraints": [
-           {"type": "minFromSubset", "subset": ["HLTHMGMT 711", "HLTHMGMT 712", "HLTHMGMT 714", "HLTHMGMT 717"], "n": 1, "label": "Industry Context Elective"},
-           {"type": "minFromArea", "area": "HLTHMGMT", "n": 2, "note": "At least one Industry Context Elective plus at least one additional HLTHMGMT course."}
-         ]}
+        {
+          "id": "required",
+          "label": "Required Courses",
+          "type": "all",
+          "courses": [
+            "HLTHMGMT 710",
+            "HLTHMGMT 705",
+            "HLTHMGMT 706"
+          ]
+        },
+        {
+          "id": "electives",
+          "label": "HSM Electives",
+          "type": "courses",
+          "min": 4,
+          "courses": [
+            "HLTHMGMT 711",
+            "HLTHMGMT 712",
+            "HLTHMGMT 714",
+            "HLTHMGMT 717",
+            "HLTHMGMT 715",
+            "HLTHMGMT 716",
+            "HLTHMGMT 895",
+            "HLTHMGMT 896",
+            "HLTHMGMT 898::new-ventures",
+            "HLTHMGMT 898::design-1",
+            "HLTHMGMT 898::design-2",
+            "HLTHMGMT 898::design-3",
+            "HLTHMGMT 898::health-law",
+            "ACCOUNTG 591",
+            "DECISION 611",
+            "DECISION 614",
+            "FINANCE 646",
+            "FINANCE 651",
+            "FUQINTRD 693",
+            "MANAGEMT 738",
+            "MANAGEMT 745",
+            "MANAGEMT 746",
+            "MANAGEMT 748",
+            "MANAGEMT 754",
+            "MARKETNG 796",
+            "MARKETNG 802",
+            "MARKETNG 808",
+            "MGRECON 784",
+            "OPERATNS 824",
+            "STRATEGY 838",
+            "STRATEGY 840",
+            "STRATEGY 842",
+            "STRATEGY 848",
+            "STRATEGY 849",
+            "STRATEGY 850",
+            "STRATEGY 851",
+            "STRATEGY 852",
+            "GLHLTH 755",
+            "I&E 720",
+            "LAW 347",
+            "LAW 527"
+          ],
+          "constraints": [
+            {
+              "type": "minFromSubset",
+              "subset": [
+                "HLTHMGMT 711",
+                "HLTHMGMT 712",
+                "HLTHMGMT 714",
+                "HLTHMGMT 717"
+              ],
+              "n": 1,
+              "label": "Industry Context Elective"
+            },
+            {
+              "type": "minFromArea",
+              "area": "HLTHMGMT",
+              "n": 2,
+              "note": "At least one Industry Context Elective plus at least one additional HLTHMGMT course."
+            }
+          ]
+        }
       ]
     }
   ]
