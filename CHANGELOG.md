@@ -8,6 +8,12 @@ Categories: Added, Changed, Fixed, Removed. Newest at the top. Entries describe 
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [0.1.0] - 2026-08-28
+
+First working version. Governance, catalog, rule engine, recommender, and interface. Tagged `v0.1.0`.
+
 ### Added
 
 - 2026-08-28: The 14 Daytime MBA core courses, assembled from Fuqua's exemption, curriculum and program format pages and the Duke bulletin, and confirmed by Pat. Pasted transcripts now parse core courses instead of reporting them as unrecognized. Core courses count toward no concentration and carry no credits by design. The HSM certificate's "complete the core" requirement is now checked.

@@ -2,7 +2,7 @@
 
 Purpose: master index of the governing files for **Fuqua ConCert**. Re-read this file at the start of every work session.
 
-Last updated: 2026-08-27
+Last updated: 2026-08-28
 
 ## The standing rule
 
@@ -40,6 +40,34 @@ Project: **Fuqua ConCert**, a course planner for the Duke Fuqua full-time MBA. R
 ## Open questions
 
 Tracked in DECISIONS.md. Anything marked `proposed` is unresolved and blocks code that depends on it. As of 2026-08-27 there are none: ADR-0001 through ADR-0020 are all accepted or superseded.
+
+## Where the project stands
+
+Last save point: **v0.1.0**, tagged 2026-08-28. Everything below is built, tested, and committed.
+
+- 18 pathways and 163 courses in `data/catalog/`, verified against the 16 source documents. 14 of those courses are the Daytime MBA core (ADR-0029).
+- Rule engine with within-pathway allocation, group and pathway constraints, the two-specialty cap, Finance Certificate GPA and intermediate qualification, and the HSM core requirement.
+- Recommender: shortest route to each pathway, and a ranking of all 18.
+- Interface: eight-quarter planner, paste-with-confirmation entry, SVG skill map, per-pathway detail. Duke palette, vendored Duke fonts.
+- 43 rule tests, 6 extraction tests, and `npm run verify` clean.
+
+Checks to run before believing any of that again:
+
+```
+npm test                 # rule engine
+npm run test:extraction  # parser golden files
+npm run verify           # catalog against the source documents
+npm run serve            # then open http://localhost:8080
+```
+
+Open questions, in the order they matter:
+
+1. One first-year core course may be missing. Fuqua's two pages disagree on whether the count is 13 or 14 first-year. Leading candidate is FUQINTRD 692, Leading Business in a Complex World. See the `openQuestion` field in `data/catalog/core.json` and ADR-0029.
+2. Fuqua's program format page claims 17 concentrations; 16 are named on the concentrations page and 16 documents exist.
+3. The Marketing concentration's narrative calls MARKETNG 796 required while listing it inside the choose-four elective set. Treated as one of the four.
+4. Prerequisites and course offering years are mentioned throughout the sources and listed reliably in none of them, so the planner cannot warn that a course is not offered in the quarter you placed it.
+
+Stages 2 to 4 of ADR-0013 that remain unbuilt: grades beyond the Finance Certificate, MEM and dual-degree coursework, and user-added substitutions.
 
 ## Reading order for a new session
 
