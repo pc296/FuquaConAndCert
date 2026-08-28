@@ -8,6 +8,12 @@ Categories: Added, Changed, Fixed, Removed. Newest at the top. Entries describe 
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [0.3.0] - 2026-08-28
+
+Readable plan chips, institutional design language, transcript PDF import. Tagged `v0.3.0`.
+
 ### Added
 
 - 2026-08-28: Transcript PDF import. Upload the PDF and its text layer is read in the browser and routed through the existing confirmation screen. pdf.js is vendored and loaded only when a PDF is actually selected, so its 1.7 MB never lands on an ordinary page load. Scanned PDFs are refused with an explanation rather than returning an empty result. ADR-0033.

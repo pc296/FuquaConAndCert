@@ -43,13 +43,13 @@ Tracked in DECISIONS.md. Anything marked `proposed` is unresolved and blocks cod
 
 ## Where the project stands
 
-Last save point: **v0.2.0**, tagged 2026-08-28. Everything below is built, tested, and committed.
+Last save point: **v0.3.0**, tagged 2026-08-28. Everything below is built, tested, and committed.
 
 - 18 pathways and 164 courses in `data/catalog/`, verified against the 16 source documents. 15 of those courses are the Daytime MBA core (ADR-0029; FUQINTRD 692 confirmed by Pat).
 - Rule engine with within-pathway allocation, group and pathway constraints, the two-specialty cap, Finance Certificate GPA and intermediate qualification, and the HSM core requirement.
 - Recommender: shortest route to each pathway, and a ranking of all 18.
 - Interface: semester-aware planner with a Pre-Fuqua Dual Degree bucket (ADR-0030), paste-with-confirmation entry, SVG Pathway Map, per-pathway detail with expandable option lists, step alternatives on the shortest-way list, a print-styled progress report (ADR-0031), and transcript PDF import (ADR-0033). Institutional design language throughout (ADR-0032).
-- 56 tests (50 rules, 6 UI integrity), 6 extraction tests, and `npm run verify` clean.
+- 57 tests (50 rules, 7 UI integrity), 6 extraction tests, and `npm run verify` clean.
 
 Checks to run before believing any of that again:
 
@@ -64,7 +64,8 @@ Open questions, in the order they matter:
 
 1. Fuqua's program format page claims 17 concentrations; 16 are named on the concentrations page and 16 documents exist.
 2. The Marketing concentration's narrative calls MARKETNG 796 required while listing it inside the choose-four elective set. Treated as one of the four.
-3. Prerequisites and course offering years are mentioned throughout the sources and listed reliably in none of them, so the planner cannot warn that a course is not offered in the quarter you placed it.
+3. Prerequisites and course offering years are mentioned throughout the sources and listed reliably in none of them, so the planner cannot warn that a course is not offered in the term you placed it.
+4. Scanned transcript PDFs cannot be read, by design. OCR stays out of scope because a misread course code looks correct (ADR-0033).
 
 Stages 2 to 4 of ADR-0013 that remain unbuilt: grades beyond the Finance Certificate, MEM and dual-degree coursework, and user-added substitutions.
 
