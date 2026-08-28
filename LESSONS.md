@@ -111,3 +111,13 @@ Second takeaway: every field in a data file should have a consumer or a comment 
 **Why.** Constraints were modelled as satisfied or not, which is all an evaluator needs. A search needs a gradient. The two consumers wanted different shapes from the same data and only one of them was considered when the shape was chosen.
 
 **Takeaway.** Any rule a search has to satisfy needs partial credit, not just a verdict. Constraint results now carry a `progress` value from 0 to 1 alongside `satisfied`, defaulting to the binary value, and both the recommender and the progress percentage read it. When adding a constraint type, ask what a partially-complete version of it looks like; if the answer is "there isn't one", say so deliberately rather than by omission.
+
+---
+
+## 2026-08-28: Numerically equal assignments can still be wrong to show
+
+**What happened.** With only FINANCE 646 and 647 planned, the Energy Finance detail showed 647 counting as an elective through the overflow clause while the core group it belongs to sat half-filled. The allocator was maximizing total demand filled, and both assignments fill the same amount, so it reported whichever it found first. Completion semantics were unaffected; the display was misleading.
+
+**Why.** The allocator's objective captured how much was satisfied but not which reading of the sources an assignment implies. Overflow is a fallback clause in the documents, and trying it on equal footing with direct eligibility produced answers that were arithmetically right and semantically backwards.
+
+**Takeaway.** When a solver has ties, the tie-break is a product decision, not a free choice. Direct eligibility now ranks ahead of overflow, and a test pins the two-course case. When output of a search is shown to users, check what it looks like in partial states, not only whether the terminal states are correct.

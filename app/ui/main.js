@@ -7,11 +7,12 @@ import { buildCatalog, evaluateAll, checkCombination, recommend, rankPathways, S
 import * as store from '../storage/plan.js';
 import { parsePaste } from './parse-paste.js';
 import { renderMap } from './map.js';
+import {
+  PRE_FUQUA, PRE_FUQUA_LABEL, SEMESTERS, TERM_LABELS,
+  placementOptions, normalizeQuarter, spansSemester, placementLabel,
+} from './placement.js';
+import { buildReportHtml } from './report.js';
 
-const QUARTERS = [
-  'Year 1 · Fall 1', 'Year 1 · Fall 2', 'Year 1 · Spring 1', 'Year 1 · Spring 2',
-  'Year 2 · Fall 1', 'Year 2 · Fall 2', 'Year 2 · Spring 1', 'Year 2 · Spring 2',
-];
 const GRADES = [
   ['', 'no grade'], ['4', 'A'], ['3.7', 'A-'], ['3.3', 'B+'], ['3', 'B'],
   ['2.7', 'B-'], ['2.3', 'C+'], ['2', 'C'],
@@ -54,12 +55,13 @@ async function fetchJson(path) {
 
 function buildQuarterSelect() {
   const select = $('quarter-select');
-  QUARTERS.forEach((label, i) => {
-    const option = document.createElement('option');
-    option.value = String(i + 1);
-    option.textContent = label.replace('Year ', 'Y').replace(' · ', ' ');
-    select.appendChild(option);
-  });
+  for (const option of placementOptions(true)) {
+    const el = document.createElement('option');
+    el.value = String(option.value);
+    el.textContent = option.value === PRE_FUQUA ? 'Pre-Fuqua' : option.label;
+    if (option.value === 1) el.selected = true;
+    select.appendChild(el);
+  }
 }
 
 function buildCourseList() {
@@ -77,6 +79,7 @@ function bindControls() {
   $('course-search').addEventListener('keydown', (e) => { if (e.key === 'Enter') addFromSearch(); });
   $('paste-btn').addEventListener('click', showConfirm);
   $('export-btn').addEventListener('click', exportPlan);
+  $('report-btn').addEventListener('click', openReport);
   $('import-btn').addEventListener('click', () => $('import-file').click());
   $('import-file').addEventListener('change', importPlan);
   $('closest-btn').addEventListener('click', () => {
@@ -114,8 +117,11 @@ function addFromSearch() {
   const code = option?.dataset.id ?? value.split('—')[0].trim();
   const course = catalog.courses.get(code) ?? catalog.courseList.find((c) => c.code === code);
   if (!course) { setStatus(`No course matches "${value}".`); return; }
-  if (addCourse(course.id, Number($('quarter-select').value))) {
-    setStatus(`Added ${course.code}.`);
+  const placed = normalizeQuarter(course.isFuqua, $('quarter-select').value);
+  if (addCourse(course.id, placed)) {
+    setStatus(course.isFuqua || placed === PRE_FUQUA
+      ? `Added ${course.code}.`
+      : `Added ${course.code} as a semester course (${placementLabel(false, placed)}).`);
     input.value = '';
     persist();
   }
@@ -193,6 +199,20 @@ function exportPlan() {
   URL.revokeObjectURL(link.href);
 }
 
+/** Print-styled report in a new window; the print dialog turns it into a PDF. */
+function openReport() {
+  const results = evaluateAll(catalog, plan.entries);
+  results.sort((a, b) => b.percent - a.percent || a.name.localeCompare(b.name));
+  const html = buildReportHtml(catalog, plan, results, checkCombination(plan.declared, catalog));
+  const win = window.open('', '_blank');
+  if (!win) {
+    setStatus('The report window was blocked. Allow pop-ups for this site and try again.');
+    return;
+  }
+  win.document.write(html);
+  win.document.close();
+}
+
 async function importPlan(event) {
   const file = event.target.files?.[0];
   if (!file) return;
@@ -235,35 +255,82 @@ function renderQuarters() {
     ? `Core curriculum: all ${catalog.coreCourses.length} recorded.`
     : `Core curriculum: ${haveCore} of ${catalog.coreCourses.length} recorded. Core courses count toward no concentration; only the HSM certificate requires them.`;
   host.appendChild(core);
-  QUARTERS.forEach((label, index) => {
-    const quarter = index + 1;
+
+  const isFuquaEntry = (entry) => catalog.courses.get(entry.courseId)?.isFuqua !== false;
+  const creditsOf = (entries) =>
+    entries.reduce((sum, e) => sum + (catalog.courses.get(e.courseId)?.credits ?? 0), 0);
+
+  // Pre-Fuqua bucket first: dual-degree coursework taken before Fuqua. Placement is
+  // display metadata only, so these count toward pathways like any course (ADR-0030).
+  const pre = plan.entries.filter((e) => e.quarter === PRE_FUQUA);
+  const preSection = document.createElement('div');
+  preSection.className = 'quarter prefuqua';
+  const preHeading = document.createElement('h3');
+  const preCredits = creditsOf(pre);
+  preHeading.textContent = preCredits > 0
+    ? `${PRE_FUQUA_LABEL} — ${preCredits} credits`
+    : PRE_FUQUA_LABEL;
+  preSection.appendChild(preHeading);
+  if (pre.length === 0) {
+    preSection.insertAdjacentHTML('beforeend', '<p class="empty-quarter">nothing recorded</p>');
+  }
+  for (const entry of pre) preSection.appendChild(renderChip(entry));
+  host.appendChild(preSection);
+
+  for (const semester of SEMESTERS) {
     const section = document.createElement('div');
-    section.className = 'quarter';
+    section.className = 'semester-block';
+    const semesterLong = plan.entries.filter(
+      (e) => e.quarter === semester.start && !isFuquaEntry(e),
+    );
+    const termEntries = semester.quarters.map((q) =>
+      plan.entries.filter((e) => e.quarter === q && isFuquaEntry(e)),
+    );
+    const total = creditsOf(semesterLong) + creditsOf(termEntries.flat());
+
     const heading = document.createElement('h3');
-    const entries = plan.entries.filter((e) => e.quarter === quarter);
-    const credits = entries.reduce((s, e) => s + (catalog.courses.get(e.courseId)?.credits ?? 0), 0);
-    const coreCount = entries.filter((e) => catalog.courses.get(e.courseId)?.isCore).length;
-    const bits = [];
-    if (credits > 0) bits.push(`${credits} credits`);
-    if (coreCount > 0) bits.push(`${coreCount} core`);
-    heading.textContent = bits.length ? `${label} — ${bits.join(', ')}` : label;
+    heading.className = 'semester-heading';
+    heading.textContent = total > 0 ? `${semester.label} — ${total} credits` : semester.label;
     section.appendChild(heading);
 
-    if (entries.length === 0) {
-      const empty = document.createElement('p');
-      empty.className = 'empty-quarter';
-      empty.textContent = 'nothing planned';
-      section.appendChild(empty);
+    if (semesterLong.length > 0) {
+      const band = document.createElement('div');
+      band.className = 'semester-band';
+      band.insertAdjacentHTML('beforeend',
+        '<h4>Semester courses <span class="muted">span both terms</span></h4>');
+      for (const entry of semesterLong) band.appendChild(renderChip(entry));
+      section.appendChild(band);
     }
-    for (const entry of entries) section.appendChild(renderChip(entry));
+
+    semester.quarters.forEach((quarter, i) => {
+      const sub = document.createElement('div');
+      sub.className = 'quarter';
+      const entries = termEntries[i];
+      const heading3 = document.createElement('h3');
+      const credits = creditsOf(entries);
+      const coreCount = entries.filter((e) => catalog.courses.get(e.courseId)?.isCore).length;
+      const bits = [];
+      if (credits > 0) bits.push(`${credits} credits`);
+      if (coreCount > 0) bits.push(`${coreCount} core`);
+      heading3.textContent = bits.length
+        ? `${TERM_LABELS[quarter]} — ${bits.join(', ')}`
+        : TERM_LABELS[quarter];
+      sub.appendChild(heading3);
+      if (entries.length === 0 && semesterLong.length === 0) {
+        sub.insertAdjacentHTML('beforeend', '<p class="empty-quarter">nothing planned</p>');
+      }
+      for (const entry of entries) sub.appendChild(renderChip(entry));
+      section.appendChild(sub);
+    });
     host.appendChild(section);
-  });
+  }
 }
 
 function renderChip(entry) {
   const course = catalog.courses.get(entry.courseId);
+  const isFuqua = course?.isFuqua !== false;
   const chip = document.createElement('div');
-  chip.className = course?.isCore ? 'chip core' : 'chip';
+  chip.className = course?.isCore ? 'chip core' : isFuqua ? 'chip' : 'chip semester';
 
   const code = document.createElement('span');
   code.className = 'code';
@@ -272,25 +339,29 @@ function renderChip(entry) {
   title.className = 'title grow';
   title.textContent = course?.title ?? 'unknown course';
   title.title = course?.title ?? '';
+  chip.append(code, title);
   if (course?.isCore) {
     const tag = document.createElement('span');
     tag.className = 'coretag';
     tag.textContent = 'CORE';
     tag.title = 'Core courses do not count toward any concentration or certificate.';
-    chip.dataset.core = 'true';
     chip.append(tag);
   }
 
-  const quarter = document.createElement('select');
-  quarter.setAttribute('aria-label', 'Quarter');
-  QUARTERS.forEach((label, i) => {
-    const option = document.createElement('option');
-    option.value = String(i + 1);
-    option.textContent = `Q${i + 1}`;
-    option.selected = entry.quarter === i + 1;
-    quarter.appendChild(option);
+  const where = document.createElement('select');
+  where.setAttribute('aria-label', 'Placement');
+  for (const option of placementOptions(isFuqua)) {
+    const el = document.createElement('option');
+    el.value = String(option.value);
+    el.textContent = option.value === PRE_FUQUA ? 'Pre-Fuqua'
+      : isFuqua ? `Q${option.value}` : option.label.replace(' (both terms)', '');
+    el.selected = entry.quarter === option.value;
+    where.appendChild(el);
+  }
+  where.addEventListener('change', () => {
+    entry.quarter = normalizeQuarter(isFuqua, where.value);
+    persist();
   });
-  quarter.addEventListener('change', () => { entry.quarter = Number(quarter.value); persist(); });
 
   const grade = document.createElement('select');
   grade.setAttribute('aria-label', 'Grade');
@@ -316,7 +387,7 @@ function renderChip(entry) {
     persist();
   });
 
-  chip.append(code, title, quarter, grade, remove);
+  chip.append(where, grade, remove);
   return chip;
 }
 
@@ -443,6 +514,7 @@ function renderDetail(results) {
     for (const constraint of group.constraints ?? []) {
       box.appendChild(flag(`${constraint.note || constraint.type} — ${constraint.detail}`, constraint.satisfied));
     }
+    box.appendChild(renderGroupOptions(result.pathwayId, group));
     host.appendChild(box);
   }
 
@@ -479,11 +551,6 @@ function renderDetail(results) {
   }
 
   host.appendChild(renderNextUp(result));
-
-  const source = document.createElement('p');
-  source.className = 'muted';
-  source.textContent = `Source: ${result.source}`;
-  host.appendChild(source);
 }
 
 /** The shortest remaining route to a pathway, with one-click adds. */
@@ -527,7 +594,14 @@ function renderNextUp(result) {
 
     const label = document.createElement('span');
     label.className = 'grow';
+    const altCodes = (item.alternatives ?? [])
+      .map((id) => catalog.courses.get(id)?.code ?? id);
+    const shown = altCodes.slice(0, 4);
+    const more = altCodes.length - shown.length;
     label.innerHTML = `<strong>${item.course.code}</strong> ${escapeHtml(item.course.title)}` +
+      (shown.length
+        ? ` <span class="alt">or ${shown.map(escapeHtml).join(', ')}${more > 0 ? ` +${more} more` : ''}</span>`
+        : '') +
       (item.alsoCountsToward.length
         ? ` <span class="also">also counts toward ${item.alsoCountsToward.map(escapeHtml).join(', ')}</span>`
         : '');
@@ -547,6 +621,54 @@ function renderNextUp(result) {
   });
   box.appendChild(list);
   return box;
+}
+
+/**
+ * The full menu for one requirement group: every listed course with its status,
+ * so the shortest way is a suggestion rather than the only visible path.
+ */
+function renderGroupOptions(pathwayId, group) {
+  const pathwayRec = catalog.pathways.find((p) => p.id === pathwayId);
+  const groupRec = pathwayRec?.groups.find((g) => g.id === group.id);
+  const details = document.createElement('details');
+  details.className = 'options';
+  if (!groupRec) return details;
+
+  const inPlan = new Set(plan.entries.map((e) => e.courseId));
+  const counting = new Set(group.assigned);
+  const summary = document.createElement('summary');
+  summary.textContent = `All ${groupRec.courses.length} options`;
+  details.appendChild(summary);
+
+  const list = document.createElement('ul');
+  for (const courseId of groupRec.courses) {
+    const course = catalog.courses.get(courseId);
+    const li = document.createElement('li');
+    const status = counting.has(courseId) ? 'counting'
+      : inPlan.has(courseId) ? 'in plan'
+      : 'available';
+    li.className = `opt ${status.replace(' ', '-')}`;
+    const credits = course?.credits ? ` (${course.credits} cr)` : '';
+    li.innerHTML = `<span class="opt-status">${status}</span>` +
+      `<strong>${escapeHtml(course?.code ?? courseId)}</strong> ` +
+      `${escapeHtml(course?.title ?? '')}${credits}`;
+    if (status === 'available') {
+      const add = document.createElement('button');
+      add.className = 'ghost tiny';
+      add.textContent = 'Add';
+      add.addEventListener('click', () => {
+        const placed = normalizeQuarter(course?.isFuqua !== false, 1);
+        if (addCourse(courseId, placed)) {
+          setStatus(`Added ${course?.code ?? courseId}. Set its placement in the plan.`);
+          persist();
+        }
+      });
+      li.appendChild(add);
+    }
+    list.appendChild(li);
+  }
+  details.appendChild(list);
+  return details;
 }
 
 /** Every pathway ranked by how few courses it still needs. */

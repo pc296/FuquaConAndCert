@@ -43,13 +43,13 @@ Tracked in DECISIONS.md. Anything marked `proposed` is unresolved and blocks cod
 
 ## Where the project stands
 
-Last save point: **v0.1.0**, tagged 2026-08-28. Everything below is built, tested, and committed.
+Last save point: **v0.1.0**, tagged 2026-08-28; phase 2 committed on top of it. Everything below is built, tested, and committed.
 
-- 18 pathways and 163 courses in `data/catalog/`, verified against the 16 source documents. 14 of those courses are the Daytime MBA core (ADR-0029).
+- 18 pathways and 164 courses in `data/catalog/`, verified against the 16 source documents. 15 of those courses are the Daytime MBA core (ADR-0029; FUQINTRD 692 confirmed by Pat).
 - Rule engine with within-pathway allocation, group and pathway constraints, the two-specialty cap, Finance Certificate GPA and intermediate qualification, and the HSM core requirement.
 - Recommender: shortest route to each pathway, and a ranking of all 18.
-- Interface: eight-quarter planner, paste-with-confirmation entry, SVG skill map, per-pathway detail. Duke palette, vendored Duke fonts.
-- 43 rule tests, 6 extraction tests, and `npm run verify` clean.
+- Interface: semester-aware planner with a Pre-Fuqua Dual Degree bucket (ADR-0030), paste-with-confirmation entry, SVG skill map, per-pathway detail with expandable option lists, step alternatives on the shortest-way list, and a print-styled progress report (ADR-0031).
+- 50 rule tests, 6 extraction tests, and `npm run verify` clean.
 
 Checks to run before believing any of that again:
 
@@ -62,10 +62,9 @@ npm run serve            # then open http://localhost:8080
 
 Open questions, in the order they matter:
 
-1. One first-year core course may be missing. Fuqua's two pages disagree on whether the count is 13 or 14 first-year. Leading candidate is FUQINTRD 692, Leading Business in a Complex World. See the `openQuestion` field in `data/catalog/core.json` and ADR-0029.
-2. Fuqua's program format page claims 17 concentrations; 16 are named on the concentrations page and 16 documents exist.
-3. The Marketing concentration's narrative calls MARKETNG 796 required while listing it inside the choose-four elective set. Treated as one of the four.
-4. Prerequisites and course offering years are mentioned throughout the sources and listed reliably in none of them, so the planner cannot warn that a course is not offered in the quarter you placed it.
+1. Fuqua's program format page claims 17 concentrations; 16 are named on the concentrations page and 16 documents exist.
+2. The Marketing concentration's narrative calls MARKETNG 796 required while listing it inside the choose-four elective set. Treated as one of the four.
+3. Prerequisites and course offering years are mentioned throughout the sources and listed reliably in none of them, so the planner cannot warn that a course is not offered in the quarter you placed it.
 
 Stages 2 to 4 of ADR-0013 that remain unbuilt: grades beyond the Finance Certificate, MEM and dual-degree coursework, and user-added substitutions.
 

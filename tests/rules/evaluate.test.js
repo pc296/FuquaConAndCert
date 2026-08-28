@@ -189,7 +189,7 @@ test('hsm certificate: the core requirement blocks completion until the core is 
   ]);
   const coreRule = electivesOnly.constraints.find((c) => c.type === 'requiresCore');
   assert.equal(coreRule.satisfied, false);
-  assert.match(coreRule.detail, /0 of 14 core courses recorded/);
+  assert.match(coreRule.detail, /0 of 15 core courses recorded/);
   assert.equal(electivesOnly.status, STATUS.IN_PROGRESS);
 });
 
@@ -267,4 +267,11 @@ test('finance certificate: a failing GPA blocks the intermediate claim', () => {
 
 test('pathways without an intermediate state report null rather than a default', () => {
   assert.equal(evalOf('strategy', ['STRATEGY 837']).intermediate, null);
+});
+
+test('energy finance: two core courses fill the core group, not the overflow', () => {
+  const r = evalOf('energy-finance', ['FINANCE 646', 'FINANCE 647']);
+  assert.equal(group(r, 'finance-core').have, 2, 'both belong in the core group');
+  assert.equal(group(r, 'finance-electives').have, 0,
+    'overflow is a fallback, not the first choice');
 });

@@ -77,3 +77,34 @@ test('ranking puts the closest pathways first', () => {
   const corporate = ranked.find((r) => r.pathwayId === 'finance-corporate');
   assert.equal(corporate.remaining, 2, 'Finance (Corporate) should be 2 courses away');
 });
+
+test('each step lists the courses that fill the same slot equally well', () => {
+  const advice = recommend(pathway('management'), [], catalog);
+  const first = advice.courses[0];
+  // Greedy favors whatever satisfies a whole group, so the first pick completes one
+  // of the two choose-1 groups. Equivalents: decisions lists 8 courses and
+  // implementation lists 5, 13 in total, minus the pick itself = 12.
+  assert.equal(first.alternatives.length, 12, `got ${first.alternatives.join(', ')}`);
+  assert.ok(!first.alternatives.includes(first.courseId), 'the pick is not its own alternative');
+
+  // A step inside a choose-4-of-7 group offers the other courses of that group.
+  const organizing = advice.courses.find((c) => c.courseId.startsWith('MANAGEMT'));
+  assert.ok(organizing.alternatives.length >= 3,
+    `organizing step should have several equivalents, got ${organizing.alternatives.length}`);
+});
+
+test('alternatives are equivalent by the oracle, not just listed together', () => {
+  const advice = recommend(pathway('finance-corporate'), [], catalog);
+  for (const step of advice.courses) {
+    for (const alt of step.alternatives.slice(0, 2)) {
+      const before = step === advice.courses[0] ? [] :
+        advice.courses.slice(0, advice.courses.indexOf(step)).map((c) => ({ courseId: c.courseId }));
+      const withAlt = evaluatePathway(pathway('finance-corporate'),
+        [...before, { courseId: alt }], catalog);
+      const withPick = evaluatePathway(pathway('finance-corporate'),
+        [...before, { courseId: step.courseId }], catalog);
+      assert.equal(withAlt.percent, withPick.percent,
+        `${alt} should advance finance-corporate exactly as ${step.courseId} does`);
+    }
+  }
+});

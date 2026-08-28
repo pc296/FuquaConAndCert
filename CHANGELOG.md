@@ -8,7 +8,19 @@ Categories: Added, Changed, Fixed, Removed. Newest at the top. Entries describe 
 
 ## [Unreleased]
 
-Nothing yet.
+### Added
+
+- 2026-08-28: FUQINTRD 692, Leading Business in a Complex World, confirmed by Pat as the 15th core course, closing the 13-versus-14 count question: 15 total, 14 in first year.
+- 2026-08-28: Pre-Fuqua Dual Degree Coursework bucket. Catalog courses only; they count toward concentrations exactly like any other course. ADR-0030.
+- 2026-08-28: Non-Fuqua courses place by semester and render as a band spanning both Fuqua terms, snapped automatically from any term choice. ADR-0030.
+- 2026-08-28: Every requirement group expands to its full option list with counting / in plan / available status and one-click adds; every shortest-way step lists the courses that fill the same slot equally well, verified equivalent by the evaluator itself.
+- 2026-08-28: Printable progress report from the Report button, via a print-styled window; the JSON export is renamed Backup. ADR-0031.
+
+### Changed
+
+- 2026-08-28: Aesthetic pass. Base text to 16px, wordmark enlarged 25 percent, Duke-royal underlined section headers, larger map labels with a glow on completed nodes, hover and keyboard-focus states, and stronger detail-panel hierarchy.
+- 2026-08-28: Source identifiers removed from the pathway detail panels, per Pat. The masthead notice and retrieval date remain.
+- 2026-08-28: The allocator prefers direct group eligibility over overflow on ties, so partial states read the way the source documents do.
 
 ## [0.1.0] - 2026-08-28
 

@@ -43,8 +43,11 @@ export function recommend(pathway, plan, catalog, options = {}) {
   const picked = [];
   for (let step = 0; step < maxSteps; step += 1) {
     const candidates = candidateIds(pathway, current, catalog);
-    let best = null;
 
+    // Score every useful candidate, then pick. Keeping the whole scored list is
+    // what makes alternatives honest: a course tied with the pick by the same
+    // oracle IS equivalent for this step, not merely similar-looking.
+    const scored = [];
     for (const courseId of candidates) {
       const trial = [...current, { courseId }];
       const trialResult = evaluatePathway(pathway, trial, catalog);
@@ -53,25 +56,31 @@ export function recommend(pathway, plan, catalog, options = {}) {
       const constraintGain = constraintProgress(trialResult) - constraintProgress(result);
       if (gain <= 0 && groupsGained <= 0 && constraintGain <= 0) continue;
 
-      const elsewhere = others.filter((other) =>
-        appearsIn(other, courseId),
-      ).length;
-
-      const score = [groupsGained, constraintGain, gain, elsewhere];
-      if (best === null || better(score, best.score) ||
-          (equal(score, best.score) && courseId < best.courseId)) {
-        best = { courseId, score, result: trialResult };
-      }
+      const elsewhere = others.filter((other) => appearsIn(other, courseId)).length;
+      scored.push({ courseId, score: [groupsGained, constraintGain, gain, elsewhere], result: trialResult });
     }
 
-    if (best === null) {
+    if (scored.length === 0) {
       return { complete: false, courses: picked, reachable: false };
     }
+
+    let best = scored[0];
+    for (const candidate of scored.slice(1)) {
+      if (better(candidate.score, best.score) ||
+          (equal(candidate.score, best.score) && candidate.courseId < best.courseId)) {
+        best = candidate;
+      }
+    }
+    const alternatives = scored
+      .filter((c) => c !== best && equal(c.score, best.score))
+      .map((c) => c.courseId)
+      .sort();
 
     picked.push({
       courseId: best.courseId,
       course: catalog.courses.get(best.courseId),
       isCore: catalog.courses.get(best.courseId)?.isCore === true,
+      alternatives,
       alsoCountsToward: others
         .filter((other) => appearsIn(other, best.courseId))
         .map((other) => other.shortName ?? other.name),

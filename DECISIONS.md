@@ -450,3 +450,33 @@ Status: accepted
 **Consequences.** Transcripts parse cleanly. HSM is checkable for the first time. Quarter credit totals exclude core courses and show a separate core count, which is honest rather than convenient. The count question is not fully closed: see the `openQuestion` field in `core.json`.
 
 **Unresolved.** The curriculum page says 13 mandated core classes; the program format page says first-year students complete approximately 14, and its own term breakdown totals 14 in first year alone. This list holds 14 in total, of which 13 are first year. If the program format page is right, one first-year core course is missing. The leading candidate is FUQINTRD 692, Leading Business in a Complex World, because the program format page describes summer orientation as three courses "that emphasize leading and managing in an uncertain world", which nearly quotes that title. Not added without confirmation.
+
+---
+
+## ADR-0030: Placement is display metadata; semesters and the Pre-Fuqua bucket
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** Three placement needs arrived together: non-Fuqua Duke courses run on the university semester calendar and span two Fuqua terms; Pat wants a Pre-Fuqua Dual Degree Coursework bucket for courses taken before Fuqua that go toward requirements; and the plan panel needed to reflect both without complicating the rules.
+
+**Decision.** Placement lives in `app/ui/placement.js`, a pure module, and is display metadata only: evaluation never reads it. Quarter 0 is the Pre-Fuqua bucket. Fuqua courses place by term (quarters 1 to 8). Non-Fuqua courses place by semester, stored as the semester's starting quarter (1, 3, 5, 7) and snapped there automatically from any term choice; the span is implied by `isFuqua` and rendered as a semester band. Per Pat: Pre-Fuqua courses count toward concentrations exactly like any other course, the bucket accepts only catalog courses, and there is no free-form entry and no approval marking.
+
+**Alternatives.** A `span` field on plan entries, rejected as redundant with `isFuqua`. Free-form course entry for the Pre-Fuqua bucket, proposed and rejected by Pat as defeating the catalog's guardrails. Making evaluation placement-aware, rejected because no requirement in the sources depends on when a course is taken.
+
+**Consequences.** The plan file format is unchanged and old exports import cleanly; quarter 0 and semester-start storage are both valid quarters under the existing schema. A test asserts that an all-Pre-Fuqua plan evaluates identically to a normally placed one, which pins the display-only property down.
+
+---
+
+## ADR-0031: Progress report via a print-styled window
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** Pat wants a report export rather than raw JSON. The app has no build step and no dependencies, so generating .docx or .pdf in the browser would mean vendoring a document library.
+
+**Decision.** `app/ui/report.js` builds a complete standalone HTML document (declared specialties and cap status, core progress, per-pathway table, requirement detail for declared and completed pathways, the placement-aware course plan, and the unofficial-aid disclaimer). The app opens it in a new window, which calls the browser's print dialog; saving as PDF is the browser's native path. The JSON export remains, renamed Backup, because Import depends on it and it is the only defense against cleared browser storage.
+
+**Alternatives.** In-browser .docx generation, rejected on the dependency. A hidden print stylesheet over the app itself, rejected because a report and a working UI want different structure, and the separate document survives being saved on its own.
+
+**Consequences.** Zero dependencies. The report inherits nothing from the app stylesheet, so it renders predictably in print. Pop-up blockers can suppress the window; the app says so instead of failing silently.

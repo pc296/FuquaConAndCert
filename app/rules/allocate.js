@@ -74,9 +74,14 @@ export function allocate(groups, items) {
     seen.add(key);
 
     const item = ordered[i];
-    // Try the neediest group first; it is the likeliest to matter.
+    // Direct eligibility before overflow, then the neediest group. Overflow is a
+    // fallback clause in the sources; trying it first produces assignments that are
+    // numerically equal but read wrong, like FINANCE 647 shown as an Energy Finance
+    // elective while the core group it belongs to sits unfilled.
+    const viaOverflow = (g) => (item.capped?.includes(g) ? 1 : 0);
     const candidates = [...item.groups].sort(
-      (a, b) => (remaining.get(b) ?? 0) - (remaining.get(a) ?? 0),
+      (a, b) => viaOverflow(a) - viaOverflow(b) ||
+        (remaining.get(b) ?? 0) - (remaining.get(a) ?? 0),
     );
     for (const groupId of candidates) {
       const need = remaining.get(groupId) ?? 0;
