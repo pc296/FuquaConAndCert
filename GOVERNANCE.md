@@ -48,8 +48,8 @@ Last save point: **v0.2.0**, tagged 2026-08-28. Everything below is built, teste
 - 18 pathways and 164 courses in `data/catalog/`, verified against the 16 source documents. 15 of those courses are the Daytime MBA core (ADR-0029; FUQINTRD 692 confirmed by Pat).
 - Rule engine with within-pathway allocation, group and pathway constraints, the two-specialty cap, Finance Certificate GPA and intermediate qualification, and the HSM core requirement.
 - Recommender: shortest route to each pathway, and a ranking of all 18.
-- Interface: semester-aware planner with a Pre-Fuqua Dual Degree bucket (ADR-0030), paste-with-confirmation entry, SVG skill map, per-pathway detail with expandable option lists, step alternatives on the shortest-way list, and a print-styled progress report (ADR-0031).
-- 50 rule tests, 6 extraction tests, and `npm run verify` clean.
+- Interface: semester-aware planner with a Pre-Fuqua Dual Degree bucket (ADR-0030), paste-with-confirmation entry, SVG Pathway Map, per-pathway detail with expandable option lists, step alternatives on the shortest-way list, a print-styled progress report (ADR-0031), and transcript PDF import (ADR-0033). Institutional design language throughout (ADR-0032).
+- 56 tests (50 rules, 6 UI integrity), 6 extraction tests, and `npm run verify` clean.
 
 Checks to run before believing any of that again:
 

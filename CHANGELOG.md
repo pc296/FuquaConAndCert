@@ -8,7 +8,20 @@ Categories: Added, Changed, Fixed, Removed. Newest at the top. Entries describe 
 
 ## [Unreleased]
 
-Nothing yet.
+### Added
+
+- 2026-08-28: Transcript PDF import. Upload the PDF and its text layer is read in the browser and routed through the existing confirmation screen. pdf.js is vendored and loaded only when a PDF is actually selected, so its 1.7 MB never lands on an ordinary page load. Scanned PDFs are refused with an explanation rather than returning an empty result. ADR-0033.
+- 2026-08-28: `tests/ui/` asserts structural integrity that fails silently in a browser: balanced stylesheet braces, closed `@font-face` blocks pointing at files that exist, the vendored pdf.js build present, and pdf.js kept behind a dynamic import.
+
+### Changed
+
+- 2026-08-28: Institutional design language replacing the card-and-shadow treatment. Flat surfaces, no shadows anywhere, near-square corners, hairline rules and whitespace for structure, Merriweather carrying headings and data, tabular figures so numbers align, and one meaning per accent color. ADR-0032.
+- 2026-08-28: "Skill Map" renamed "Pathway Map" throughout the interface and living documents, aligning it with `pathway`, the domain term in CONVENTIONS.md.
+- 2026-08-28: The import controls are now a labelled pair, PDF upload alongside paste, rather than a bare paste box.
+
+### Fixed
+
+- 2026-08-28: Course names were invisible in the plan column. Code, title, two selects and a delete control on one line left the title 0 to 2 pixels wide, and the semester band overflowed its box by 12 pixels. Chips are now two rows: the record on the first line, controls on the second. Titles get roughly 200 pixels and wrap instead of vanishing.
 
 ## [0.2.0] - 2026-08-28
 

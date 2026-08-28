@@ -121,3 +121,23 @@ Second takeaway: every field in a data file should have a consumer or a comment 
 **Why.** The allocator's objective captured how much was satisfied but not which reading of the sources an assignment implies. Overflow is a fallback clause in the documents, and trying it on equal footing with direct eligibility produced answers that were arithmetically right and semantically backwards.
 
 **Takeaway.** When a solver has ties, the tie-break is a product decision, not a free choice. Direct eligibility now ranks ahead of overflow, and a test pins the two-course case. When output of a search is shown to users, check what it looks like in partial states, not only whether the terminal states are correct.
+
+---
+
+## 2026-08-28: An unterminated CSS rule silently disabled the entire stylesheet
+
+**What happened.** Rewriting `main.css` meant preserving the `@font-face` block and replacing everything after it. The block was extracted with `head -47`, one line short of its closing brace. The last `@font-face` rule was left open, so the CSS parser swallowed the entire rest of the file as part of it. The page loaded, fetched the stylesheet successfully, threw no error, logged nothing, and rendered completely unstyled. Measurements taken at that moment were meaningless and looked plausible: an unstyled title reported 513px of width, which read as "the fix worked" rather than "no CSS is applied."
+
+**Why.** CSS fails silently by design. There is no error event for a malformed rule, and a 200 response for the stylesheet says nothing about whether it parsed. The check I ran measured element widths, which cannot distinguish "styled correctly" from "not styled at all."
+
+**Takeaway.** Structural integrity of an asset deserves a test that does not need a browser. `tests/ui/assets.test.js` now asserts the stylesheet's braces balance, that all five `@font-face` blocks are closed, and that each references a font file that exists. That test would have caught this in under a second. More generally: when a verification step produces a number, ask what that number would look like if the thing under test were entirely absent. If the answer is "plausible," the check is not a check.
+
+---
+
+## 2026-08-28: Browser verification ran against a stale copy for an entire phase
+
+**What happened.** The Energy Finance detail showed FINANCE 647 counted as an elective while its core group sat at 1 of 2, exactly the defect fixed in phase 2 by the allocator tie-break. Running the same plan through the engine directly gave the correct 2 of 2. The rules were right; the browser was loading an older `allocate.js`. Files reach the browser by being staged individually into the container, and `allocate.js` was edited in phase 2 but never included in the staging list for that phase's verification. Every screenshot since had been taken against pre-fix allocation logic.
+
+**Why.** Staging was done by naming the files I remembered changing. That is a manual list maintained by memory, and it silently diverges from the truth the moment an edit is forgotten. Nothing surfaces the divergence: the app runs fine, just as an older version.
+
+**Takeaway.** Never hand-pick the verification payload. Stage every file the browser loads, every time, or diff mtimes between the working tree and the staged copy before trusting a screenshot. A visual check against unknown code is worse than no check, because it produces confidence. The corrected finding here is also reassuring in the other direction: the engine and its tests were right the whole time, and the discrepancy was in the harness.

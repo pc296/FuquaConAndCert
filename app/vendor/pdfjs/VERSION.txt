@@ -1,0 +1,8 @@
+pdfjs-dist 4.10.38
+Vendored from the pdfjs-dist npm package (Mozilla pdf.js), Apache License 2.0.
+Only the two minified build files are committed: pdf.min.mjs and
+pdf.worker.min.mjs. No package manifest, lockfile or node_modules enters the
+tree, matching how the Duke fonts were vendored (ADR-0026, ADR-0033).
+
+Loaded dynamically at the moment a user selects a PDF, never on page load, so
+these bytes cost nothing to anyone who does not import a transcript.

@@ -1,6 +1,6 @@
 # Fuqua ConCert
 
-A course planner for the Duke Fuqua Daytime MBA. Enter the courses you have taken and plan to take across the eight quarters of the program, and see which concentrations and certificates they apply to, laid out as a skill map.
+A course planner for the Duke Fuqua Daytime MBA. Enter the courses you have taken and plan to take across the eight quarters of the program, and see which concentrations and certificates they apply to, laid out as a Pathway Map.
 
 **Unofficial.** This is a planning aid, not a degree audit. The Fuqua registrar is the authority on what you have earned. Requirements are transcribed from FuquaWorld pages retrieved in August 2026 and may be out of date.
 
@@ -27,7 +27,8 @@ Then open http://localhost:8080. Published to GitHub Pages, no server step is ne
 - Warns when a declared set would exceed the two-specialty limit. Dual Finance counts as two and fills the allowance alone.
 - Knows the 14 Daytime MBA core courses, so pasted transcripts parse cleanly. Core courses count toward no concentration; only the HSM certificate requires them.
 - Handles the conditional rules in the source documents: the Energy Finance overflow clause, the Leadership and Ethics outside-Management minimum, the Social Entrepreneurship practicum and non-Fuqua credit limits, the Operations practicum credit adjustment, repeatable and variable-credit courses, and the Finance Certificate GPA threshold.
-- Your plan is stored in this browser only. Export writes a JSON file, which is the backup and the sharing format.
+- Import a transcript by uploading the PDF or pasting its text. Both route through a confirmation screen, so nothing enters your plan unreviewed. Scanned PDFs are refused with an explanation rather than silently returning nothing.
+- Your plan is stored in this browser only. Report prints a progress summary; Backup writes a JSON file for restoring the plan later.
 
 ## Layout
 
@@ -37,11 +38,13 @@ app/rules/            pure ES modules: evaluation, allocation, the specialty cap
 app/ui/               DOM and SVG, no requirement logic
 app/storage/          localStorage plus export and import
 data/catalog/         18 pathways, 163 courses (14 core), reviewed data
-data/layout/          hand-authored skill map coordinates
+data/layout/          hand-authored Pathway Map coordinates
 tools/extraction/     Python, developer-only, reads ../Source_docs
 tests/rules/          node --test
 tests/extraction/     pytest
 app/fonts/            vendored Merriweather and Open Sans, SIL OFL
+app/vendor/pdfjs/     vendored pdf.js, Apache 2.0, loaded on demand only
+tests/ui/             node --test, asset and structural integrity
 ```
 
 ## Tests
@@ -60,8 +63,8 @@ ADR-0003, ADR-0014, and ADR-0017 in `DECISIONS.md` are superseded. Do not follow
 
 ## Known gaps
 
-- The core course count is unresolved. Fuqua's curriculum page says 13 mandated core classes; its program format page says approximately 14 in first year alone. The catalog holds 14, and one first-year course may be missing (ADR-0029).
 - Prerequisites and which years a course is offered are mentioned throughout the sources and listed reliably in none of them.
 
-- Whether two certificates is an allowed combination is unresolved; the app follows the stricter reading (ADR-0021).
+- Whether two certificates is an allowed combination is contradicted by Fuqua's own page; the app follows Pat's rule, one certificate maximum (ADR-0025).
+- Scanned transcript PDFs cannot be read. OCR is deliberately out of scope (ADR-0033).
 - Stages 2 to 4 are unbuilt: grades beyond the Finance Certificate, MEM and dual-degree coursework, and user-added substitutions (ADR-0013).

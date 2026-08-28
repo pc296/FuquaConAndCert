@@ -14,7 +14,7 @@ Running it locally needs a static server, because browsers block ES modules over
 
 ## What the system does
 
-**Fuqua ConCert** is a planner for the Duke Fuqua full-time MBA. A student enters the courses they have taken and plan to take across the eight quarters of the program. The tool evaluates that course list against all 18 concentration and certificate pathways at once and renders the result as an RPG-style skill map: branches per pathway, nodes per requirement group, filling in as courses satisfy them.
+**Fuqua ConCert** is a planner for the Duke Fuqua full-time MBA. A student enters the courses they have taken and plan to take across the eight quarters of the program. The tool evaluates that course list against all 18 concentration and certificate pathways at once and renders the result as the Pathway Map, an RPG-style constellation: branches per pathway, nodes per requirement group, filling in as courses satisfy them.
 
 A student may earn at most two academic specialties in any combination of concentrations and certificates (ADR-0017). The tool tracks progress on all 18 regardless, and warns when the declared set exceeds two rather than blocking exploration.
 
@@ -36,7 +36,7 @@ data/layout/*.json         hand-authored SVG node coordinates per pathway
    [2] rules        pure ES modules, no DOM, no I/O
         |
         v
-   [3] ui           DOM and SVG: quarter grid, skill map, confirm screen
+   [3] ui           DOM and SVG: plan column, Pathway Map, confirm screen
         |
         v
    [4] storage      localStorage, plus JSON export and import
@@ -57,7 +57,9 @@ Pure ES modules. No DOM access, no fetch, no localStorage. Given a course list a
 `allocate.js` handles the one place where courses do compete: within a single pathway, a course is assigned to at most one group, because several pathways have groups whose lists overlap on purpose. Exact search with a node budget, falling back to a flagged approximation (ADR-0022).
 
 **[3] ui** (JavaScript, `app/ui/`)
-Owns the quarter grid where courses are placed across eight quarters, the skill map rendered as SVG from hand-authored layout coordinates (ADR-0010), and the confirmation screen that every input path routes through before anything is saved (ADR-0012). Contains no requirement logic. If the UI needs to know whether something is satisfied, it calls `rules`.
+Owns the plan column where courses are placed across the Pre-Fuqua bucket and eight terms (ADR-0030), the Pathway Map rendered as SVG from hand-authored layout coordinates (ADR-0010), and the confirmation screen that every input path routes through before anything is saved (ADR-0012). Contains no requirement logic. If the UI needs to know whether something is satisfied, it calls `rules`.
+
+`pdf-import.js` reads the text layer of a transcript PDF and hands the text to the same confirmation screen the paste box uses. It loads the vendored pdf.js through a dynamic import on first use, so 1.7 MB downloads only for users who actually import a PDF (ADR-0033). A PDF with no text layer is a scan; it fails loudly rather than returning an empty result.
 
 **[4] storage** (JavaScript, `app/storage/`)
 localStorage as the working store, with explicit export and import of a versioned plan JSON (ADR-0011). Owns the plan schema and its version field. The export file is both the backup and the sharing format.
@@ -81,7 +83,7 @@ localStorage as the working store, with explicit export and import of a versione
 ## External dependencies
 
 - Extraction: Python 3.13 with pdfplumber. Pat's machine only.
-- Application: none. No framework, no bundler, no build step, no CDN.
+- Application: pdf.js, vendored into `app/vendor/pdfjs/` and imported dynamically (ADR-0033). This is the only runtime dependency. No framework, no bundler, no build step, no CDN.
 - Local development: `tools/serve.js`, Node standard library only.
 - Tests: `node --test` from Node 22, standard library only.
 
@@ -93,7 +95,9 @@ GitHub Pages from the main branch root of `pc296/FuquaConAndCert` (ADR-0015). `i
 
 Duke brand. Primary colors Duke Navy Blue `#012169` and Duke Royal Blue `#00539B`; the brand guide requires at least one primary blue in any project and prohibits altering their opacity or saturation, so map tints are separate palette entries rather than transparent blues. Secondary accents carry state and category coding: Persimmon `#E89923` for in progress, Eno `#339898` for complete, Dandelion `#FFD960` for emphasis, Copper `#C84E00` for blocked. Neutrals Hatteras `#E2E6ED` and Whisper Gray `#F3F2F1`.
 
-Typography is the Duke pairing Merriweather with Open Sans, vendored as Latin-subset woff2 files in `app/fonts/` under the SIL Open Font License (ADR-0026). Georgia and a system sans remain as the fallback stack.
+Typography is the Duke pairing Merriweather with Open Sans, vendored as Latin-subset woff2 files in `app/fonts/` under the SIL Open Font License (ADR-0026). Georgia and a system sans remain as the fallback stack. Merriweather carries headings, pathway names, group labels and the map's percentages; every number is set in tabular figures so columns align.
+
+The language is institutional rather than dashboard (ADR-0032): flat surfaces with no shadows, near-square corners, hairline rules and whitespace instead of nested cards. Each accent means one thing and one thing only: Eno complete, Persimmon in progress, Copper blocked, Dandelion emphasis on the navy ground, Duke Royal interactive.
 
 Unverified: this is the Duke University brand guide. Fuqua may maintain a school-level variant that differs. Not checked.
 

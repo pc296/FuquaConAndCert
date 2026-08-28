@@ -15,7 +15,7 @@
     <p class="tagline">Concentration and certificate planner for the Duke Daytime MBA</p>
   </div>
   <p class="notice">
-    Unofficial planning aid. The Fuqua registrar is the authority on what you have earned.
+    <strong>Unofficial planning aid.</strong> The Fuqua registrar is the authority on what you have earned.
     Requirements transcribed from FuquaWorld pages retrieved <span id="retrieved">2026-08-27</span>; confirm anything that matters with advising.
   </p>
 </header>
@@ -41,9 +41,22 @@
       <p class="muted" id="add-status"></p>
 
       <details id="paste-details">
-        <summary class="muted">Paste from a transcript or schedule</summary>
-        <textarea id="paste-box" rows="5" style="width:100%;margin-top:8px" placeholder="Paste text here. Nothing is added until you confirm it."></textarea>
-        <div class="row"><button class="ghost" id="paste-btn">Find courses</button></div>
+        <summary class="muted">Import from a transcript</summary>
+        <div class="import-ways">
+          <div class="import-way">
+            <h4>Upload a PDF</h4>
+            <p class="band-note">An unofficial transcript from DukeHub works best. Scans cannot be read.</p>
+            <button class="ghost" id="pdf-btn">Choose PDF</button>
+            <input type="file" id="pdf-file" accept="application/pdf,.pdf" hidden>
+          </div>
+          <div class="import-way">
+            <h4>Or paste the text</h4>
+            <p class="band-note">Open the PDF, select all, copy, and paste below.</p>
+            <textarea id="paste-box" rows="4" placeholder="Paste transcript text here."></textarea>
+            <button class="ghost" id="paste-btn">Find courses</button>
+          </div>
+        </div>
+        <p class="muted" id="import-status"></p>
         <div id="confirm-area"></div>
       </details>
     </div>
@@ -52,19 +65,19 @@
 
   <section class="panel" aria-labelledby="map-heading">
     <header>
-      <h2 id="map-heading">Skill Map</h2>
+      <h2 id="map-heading">Pathway Map</h2>
       <div class="row">
         <span class="muted" id="map-summary"></span>
         <button class="ghost tiny" id="closest-btn">What's closest</button>
       </div>
     </header>
     <div class="capbar" id="capbar"></div>
-    <div class="map-wrap"><svg class="map" id="map" role="img" aria-label="Concentration and certificate progress map"></svg></div>
+    <div class="map-wrap"><svg class="map" id="map" role="img" aria-label="Pathway map: progress across all concentrations and certificates"></svg></div>
     <div class="legend">
-      <span><i class="swatch" style="background:#339898"></i> Complete</span>
-      <span><i class="swatch" style="background:#0b2f70;border:2px solid #E89923"></i> In progress</span>
-      <span><i class="swatch" style="background:#0b2f70;border:2px solid rgba(226,230,237,0.5)"></i> Not started</span>
-      <span><i class="swatch" style="background:#4a1d05;border:2px solid #C84E00"></i> Blocked by the two-specialty limit</span>
+      <span><i class="swatch" style="background:#339898;border-color:#FFD960"></i> Complete</span>
+      <span><i class="swatch" style="background:#0a2b7a;border-color:#E89923"></i> In progress</span>
+      <span><i class="swatch" style="background:#0a2b7a;border-color:#4a6bb0"></i> Not started</span>
+      <span><i class="swatch" style="background:#4a1d05;border-color:#C84E00"></i> Blocked by the two-specialty limit</span>
       <span>&#9670; Certificate</span>
     </div>
     <div id="closest" hidden></div>

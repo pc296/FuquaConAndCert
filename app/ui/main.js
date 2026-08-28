@@ -12,6 +12,7 @@ import {
   placementOptions, normalizeQuarter, spansSemester, placementLabel,
 } from './placement.js';
 import { buildReportHtml } from './report.js';
+import { extractPdfText, looksLikePdf } from './pdf-import.js';
 
 const GRADES = [
   ['', 'no grade'], ['4', 'A'], ['3.7', 'A-'], ['3.3', 'B+'], ['3', 'B'],
@@ -77,7 +78,9 @@ function buildCourseList() {
 function bindControls() {
   $('add-btn').addEventListener('click', addFromSearch);
   $('course-search').addEventListener('keydown', (e) => { if (e.key === 'Enter') addFromSearch(); });
-  $('paste-btn').addEventListener('click', showConfirm);
+  $('paste-btn').addEventListener('click', () => showConfirm($('paste-box').value));
+  $('pdf-btn').addEventListener('click', () => $('pdf-file').click());
+  $('pdf-file').addEventListener('change', importTranscriptPdf);
   $('export-btn').addEventListener('click', exportPlan);
   $('report-btn').addEventListener('click', openReport);
   $('import-btn').addEventListener('click', () => $('import-file').click());
@@ -129,8 +132,31 @@ function addFromSearch() {
 
 /* ---------- paste and confirm (ADR-0012) ---------- */
 
-function showConfirm() {
-  const text = $('paste-box').value;
+/**
+ * Read a transcript PDF and hand its text to the same confirmation screen the
+ * paste box uses. Extraction proposes; the student confirms (ADR-0012, ADR-0033).
+ */
+async function importTranscriptPdf(event) {
+  const file = event.target.files?.[0];
+  event.target.value = '';
+  if (!file) return;
+
+  if (!looksLikePdf(file)) {
+    setImportStatus(`${file.name} does not look like a PDF.`);
+    return;
+  }
+  setImportStatus(`Reading ${file.name}. The PDF reader loads on first use, so this may take a moment.`);
+  try {
+    const { text, pages } = await extractPdfText(file);
+    setImportStatus(`Read ${pages} page${pages === 1 ? '' : 's'} of ${file.name}. Check the courses below before adding them.`);
+    showConfirm(text);
+  } catch (error) {
+    // Loudly, with the reason. A silent empty result would read as "no courses".
+    setImportStatus(error.message);
+  }
+}
+
+function showConfirm(text) {
   const { matched, unmatched } = parsePaste(text, catalog.courses);
   const already = new Set(plan.entries.map((e) => e.courseId));
   state.pending = matched.filter((m) => !already.has(m.courseId));
@@ -176,7 +202,8 @@ function showConfirm() {
     });
     $('confirm-area').replaceChildren();
     $('paste-box').value = '';
-    setStatus(`${added} course${added === 1 ? '' : 's'} added. Set their quarters below.`);
+    setImportStatus('');
+    setStatus(`${added} course${added === 1 ? '' : 's'} added. Set their placement below.`);
     persist();
   });
   const cancel = document.createElement('button');
@@ -297,7 +324,7 @@ function renderQuarters() {
       const band = document.createElement('div');
       band.className = 'semester-band';
       band.insertAdjacentHTML('beforeend',
-        '<h4>Semester courses <span class="muted">span both terms</span></h4>');
+        '<h4>Semester courses</h4><p class="band-note">Run on the Duke semester calendar and span both Fuqua terms.</p>');
       for (const entry of semesterLong) band.appendChild(renderChip(entry));
       section.appendChild(band);
     }
@@ -332,29 +359,39 @@ function renderChip(entry) {
   const chip = document.createElement('div');
   chip.className = course?.isCore ? 'chip core' : isFuqua ? 'chip' : 'chip semester';
 
+  // Row one is the record: what the course is. Row two is the controls. Keeping
+  // them on one line starved the title to two pixels wide (LESSONS 2026-08-28).
+  const main = document.createElement('div');
+  main.className = 'chip-main';
+
   const code = document.createElement('span');
   code.className = 'code';
   code.textContent = course?.code ?? entry.courseId;
   const title = document.createElement('span');
-  title.className = 'title grow';
+  title.className = 'title';
   title.textContent = course?.title ?? 'unknown course';
-  title.title = course?.title ?? '';
-  chip.append(code, title);
+  main.append(code, title);
+
   if (course?.isCore) {
     const tag = document.createElement('span');
     tag.className = 'coretag';
     tag.textContent = 'CORE';
     tag.title = 'Core courses do not count toward any concentration or certificate.';
-    chip.append(tag);
+    main.append(tag);
   }
+  chip.append(main);
+
+  const meta = document.createElement('div');
+  meta.className = 'chip-meta';
 
   const where = document.createElement('select');
-  where.setAttribute('aria-label', 'Placement');
+  where.setAttribute('aria-label', `Placement for ${course?.code ?? entry.courseId}`);
   for (const option of placementOptions(isFuqua)) {
     const el = document.createElement('option');
     el.value = String(option.value);
     el.textContent = option.value === PRE_FUQUA ? 'Pre-Fuqua'
-      : isFuqua ? `Q${option.value}` : option.label.replace(' (both terms)', '');
+      : isFuqua ? option.label
+      : option.label.replace(' (both terms)', ' · both terms');
     el.selected = entry.quarter === option.value;
     where.appendChild(el);
   }
@@ -364,7 +401,7 @@ function renderChip(entry) {
   });
 
   const grade = document.createElement('select');
-  grade.setAttribute('aria-label', 'Grade');
+  grade.setAttribute('aria-label', `Grade for ${course?.code ?? entry.courseId}`);
   for (const [value, label] of GRADES) {
     const option = document.createElement('option');
     option.value = value;
@@ -378,16 +415,24 @@ function renderChip(entry) {
     persist();
   });
 
+  const credits = document.createElement('span');
+  credits.className = 'chip-credits';
+  credits.textContent = course?.isCore ? 'core'
+    : course?.credits ? `${course.credits} cr`
+    : '';
+
   const remove = document.createElement('button');
   remove.className = 'drop';
   remove.textContent = '×';
   remove.title = `Remove ${course?.code ?? ''}`;
+  remove.setAttribute('aria-label', `Remove ${course?.code ?? entry.courseId}`);
   remove.addEventListener('click', () => {
     plan.entries.splice(plan.entries.indexOf(entry), 1);
     persist();
   });
 
-  chip.append(where, grade, remove);
+  meta.append(where, grade, credits, remove);
+  chip.append(meta);
   return chip;
 }
 
@@ -491,7 +536,7 @@ function renderDetail(results) {
     const unit = group.unit === 'credits' ? 'credits' : 'courses';
     box.innerHTML = `<div class="group-head">
         <strong>${escapeHtml(group.label)}</strong>
-        <span class="muted">${group.have} of ${group.min} ${unit}</span>
+        <span class="group-count">${group.have} of ${group.min} ${unit}</span>
       </div>
       <div class="progress"><i style="width:${Math.min(100, (group.have / group.min) * 100)}%"></i></div>`;
 
@@ -713,6 +758,7 @@ function flag(text, ok = false) {
 }
 
 function setStatus(message) { $('add-status').textContent = message; }
+function setImportStatus(message) { $('import-status').textContent = message; }
 
 const escapeHtml = (s) =>
   String(s).replace(/[&<>"']/g, (c) =>

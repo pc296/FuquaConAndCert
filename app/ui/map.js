@@ -1,5 +1,5 @@
 /**
- * The skill map. SVG built with plain DOM calls from hand-authored coordinates
+ * The Pathway Map. SVG built with plain DOM calls from hand-authored coordinates
  * (ADR-0010). Contains no requirement logic: it renders whatever the rule engine
  * returns.
  */

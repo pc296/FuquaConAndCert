@@ -11,7 +11,7 @@ Two suites, matching the two languages in ADR-0008.
 **Rules and application** — `node --test`, Node 22 standard library. No dependencies, no config, no build.
 
 ```
-npm test            # node --test tests/rules/*.test.js
+npm test            # node --test tests/rules/*.test.js tests/ui/*.test.js
 ```
 
 Pass the glob, not the directory. `node --test tests/rules` tries to load the path as a module in this Node build and fails with MODULE_NOT_FOUND.
@@ -38,7 +38,9 @@ Both run offline. No test reaches the network. No test opens a browser.
 
 **Extraction** (`tests/extraction/`): golden-file tests. A committed text excerpt in `tests/fixtures/` goes in, an expected pathway record comes out. Never test against the live PDFs in `Source_docs/`, because those are outside the repo and can change, which would make the suite non-deterministic and unrunnable for anyone who clones. Each fixture carries the source filename in a comment.
 
-**UI**: no automated tests in v1. The UI holds no requirement logic by design (ARCHITECTURE.md boundaries), so the logic worth testing is not in it. Manual verification against a written checklist, and revisit this if UI defects start recurring.
+**UI** (`tests/ui/`): no behavioural tests, because the UI holds no requirement logic by design. What it does test is structural integrity that fails silently in a browser: that the stylesheet's braces balance, that every `@font-face` is closed and points at a file that exists, that the vendored pdf.js build is present, and that pdf.js stays behind a dynamic import. A malformed CSS rule once disabled the entire stylesheet with no error and no failed request (LESSONS 2026-08-28); these assertions catch that class of defect in under a second.
+
+Behaviour is still verified by loading the page in a real browser with the console open. Stage every file the browser loads before doing so, or the screenshot may show older code than the test suite ran against.
 
 **Storage**: round-trip tests for export and import, including a plan written at an older schema version. The plan file is a compatibility surface from the first release (ADR-0011) and breaking it silently would destroy a student's multi-year plan.
 

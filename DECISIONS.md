@@ -480,3 +480,41 @@ Status: accepted
 **Alternatives.** In-browser .docx generation, rejected on the dependency. A hidden print stylesheet over the app itself, rejected because a report and a working UI want different structure, and the separate document survives being saved on its own.
 
 **Consequences.** Zero dependencies. The report inherits nothing from the app stylesheet, so it renders predictably in print. Pop-up blockers can suppress the window; the app says so instead of failing silently.
+
+---
+
+## ADR-0032: Institutional design language, and the Pathway Map rename
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** Pat's assessment was that the interface "reads too much like a Claude dashboard and too little like Duke-brand, professional, custom." The specific tells were identifiable: every block was a rounded card with a soft drop shadow nested inside another card, almost everything carried a colored left-edge stripe, separation came from boxes rather than rules, Merriweather appeared only in the wordmark so the page was functionally all sans-serif, five accent colors were in play with no rule about what each meant, and numbers were set in proportional figures so credits and percentages did not align.
+
+**Decision.** Rebuild the stylesheet around institutional tokens rather than patch it. Flat surfaces with no `box-shadow` anywhere. Near-square corners (2px). Hairline rules and whitespace carry structure. Merriweather carries headings, pathway names, group labels, and the map's percentages, not just the wordmark. `font-variant-numeric: tabular-nums` on every number. Panels take a 2px navy top rule instead of a shadow. Progress is a 3px rule that fills, not a rounded capsule.
+
+Accent colors carry exactly one meaning each and are not reused decoratively: Eno for complete, Persimmon for in progress, Copper for blocked or over limit, Dandelion for emphasis on the navy ground only, Duke Royal for anything interactive. Prussian, Shale, and Magnolia are dropped from the palette.
+
+Separately, "Skill Map" becomes "Pathway Map" throughout the interface and the living documents. This aligns the UI with CONVENTIONS.md, where *pathway* is already the umbrella domain term for a concentration or certificate. DECISIONS.md and CHANGELOG.md keep the original wording, because both are append-only records of what was decided at the time.
+
+**Alternatives.** Refine the existing card treatment, rejected by Pat as too small a change. A bolder direction with a full-bleed masthead band and data tables replacing the option lists, offered and not chosen.
+
+**Consequences.** `app/styles/main.css` was rewritten below the `@font-face` block. Markup changed in a few places to match: the group count has its own class, the semester band gained a description line, and the legend swatches distinguish by border weight as well as color, since two of the four share a fill.
+
+---
+
+## ADR-0033: pdf.js vendored and imported dynamically for transcript import
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** Pat asked to import a transcript PDF rather than paste its text. ADR-0012 ruled out OCR and vision models in the input path. Reading a text-based PDF is neither: the characters are already data in the file, and extracting them is deterministic parsing, closer to what `pdfplumber` does offline than to anything model-shaped. So the capability fits the constraint, but it needs a library, and CONVENTIONS.md forbids dependencies without an ADR.
+
+**Decision.** Vendor two minified build files from `pdfjs-dist` 4.10.38 into `app/vendor/pdfjs/`: `pdf.min.mjs` (345 KB) and `pdf.worker.min.mjs` (1.34 MB), with the Apache 2.0 licence and a VERSION note beside them. No package manifest, lockfile, or `node_modules` enters the tree, matching how the Duke fonts were vendored under ADR-0026.
+
+`app/ui/pdf-import.js` loads pdf.js through a dynamic `import()` on first use, so the 1.7 MB downloads only when someone actually selects a PDF and costs nothing on an ordinary page load. Extracted text is handed to the existing `parsePaste` and lands in the same confirmation screen: extraction proposes, the student confirms.
+
+A PDF with pages but almost no selectable text is a scan. Rather than return an empty result that reads as "no courses found," it throws with an explanation naming the likely cause and saying plainly that OCR is deliberately out of scope because misread course codes look correct.
+
+**Alternatives.** Improve the paste flow instead, offered and not chosen. A server-side extractor, ruled out by ADR-0008's no-server architecture. Bundling pdf.js statically, rejected because it would put 1.7 MB on every page load for the majority who never import a PDF.
+
+**Consequences.** The repository grows by 1.7 MB, roughly ten times the vendored fonts, and it is the first runtime dependency in the application. Upgrading means replacing two files and updating VERSION.txt. Scanned transcripts remain unsupported by design. A test asserts the import stays dynamic, because a future refactor that made it static would silently impose the download on everyone.

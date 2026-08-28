@@ -19,3 +19,7 @@ venv/
 Thumbs.db
 .vscode/
 .idea/
+
+# Sample transcripts used for testing PDF import are generated, never committed,
+# and real transcripts must never enter the repo (CONVENTIONS.md).
+*transcript*.pdf

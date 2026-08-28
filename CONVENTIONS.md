@@ -11,7 +11,7 @@ The stack is split by lifecycle per ADR-0008: Python for offline extraction, Jav
 - ES modules, native. No framework, no bundler, no transpiler, no build step, no CDN.
 - Target is current Chrome, Edge, Firefox, and Safari. No polyfills, no legacy syntax support.
 - `const` by default. `let` only when reassignment is real. Never `var`.
-- No dependencies without an ADR. The bar is high, since every dependency has to be vendored into the repo by hand.
+- No dependencies without an ADR. The bar is high, since every dependency has to be vendored into the repo by hand. Anything over a few hundred KB is loaded through a dynamic `import()` so it does not land on every page load; pdf.js is the precedent (ADR-0033).
 - JSDoc type annotations on exported functions in `app/rules/`. The rule engine is where a wrong type produces a wrong graduation plan, so it is worth the annotation cost. Elsewhere JSDoc is optional.
 - Formatting: 2-space indent, semicolons, single quotes, 100-column lines. Enforced by reading, not tooling, unless a formatter is added by ADR.
 
@@ -43,6 +43,7 @@ Work_folder/                        repo root, GitHub Pages source
     storage/      localStorage, export and import
     styles/       CSS
     fonts/        vendored Merriweather and Open Sans
+    vendor/       vendored third-party builds, currently pdf.js (ADR-0033)
   data/
     catalog/      18 pathway records, committed, human-reviewed
     layout/       hand-authored SVG coordinates per pathway
@@ -50,6 +51,7 @@ Work_folder/                        repo root, GitHub Pages source
     extraction/   Python, developer-only
   tests/
     rules/        node --test
+    ui/           node --test, asset and structural integrity
     extraction/   pytest
     fixtures/     text excerpts, never live PDFs
 ```
@@ -89,3 +91,4 @@ Conventional Commits: `type(scope): subject`.
 - Never infer a requirement the source document does not state.
 - Never commit a plan file, an export, or anything else derived from a real transcript.
 - Never mark a task done with a failing postflight gate.
+- Never verify a UI change against a hand-picked subset of staged files. Stage everything the browser loads, or a screenshot may be showing older code than the tests (LESSONS 2026-08-28).
