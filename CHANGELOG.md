@@ -8,6 +8,12 @@ Categories: Added, Changed, Fixed, Removed. Newest at the top. Entries describe 
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [0.2.0] - 2026-08-28
+
+Placement, alternatives, report, aesthetics. Tagged `v0.2.0`.
+
 ### Added
 
 - 2026-08-28: FUQINTRD 692, Leading Business in a Complex World, confirmed by Pat as the 15th core course, closing the 13-versus-14 count question: 15 total, 14 in first year.

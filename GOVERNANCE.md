@@ -43,7 +43,7 @@ Tracked in DECISIONS.md. Anything marked `proposed` is unresolved and blocks cod
 
 ## Where the project stands
 
-Last save point: **v0.1.0**, tagged 2026-08-28; phase 2 committed on top of it. Everything below is built, tested, and committed.
+Last save point: **v0.2.0**, tagged 2026-08-28. Everything below is built, tested, and committed.
 
 - 18 pathways and 164 courses in `data/catalog/`, verified against the 16 source documents. 15 of those courses are the Daytime MBA core (ADR-0029; FUQINTRD 692 confirmed by Pat).
 - Rule engine with within-pathway allocation, group and pathway constraints, the two-specialty cap, Finance Certificate GPA and intermediate qualification, and the HSM core requirement.
