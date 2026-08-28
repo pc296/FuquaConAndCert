@@ -518,3 +518,20 @@ A PDF with pages but almost no selectable text is a scan. Rather than return an 
 **Alternatives.** Improve the paste flow instead, offered and not chosen. A server-side extractor, ruled out by ADR-0008's no-server architecture. Bundling pdf.js statically, rejected because it would put 1.7 MB on every page load for the majority who never import a PDF.
 
 **Consequences.** The repository grows by 1.7 MB, roughly ten times the vendored fonts, and it is the first runtime dependency in the application. Upgrading means replacing two files and updating VERSION.txt. Scanned transcripts remain unsupported by design. A test asserts the import stays dynamic, because a future refactor that made it static would silently impose the download on everyone.
+
+---
+
+## ADR-0034: One import control, dispatched by file type
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** ADR-0033 added transcript PDF import but attached it to a second file input inside a collapsed disclosure, while the prominent button at the top of the plan panel was labelled "Import" and accepted `application/json` only, because it restores a plan backup. Pat, looking for transcript import, clicked the button called Import and got a JSON-only file picker. He reasonably concluded the work had not shipped. It had: the live site was verified running the new code, with the PDF input present and pdf.js correctly absent from page-load requests.
+
+**Decision.** One file control. The button reads "Import transcript" and its input accepts `application/pdf`, `.pdf`, `application/json` and `.json`. `importFile` dispatches on the file it is actually handed: a PDF goes to text extraction and the confirmation screen, a JSON restores a backup, anything else is refused by name with a message saying it is neither. Pasting is demoted to a collapsed fallback labelled "Paste transcript text instead", which is what it is: the escape hatch for scans.
+
+**Alternatives.** Relabel the two controls more clearly, for example "Restore backup" beside "Import transcript". Rejected because two adjacent controls that both mean import is a distinction the interface has to keep explaining. Removing choice beats labelling it. Opening the transcript section by default, rejected as treating the symptom.
+
+**Consequences.** Restoring a backup is now reached through a button that says transcript, which is a small mismatch in the other direction, softened by the status line naming what it did ("Restored a backup: 10 courses"). A test asserts the page has exactly one file input and that it accepts both types, because the defect was structural rather than behavioural and no rule test could have caught it.
+
+**Wider lesson.** The feature worked, was deployed, and was verified in a browser, and still failed the person using it. Verification confirmed the control existed; it never asked whether anyone would find it. That question is not answerable by the person who chose where to put it.

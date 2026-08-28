@@ -59,3 +59,14 @@ test('the interface says Pathway Map, not Skill Map', () => {
   assert.match(html, /Pathway Map/);
   assert.ok(!/Skill Map/i.test(html), 'the old name is still in index.html');
 });
+
+test('one import control accepts both transcripts and backups', () => {
+  // Two pickers, one of them labelled "Import" and taking only JSON, sent anyone
+  // looking for transcript import to the backup restore instead (ADR-0034).
+  const html = read('../../index.html');
+  const inputs = html.match(/<input type="file"[^>]*>/gs) ?? [];
+  assert.equal(inputs.length, 1, `expected exactly one file input, found ${inputs.length}`);
+  assert.match(inputs[0], /accept="[^"]*application\/pdf/, 'the import control must accept PDFs');
+  assert.match(inputs[0], /accept="[^"]*json/, 'the import control must accept backups too');
+  assert.match(html, /id="import-btn">Import transcript</, 'the button must say what it imports');
+});

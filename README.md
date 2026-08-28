@@ -27,7 +27,7 @@ Then open http://localhost:8080. Published to GitHub Pages, no server step is ne
 - Warns when a declared set would exceed the two-specialty limit. Dual Finance counts as two and fills the allowance alone.
 - Knows the 14 Daytime MBA core courses, so pasted transcripts parse cleanly. Core courses count toward no concentration; only the HSM certificate requires them.
 - Handles the conditional rules in the source documents: the Energy Finance overflow clause, the Leadership and Ethics outside-Management minimum, the Social Entrepreneurship practicum and non-Fuqua credit limits, the Operations practicum credit adjustment, repeatable and variable-credit courses, and the Finance Certificate GPA threshold.
-- Import a transcript by uploading the PDF or pasting its text. Both route through a confirmation screen, so nothing enters your plan unreviewed. Scanned PDFs are refused with an explanation rather than silently returning nothing.
+- Import transcript takes either a transcript PDF or a Fuqua ConCert backup file and works out which it was given. Transcripts route through a confirmation screen, so nothing enters your plan unreviewed. Scanned PDFs are refused with an explanation rather than silently returning nothing; paste the text instead.
 - Your plan is stored in this browser only. Report prints a progress summary; Backup writes a JSON file for restoring the plan later.
 
 ## Layout

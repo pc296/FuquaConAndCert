@@ -141,3 +141,13 @@ Second takeaway: every field in a data file should have a consumer or a comment 
 **Why.** Staging was done by naming the files I remembered changing. That is a manual list maintained by memory, and it silently diverges from the truth the moment an edit is forgotten. Nothing surfaces the divergence: the app runs fine, just as an older version.
 
 **Takeaway.** Never hand-pick the verification payload. Stage every file the browser loads, every time, or diff mtimes between the working tree and the staged copy before trusting a screenshot. A visual check against unknown code is worse than no check, because it produces confidence. The corrected finding here is also reassuring in the other direction: the engine and its tests were right the whole time, and the discrepancy was in the harness.
+
+---
+
+## 2026-08-28: A shipped feature that nobody could find is not shipped
+
+**What happened.** Transcript PDF import was built, tested, deployed, and verified live. Pat then reported that the upload tool would not accept PDFs and asked why he could not see the work. He was right about what he saw. The button labelled "Import", sitting at the top of the plan panel, restores a JSON backup; the PDF control sat inside a collapsed disclosure below it. Nothing was broken and nothing was missing. The obvious control did the wrong thing.
+
+**Why.** Every check I ran asked whether the feature existed and worked. I queried the live DOM for `#pdf-file` and confirmed its `accept` attribute, drove it with a synthetic transcript, and watched it succeed. Not one check asked whether a person looking for it would arrive at it. Having decided where to put the control, I was the worst possible judge of whether it could be found, and my verification inherited that blind spot completely.
+
+**Takeaway.** Automated verification answers "does it work", never "is it discoverable". For any user-facing entry point, name the single most obvious thing a person would click for that goal, and confirm that clicking it does that thing. If it does something else, the design is wrong regardless of test results. Where two controls could plausibly serve the same intent, prefer collapsing them into one that dispatches on input over labelling the difference; the interface then cannot be misread. See ADR-0034.

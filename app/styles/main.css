@@ -620,24 +620,20 @@ svg.map { display: block; width: 100%; height: auto; }
   padding: 6px 0;
 }
 #paste-details summary:hover { color: var(--duke-navy); }
-.import-ways { display: grid; gap: 12px; margin-top: 4px; }
 .import-way {
   border: var(--rule-hair);
   border-left: 3px solid var(--duke-royal);
   padding: 10px 12px;
   background: var(--whisper);
 }
-.import-way h4 {
-  font-family: var(--sans);
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--duke-navy);
-  margin: 0 0 2px;
-}
 .import-way textarea { width: 100%; margin-bottom: 8px; font-size: 13px; }
-#import-status { margin: 8px 0 0; line-height: 1.5; }
+#import-status:not(:empty) {
+  margin: 10px 0 0;
+  line-height: 1.5;
+  padding: 8px 10px;
+  background: var(--whisper);
+  border-left: 3px solid var(--duke-royal);
+}
 
 /* ---------- paste confirmation ---------- */
 

@@ -79,12 +79,10 @@ function bindControls() {
   $('add-btn').addEventListener('click', addFromSearch);
   $('course-search').addEventListener('keydown', (e) => { if (e.key === 'Enter') addFromSearch(); });
   $('paste-btn').addEventListener('click', () => showConfirm($('paste-box').value));
-  $('pdf-btn').addEventListener('click', () => $('pdf-file').click());
-  $('pdf-file').addEventListener('change', importTranscriptPdf);
   $('export-btn').addEventListener('click', exportPlan);
   $('report-btn').addEventListener('click', openReport);
   $('import-btn').addEventListener('click', () => $('import-file').click());
-  $('import-file').addEventListener('change', importPlan);
+  $('import-file').addEventListener('change', importFile);
   $('closest-btn').addEventListener('click', () => {
     state.showClosest = !state.showClosest;
     render();
@@ -133,18 +131,29 @@ function addFromSearch() {
 /* ---------- paste and confirm (ADR-0012) ---------- */
 
 /**
- * Read a transcript PDF and hand its text to the same confirmation screen the
- * paste box uses. Extraction proposes; the student confirms (ADR-0012, ADR-0033).
+ * One import control for both file types (ADR-0034).
+ *
+ * Two separate pickers, one labelled "Import" that took only JSON, meant anyone
+ * reaching for "import my transcript" hit the backup restore instead. A single
+ * control that dispatches on the file it was actually given removes the choice
+ * rather than explaining it.
  */
-async function importTranscriptPdf(event) {
+async function importFile(event) {
   const file = event.target.files?.[0];
   event.target.value = '';
   if (!file) return;
+  if (looksLikePdf(file)) return importTranscriptPdf(file);
+  if (/\.json$/i.test(file.name) || file.type === 'application/json') return importPlan(file);
+  setImportStatus(
+    `${file.name} is neither a PDF transcript nor a Fuqua ConCert backup file, so nothing was read.`,
+  );
+}
 
-  if (!looksLikePdf(file)) {
-    setImportStatus(`${file.name} does not look like a PDF.`);
-    return;
-  }
+/**
+ * Read a transcript PDF and hand its text to the same confirmation screen the
+ * paste box uses. Extraction proposes; the student confirms (ADR-0012, ADR-0033).
+ */
+async function importTranscriptPdf(file) {
   setImportStatus(`Reading ${file.name}. The PDF reader loads on first use, so this may take a moment.`);
   try {
     const { text, pages } = await extractPdfText(file);
@@ -240,17 +249,14 @@ function openReport() {
   win.document.close();
 }
 
-async function importPlan(event) {
-  const file = event.target.files?.[0];
-  if (!file) return;
+async function importPlan(file) {
   try {
     plan = store.fromFile(await file.text());
-    setStatus(`Imported ${plan.entries.length} courses.`);
+    setImportStatus(`Restored a backup: ${plan.entries.length} courses.`);
     persist();
   } catch (error) {
-    setStatus(`That file could not be read as a Fuqua ConCert plan (${error.message}).`);
+    setImportStatus(`That file could not be read as a Fuqua ConCert backup (${error.message}).`);
   }
-  event.target.value = '';
 }
 
 /* ---------- render ---------- */

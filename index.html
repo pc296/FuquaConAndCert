@@ -25,10 +25,11 @@
     <header>
       <h2 id="plan-heading">My Plan</h2>
       <div class="row">
-        <button class="tiny" id="report-btn">Report</button>
+        <button class="tiny" id="import-btn">Import transcript</button>
+        <button class="ghost tiny" id="report-btn">Report</button>
         <button class="ghost tiny" id="export-btn">Backup</button>
-        <button class="ghost tiny" id="import-btn">Import</button>
-        <input type="file" id="import-file" accept="application/json" hidden>
+        <input type="file" id="import-file"
+               accept="application/pdf,.pdf,application/json,.json" hidden>
       </div>
     </header>
     <div class="panel-body">
@@ -40,25 +41,16 @@
       <datalist id="course-list"></datalist>
       <p class="muted" id="add-status"></p>
 
+      <p class="muted" id="import-status"></p>
       <details id="paste-details">
-        <summary class="muted">Import from a transcript</summary>
-        <div class="import-ways">
-          <div class="import-way">
-            <h4>Upload a PDF</h4>
-            <p class="band-note">An unofficial transcript from DukeHub works best. Scans cannot be read.</p>
-            <button class="ghost" id="pdf-btn">Choose PDF</button>
-            <input type="file" id="pdf-file" accept="application/pdf,.pdf" hidden>
-          </div>
-          <div class="import-way">
-            <h4>Or paste the text</h4>
-            <p class="band-note">Open the PDF, select all, copy, and paste below.</p>
-            <textarea id="paste-box" rows="4" placeholder="Paste transcript text here."></textarea>
-            <button class="ghost" id="paste-btn">Find courses</button>
-          </div>
+        <summary>Paste transcript text instead</summary>
+        <div class="import-way">
+          <p class="band-note">Open your transcript, select all, copy, and paste it here. Useful if the PDF is a scan.</p>
+          <textarea id="paste-box" rows="4" placeholder="Paste transcript text here."></textarea>
+          <button class="ghost" id="paste-btn">Find courses</button>
         </div>
-        <p class="muted" id="import-status"></p>
-        <div id="confirm-area"></div>
       </details>
+      <div id="confirm-area"></div>
     </div>
     <div class="panel-body" id="quarters" style="padding-top:0"></div>
   </section>

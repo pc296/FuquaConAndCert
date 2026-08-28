@@ -21,6 +21,7 @@ Categories: Added, Changed, Fixed, Removed. Newest at the top. Entries describe 
 
 ### Fixed
 
+- 2026-08-28: Transcript import was unreachable in practice. The prominent button labelled "Import" restored a JSON backup while PDF import sat in a collapsed section below it, so anyone looking to import a transcript hit the wrong picker. There is now one control, "Import transcript", accepting both a transcript PDF and a backup file and dispatching on which it receives. ADR-0034.
 - 2026-08-28: Course names were invisible in the plan column. Code, title, two selects and a delete control on one line left the title 0 to 2 pixels wide, and the semester band overflowed its box by 12 pixels. Chips are now two rows: the record on the first line, controls on the second. Titles get roughly 200 pixels and wrap instead of vanishing.
 
 ## [0.2.0] - 2026-08-28
