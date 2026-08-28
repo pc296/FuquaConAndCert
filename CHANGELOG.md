@@ -8,7 +8,23 @@ Categories: Added, Changed, Fixed, Removed. Newest at the top. Entries describe 
 
 ## [Unreleased]
 
-Nothing yet.
+### Added
+
+- 2026-08-28: Summer and Winter terms. Each year now runs Summer, Fall 1, Fall 2, Winter, Spring 1, Spring 2, so the August orientation block has somewhere to sit instead of landing in Fall 1. Optional terms render only when they hold a course. ADR-0035.
+- 2026-08-28: A program start year stored with the plan. It drives the calendar labels, so terms read "Fall 2026" rather than "Year 1 Fall", and it anchors the transcript mapping. Inferred from the earliest term in the Fuqua record on import, and overridable.
+- 2026-08-28: Cross-listing aliases as reviewed catalog data in `data/catalog/aliases.json`, with a standing `verify.py` check that flags any course number appearing under two subject prefixes with matching titles. ENERGY 635 and ENERGY 711 now match the ENVIRON spellings Duke's registrar uses, and ENVIRON 520 folded into ENERGY 520 so one course counts toward both Energy & Environment and Social Entrepreneurship. ADR-0037.
+- 2026-08-28: The confirmation screen carries a placement dropdown on every row, so an imported transcript is sorted in one pass before anything is saved.
+
+### Changed
+
+- 2026-08-28: Plan format 2. Entries store a term id such as `y1-fall-2` instead of an integer quarter. Backups written through v0.3.0 still import; a test asserts placements and grades survive the migration. ADR-0035.
+
+### Fixed
+
+- 2026-08-28: Transcript import put every course in Year 1 Fall 1. The parser matched course codes and discarded the term headings around them, and the confirmation screen then added everything with the term hardcoded. Courses now land in the term their heading names, and coursework from before the program goes to the Pre-Fuqua bucket. Duke records semesters rather than Fuqua's 6-week terms, so Fall 1 versus Fall 2 remains the student's call, made explicit rather than guessed. ADR-0036.
+- 2026-08-28: Suggestions for unmatched codes proposed any course sharing the number, which offered HLTHMGMT 710 Health Institutions as a match for ENVIRON 710 Applied Statistical Modeling. A suggestion now requires the observed title to agree, and a code with no title beside it gets none.
+- 2026-08-28: TESTING.md required a test asserting that two certificates is valid, citing the superseded ADR-0017, while the code and its test correctly reject it. The specification contradicted both the implementation and its own suite.
+- 2026-08-28: Stale course counts in README.md and ARCHITECTURE.md, and ARCHITECTURE.md stating the superseded any-combination cap rule.
 
 ## [0.3.0] - 2026-08-28
 

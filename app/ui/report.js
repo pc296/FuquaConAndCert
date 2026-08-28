@@ -8,7 +8,7 @@
  */
 
 import { STATUS } from '../rules/index.js';
-import { PRE_FUQUA, PRE_FUQUA_LABEL, SEMESTERS, TERM_LABELS } from './placement.js';
+import { PRE_FUQUA, TERMS, termById, placementLabel } from './placement.js';
 
 const esc = (s) =>
   String(s ?? '').replace(/[&<>"']/g, (c) =>
@@ -61,7 +61,6 @@ export function buildReportHtml(catalog, plan, results, capCheck) {
     }).join('');
 
   const planRows = [];
-  const entriesAt = (predicate) => plan.entries.filter(predicate);
   const line = (label, entries) => {
     if (entries.length === 0) return;
     const cells = entries.map((e) => {
@@ -71,14 +70,20 @@ export function buildReportHtml(catalog, plan, results, capCheck) {
     }).join(', ');
     planRows.push(`<tr><td class="when">${esc(label)}</td><td>${cells}</td></tr>`);
   };
-  line(PRE_FUQUA_LABEL, entriesAt((e) => e.quarter === PRE_FUQUA));
-  for (const s of SEMESTERS) {
-    line(`${s.label} (semester)`, entriesAt((e) =>
-      e.quarter === s.start && catalog.courses.get(e.courseId)?.isFuqua === false));
-    for (const q of s.quarters) {
-      line(`${s.label.split(' · ')[0]} ${TERM_LABELS[q]}`, entriesAt((e) =>
-        e.quarter === q && catalog.courses.get(e.courseId)?.isFuqua !== false));
+  const isFuqua = (e) => catalog.courses.get(e.courseId)?.isFuqua !== false;
+  for (const term of TERMS) {
+    const here = plan.entries.filter((e) => (e.term ?? PRE_FUQUA) === term.id);
+    if (here.length === 0) continue;
+    if (term.id === PRE_FUQUA) {
+      line(term.label, here);
+      continue;
     }
+    // Non-Fuqua courses span the whole semester and are reported that way.
+    const spanning = here.filter((e) => !isFuqua(e));
+    const inTerm = here.filter(isFuqua);
+    const stamp = placementLabel(true, term.id, plan.startYear).replace(' · Term', ', Term');
+    if (spanning.length > 0) line(`${stamp.split(',')[0]} (full semester)`, spanning);
+    if (inTerm.length > 0) line(stamp, inTerm);
   }
 
   return `<!doctype html>

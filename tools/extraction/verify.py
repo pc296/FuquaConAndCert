@@ -13,11 +13,13 @@ from __future__ import annotations
 import json
 import re
 from collections import defaultdict
+from difflib import SequenceMatcher
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CATALOG = REPO_ROOT / "data" / "catalog"
 TEXT_DIR = REPO_ROOT / "data" / "raw" / "text"
+ALIASES_FILE = CATALOG / "aliases.json"
 
 # Case-tolerant on the area: the sources write "Management 754" in prose and
 # "MANAGEMT 754" in lists, and both refer to the same course.
@@ -81,7 +83,8 @@ def main() -> None:
         doc = Path(pathway["source"]).stem
         for group in pathway["groups"]:
             for cid in group["courses"]:
-                catalog_codes_by_doc[doc].add(BASE(cid))
+                base = BASE(cid)
+                catalog_codes_by_doc[doc].add(aliases.get(base.upper(), base))
 
     for pathway in pathways["pathways"]:
         pid = pathway["id"]
@@ -95,7 +98,8 @@ def main() -> None:
         for group in pathway["groups"]:
             for cid in group["courses"]:
                 seen_in_pathway[cid].append(group["id"])
-                if BASE(cid) not in source_codes:
+                base = BASE(cid)
+                if aliases.get(base.upper(), base) not in source_codes:
                     add("ERROR", pid, f"{cid} is in group '{group['id']}' but not in {doc}")
 
             dupes = [c for c in set(group["courses"]) if group["courses"].count(c) > 1]
@@ -139,6 +143,43 @@ def main() -> None:
                 if len(matches) == 1 and abs(course["credits"] - stated) > 1e-9:
                     add("REVIEW", doc,
                         f"{code} is {stated} credits in {doc} but {course['credits']} in the catalog")
+
+    # Standing check for cross-listings: one course filed under two subject
+    # prefixes. This is how ENERGY 520 and ENVIRON 520 sat in the catalog as two
+    # separate courses, so a student's single course counted toward only one of the
+    # two pathways that list it (ADR-0037). Detection is automatic; accepting an
+    # alias stays a human edit to aliases.json.
+    alias_data = json.loads(ALIASES_FILE.read_text(encoding="utf8"))
+    known = {c for v in alias_data["aliases"].values() for c in v["codes"]}
+    known |= set(alias_data["aliases"])
+    protected = set(alias_data["distinctFamilies"])
+
+    def normalize_title(t: str) -> str:
+        t = t.lower().replace("&", "and").replace("-", " ")
+        t = re.sub(r"[^a-z0-9 ]", "", t)
+        t = re.sub(r"\b(i|1)\b", "1", t)
+        return " ".join(t.split())
+
+    by_number = defaultdict(list)
+    for course in by_id.values():
+        area, _, number = course["code"].partition(" ")
+        by_number[number].append((area, course))
+
+    for number, entries in sorted(by_number.items()):
+        if number in protected:
+            continue  # deliberately distinct courses that share a number
+        for i in range(len(entries)):
+            for j in range(i + 1, len(entries)):
+                (area_a, a), (area_b, b) = entries[i], entries[j]
+                if area_a == area_b or a["code"] in known or b["code"] in known:
+                    continue
+                score = SequenceMatcher(
+                    None, normalize_title(a["title"]), normalize_title(b["title"])
+                ).ratio()
+                if score >= 0.75:
+                    add("REVIEW", "cross-listing",
+                        f"{a['code']} and {b['code']} share a number and their titles match "
+                        f"{score:.0%}. Same course? If so add an alias in aliases.json.")
 
     order = {"ERROR": 0, "WARN": 1, "REVIEW": 2}
     findings.sort(key=lambda f: (order[f[0]], f[1], f[2]))

@@ -296,6 +296,51 @@ textarea:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
   margin: 0 0 6px;
 }
 
+/* ---------- start year, year and semester structure ---------- */
+
+.startyear { margin-bottom: 10px; padding-bottom: 10px; border-bottom: var(--rule-hair); }
+.startyear select { flex: 1; }
+
+.year-block { margin-top: 20px; }
+.year-heading {
+  font-family: var(--serif);
+  font-size: 15px;
+  color: var(--duke-navy);
+  margin: 0 0 8px;
+  padding-bottom: 5px;
+  border-bottom: var(--rule-accent);
+  font-variant-numeric: var(--tabular);
+}
+.semester-label {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--duke-royal);
+  margin: 14px 0 4px;
+}
+
+/* ---------- confirmation rows ---------- */
+
+.confirm-row { gap: 10px; }
+.confirm-row select {
+  flex: none;
+  max-width: 118px;
+  padding: 2px 4px;
+  font-size: 11.5px;
+  border-color: var(--limestone);
+}
+.confirm-row select.needs-check { border-color: var(--persimmon); border-width: 2px; }
+.unmatched { margin-top: 10px; padding-top: 8px; border-top: var(--rule-hair); }
+.unmatched h4 {
+  font-family: var(--sans); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.09em; text-transform: uppercase; color: var(--graphite); margin: 0 0 5px;
+}
+.unmatched ul { list-style: none; margin: 0; padding: 0; }
+.unmatched li { font-size: 12.5px; color: var(--graphite); padding: 3px 0; line-height: 1.45; }
+.unmatched strong { color: var(--duke-navy); }
+
 /* ---------- course chip: two rows ----------
    The name gets its own line. Cramming code, title, two selects and a delete
    control onto one row starved the title to two pixels wide (LESSONS

@@ -39,17 +39,17 @@ Project: **Fuqua ConCert**, a course planner for the Duke Fuqua full-time MBA. R
 
 ## Open questions
 
-Tracked in DECISIONS.md. Anything marked `proposed` is unresolved and blocks code that depends on it. As of 2026-08-27 there are none: ADR-0001 through ADR-0020 are all accepted or superseded.
+Tracked in DECISIONS.md. Anything marked `proposed` is unresolved and blocks code that depends on it. As of 2026-08-28 there are none: ADR-0001 through ADR-0037 are all accepted or superseded. Do not follow ADR-0003, ADR-0014, ADR-0017 or ADR-0021.
 
 ## Where the project stands
 
 Last save point: **v0.3.0**, tagged 2026-08-28. Everything below is built, tested, and committed.
 
-- 18 pathways and 164 courses in `data/catalog/`, verified against the 16 source documents. 15 of those courses are the Daytime MBA core (ADR-0029; FUQINTRD 692 confirmed by Pat).
+- 18 pathways and 163 courses in `data/catalog/`, verified against the 16 source documents. 15 are the Daytime MBA core (ADR-0029), and cross-listings resolve through `aliases.json` (ADR-0037).
 - Rule engine with within-pathway allocation, group and pathway constraints, the two-specialty cap, Finance Certificate GPA and intermediate qualification, and the HSM core requirement.
 - Recommender: shortest route to each pathway, and a ranking of all 18.
-- Interface: semester-aware planner with a Pre-Fuqua Dual Degree bucket (ADR-0030), paste-with-confirmation entry, SVG Pathway Map, per-pathway detail with expandable option lists, step alternatives on the shortest-way list, a print-styled progress report (ADR-0031), and transcript PDF import (ADR-0033). Institutional design language throughout (ADR-0032).
-- 57 tests (50 rules, 7 UI integrity), 6 extraction tests, and `npm run verify` clean.
+- Interface: semester-aware planner with a Pre-Fuqua Dual Degree bucket (ADR-0030), paste-with-confirmation entry, SVG Pathway Map, per-pathway detail with expandable option lists, step alternatives on the shortest-way list, a print-styled progress report (ADR-0031), and term-aware transcript PDF import (ADR-0033, ADR-0036). Terms cover Summer through Spring 2 in each year with a program start year driving calendar labels (ADR-0035). Institutional design language throughout (ADR-0032).
+- 79 tests (69 rules and parsing, 10 UI integrity), 6 extraction tests, and `npm run verify` clean.
 
 Checks to run before believing any of that again:
 

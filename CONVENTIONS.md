@@ -2,7 +2,7 @@
 
 Purpose: single source of truth for how code in Fuqua ConCert is written.
 
-Last updated: 2026-08-27
+Last updated: 2026-08-28
 
 The stack is split by lifecycle per ADR-0008: Python for offline extraction, JavaScript for the shipped application. Rules below are grouped accordingly.
 
@@ -45,7 +45,7 @@ Work_folder/                        repo root, GitHub Pages source
     fonts/        vendored Merriweather and Open Sans
     vendor/       vendored third-party builds, currently pdf.js (ADR-0033)
   data/
-    catalog/      18 pathway records, committed, human-reviewed
+    catalog/      18 pathway records, courses, core list and aliases; human-reviewed
     layout/       hand-authored SVG coordinates per pathway
   tools/
     extraction/   Python, developer-only
@@ -89,6 +89,7 @@ Conventional Commits: `type(scope): subject`.
 - Never add a runtime dependency or a build step without an ADR.
 - Never hand-edit `data/catalog/` without stating the correction and its reason in the commit body. The catalog is reviewed data, and an unexplained edit is indistinguishable from a mistake.
 - Never infer a requirement the source document does not state.
+- Never treat a shared course number as evidence that two courses are the same. This catalog has unrelated courses sharing a number and a whole family, the 895 practicums, that the sources call distinct on purpose (ADR-0037).
 - Never commit a plan file, an export, or anything else derived from a real transcript.
 - Never mark a task done with a failing postflight gate.
 - Never verify a UI change against a hand-picked subset of staged files. Stage everything the browser loads, or a screenshot may be showing older code than the tests (LESSONS 2026-08-28).

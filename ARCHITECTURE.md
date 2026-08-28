@@ -8,7 +8,7 @@ Last updated: 2026-08-28
 
 Stage 1 built and passing (ADR-0013 staging). Extraction, the catalog for all 18 pathways, the rule engine, storage, and the interface exist and are verified. Stages 2 to 4 (grades beyond the Finance Certificate, MEM and dual-degree coursework, user-added substitutions) are not built; the schema already carries their fields.
 
-Superseded design notes: ADR-0003 specified Python and FastAPI, replaced by ADR-0008. ADR-0014 made double-counting configurable, replaced by ADR-0018. ADR-0017 allowed two certificates, replaced by ADR-0021. Do not follow any of the three.
+Superseded design notes: ADR-0003 specified Python and FastAPI, replaced by ADR-0008. ADR-0014 made double-counting configurable, replaced by ADR-0018. ADR-0017 allowed two certificates, replaced by ADR-0021 and settled by ADR-0025. Do not follow ADR-0003, ADR-0014, ADR-0017 or ADR-0021.
 
 Running it locally needs a static server, because browsers block ES modules over `file://`: `npm run serve`, then http://localhost:8080. On GitHub Pages no server step is needed (ADR-0024).
 
@@ -16,7 +16,7 @@ Running it locally needs a static server, because browsers block ES modules over
 
 **Fuqua ConCert** is a planner for the Duke Fuqua full-time MBA. A student enters the courses they have taken and plan to take across the eight quarters of the program. The tool evaluates that course list against all 18 concentration and certificate pathways at once and renders the result as the Pathway Map, an RPG-style constellation: branches per pathway, nodes per requirement group, filling in as courses satisfy them.
 
-A student may earn at most two academic specialties in any combination of concentrations and certificates (ADR-0017). The tool tracks progress on all 18 regardless, and warns when the declared set exceeds two rather than blocking exploration.
+A student may earn at most two academic specialties, and at most one of them may be a certificate (ADR-0025, which superseded ADR-0017 and ADR-0021). The tool tracks progress on all 18 regardless, and warns when the declared set exceeds two rather than blocking exploration.
 
 A course counts toward every pathway it appears on, simultaneously (ADR-0018). There is no allocation problem to solve.
 
@@ -28,7 +28,8 @@ Source_docs/*.pdf          read-only input, outside the repo, 16 files
         |  [1] extraction  (Python, offline, developer-only, run on demand)
         v
 data/catalog/pathways.json 18 pathway records, committed, human-reviewed
-data/catalog/core.json     14 Daytime MBA core courses, hand-maintained (ADR-0029)
+data/catalog/core.json     15 Daytime MBA core courses, hand-maintained (ADR-0029)
+data/catalog/aliases.json  cross-listings and spelling variants, reviewed (ADR-0037)
 data/layout/*.json         hand-authored SVG node coordinates per pathway
         |
         |  loaded by the browser at page load, static fetch
@@ -50,14 +51,16 @@ There is no server. The shipped artifact is a static site.
 Turns the source PDFs into pathway records. Runs on Pat's machine only, never in the browser, never at request time. Owns PDF text extraction via pdfplumber (ADR-0009), section splitting, course code and credit parsing, and mapping 16 documents onto 18 pathways (ADR-0020). Output is reviewed by a human before commit (ADR-0004). Does not own rule evaluation.
 
 **[2] rules** (JavaScript, `app/rules/`)
-Pure ES modules. No DOM access, no fetch, no localStorage. Given a course list and a pathway record, returns satisfied groups, remaining requirements, credits counted, and status. Evaluation runs 18 independent passes, one per pathway, with no shared state between them. Also owns the specialty cap check (ADR-0021). This is the layer that gets the heaviest test coverage, and it is importable by `node --test` without a browser.
+Pure ES modules. No DOM access, no fetch, no localStorage. Given a course list and a pathway record, returns satisfied groups, remaining requirements, credits counted, and status. Evaluation runs 18 independent passes, one per pathway, with no shared state between them. Also owns the specialty cap check (ADR-0025). This is the layer that gets the heaviest test coverage, and it is importable by `node --test` without a browser.
 
 `recommend.js` answers "what should I take next" by greedy search that calls the evaluator on each candidate rather than reasoning about requirements itself, so advice and progress can never disagree (ADR-0027).
 
 `allocate.js` handles the one place where courses do compete: within a single pathway, a course is assigned to at most one group, because several pathways have groups whose lists overlap on purpose. Exact search with a node budget, falling back to a flagged approximation (ADR-0022).
 
 **[3] ui** (JavaScript, `app/ui/`)
-Owns the plan column where courses are placed across the Pre-Fuqua bucket and eight terms (ADR-0030), the Pathway Map rendered as SVG from hand-authored layout coordinates (ADR-0010), and the confirmation screen that every input path routes through before anything is saved (ADR-0012). Contains no requirement logic. If the UI needs to know whether something is satisfied, it calls `rules`.
+Owns the plan column where courses are placed across the Pre-Fuqua bucket and each year's Summer, Fall 1, Fall 2, Winter, Spring 1 and Spring 2 terms (ADR-0030, ADR-0035), the Pathway Map rendered as SVG from hand-authored layout coordinates (ADR-0010), and the confirmation screen that every input path routes through before anything is saved (ADR-0012). Contains no requirement logic. If the UI needs to know whether something is satisfied, it calls `rules`.
+
+`parse-transcript.js` reads a transcript's school records and term headings so courses land in the term they were taken, mapping calendar terms onto program terms through a start year stored with the plan. Duke records semesters rather than Fuqua's 6-week terms, so a Fall course is marked inexact and the student sorts Fall 1 from Fall 2 at the confirmation screen (ADR-0036).
 
 `pdf-import.js` reads the text layer of a transcript PDF and hands the text to the same confirmation screen the paste box uses. It loads the vendored pdf.js through a dynamic import on first use, so 1.7 MB downloads only for users who actually import a PDF (ADR-0033). A PDF with no text layer is a scan; it fails loudly rather than returning an empty result.
 

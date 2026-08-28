@@ -1,0 +1,28 @@
+# Structure of a Duke unofficial transcript: two school records, term headings, and
+# course lines. Synthetic coursework. No real student record is committed to this
+# repository (CONVENTIONS.md).
+                    DUKE UNIVERSITY - Unofficial Transcript                Page 1 of 1
+ Name:           A Student
+ Academic Program History
+ Program:             Daytime MBA
+                    Beginning of Fuqua School of Business Record
+                                   2026 Fall Term
+ Course              Description                                Units Earned Official
+ ACCOUNTG   590      FINANCIAL ACCOUNTING                            0.000
+ FINANCE    645      FINANCIAL MANAGEMENT                            0.000
+ FUQINTRD   565      COLLABORATIVE LEADERSHIP 1                      0.000
+ MARKETNG   795      MARKETING MANAGEMENT                            0.000
+          Term GPA:    0.000
+                                   2027 Spring Term
+ FINANCE    646      CORPORATE FINANCE                               3.000    A
+ STRATEGY   838      ENTREPRENEURIAL STRATEGY                        3.000    A-
+          Term GPA:    3.850
+                    Beginning of Nicholas School of Environment Record
+                                   2025 Fall Term
+ ENERGY     520      RESOURCE & ENVIRON ECON I                       1.500    A
+ ENVIRON    711      ENERGY & ENVIRONMENT                            3.000    A-
+          Term GPA:    3.900
+                                   2026 Spring Term
+ ENVIRON    635      ENERGY ECONOMICS AND POLICY                     1.500    A
+ ENVIRON    559      FUNDAMENTL GEOSPATIAL ANALYS                    4.000    A-
+          Term GPA:    3.880

@@ -2,7 +2,7 @@
 
 Purpose: running log of mistakes, root causes, and the rule adopted so they do not recur. Read in PREFLIGHT, appended in POSTFLIGHT.
 
-Last updated: 2026-08-27
+Last updated: 2026-08-28
 
 Entry format: date, what happened, why, durable takeaway.
 
@@ -151,3 +151,13 @@ Second takeaway: every field in a data file should have a consumer or a comment 
 **Why.** Every check I ran asked whether the feature existed and worked. I queried the live DOM for `#pdf-file` and confirmed its `accept` attribute, drove it with a synthetic transcript, and watched it succeed. Not one check asked whether a person looking for it would arrive at it. Having decided where to put the control, I was the worst possible judge of whether it could be found, and my verification inherited that blind spot completely.
 
 **Takeaway.** Automated verification answers "does it work", never "is it discoverable". For any user-facing entry point, name the single most obvious thing a person would click for that goal, and confirm that clicking it does that thing. If it does something else, the design is wrong regardless of test results. Where two controls could plausibly serve the same intent, prefer collapsing them into one that dispatches on input over labelling the difference; the interface then cannot be misread. See ADR-0034.
+
+---
+
+## 2026-08-28: I built the false positive I had just documented as the reason for human review
+
+**What happened.** Writing ADR-0037 I argued explicitly that cross-listings must never be accepted on title similarity, citing the FCCP practicums as proof that a shared number means nothing. In the same session I wrote a suggestion helper that proposed a course whenever exactly one other course shared its number, with no title check at all. Running Pat's real transcript, it offered `HLTHMGMT 710 Health Institutions, Systems and Policy` as a match for his `ENVIRON 710 Applied Statistical Modeling`. Unrelated courses, presented to a student as a plausible match.
+
+**Why.** The reasoning about false positives was applied to the mechanism I was thinking about, the automated detector, and not to the one I wrote afterwards. The two do the same job in different places, and only one inherited the caution. Writing the argument down did not make me apply it, because I had filed it against a component rather than against a category of decision.
+
+**Takeaway.** A safeguard belongs to the decision, not to the component it was first written for. When an ADR says a class of inference is unsafe, grep for every place that inference happens before considering it done. Concretely: suggestions now require the observed title to overlap the candidate's, and a code with no title beside it gets no suggestion at all, on the principle that a wrong course offered as plausible is worse than no hint. It also cost nothing to fix, because a real transcript was run through the finished feature. Synthetic fixtures would not have produced ENVIRON 710.

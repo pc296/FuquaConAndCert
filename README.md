@@ -8,7 +8,7 @@ The repository is `FuquaConAndCert`; the tool is called Fuqua ConCert. The names
 
 ## Where it lives
 
-Published at **https://pc296.github.io/FuquaConAndCert/** once GitHub Pages is enabled on the repository: Settings, Pages, Source "Deploy from a branch", branch `main`, folder `/ (root)`. There is no build step and no workflow, so every push publishes.
+Published at **https://pc296.github.io/FuquaConAndCert/**. There is no build step and no workflow, so every push publishes.
 
 ## Running it
 
@@ -25,8 +25,9 @@ Then open http://localhost:8080. Published to GitHub Pages, no server step is ne
 - Tracks progress on all 18 pathways at once: 16 concentrations and 2 certificates.
 - A course counts toward every pathway it appears on. Inside a single pathway, each course is allocated to one group, because several pathways have deliberately overlapping group lists.
 - Warns when a declared set would exceed the two-specialty limit. Dual Finance counts as two and fills the allowance alone.
-- Knows the 14 Daytime MBA core courses, so pasted transcripts parse cleanly. Core courses count toward no concentration; only the HSM certificate requires them.
+- Knows the 15 Daytime MBA core courses, so imported transcripts parse cleanly. Core courses count toward no concentration; only the HSM certificate requires them.
 - Handles the conditional rules in the source documents: the Energy Finance overflow clause, the Leadership and Ethics outside-Management minimum, the Social Entrepreneurship practicum and non-Fuqua credit limits, the Operations practicum credit adjustment, repeatable and variable-credit courses, and the Finance Certificate GPA threshold.
+- Import transcript reads the term headings in the file, so courses land in the term they were taken and coursework from before the program goes to the Pre-Fuqua bucket. Duke records semesters rather than Fuqua's 6-week terms, so Fall 1 versus Fall 2 is yours to set on each row before adding.
 - Import transcript takes either a transcript PDF or a Fuqua ConCert backup file and works out which it was given. Transcripts route through a confirmation screen, so nothing enters your plan unreviewed. Scanned PDFs are refused with an explanation rather than silently returning nothing; paste the text instead.
 - Your plan is stored in this browser only. Report prints a progress summary; Backup writes a JSON file for restoring the plan later.
 
@@ -37,7 +38,7 @@ index.html            entry point, served from the repo root
 app/rules/            pure ES modules: evaluation, allocation, the specialty cap
 app/ui/               DOM and SVG, no requirement logic
 app/storage/          localStorage plus export and import
-data/catalog/         18 pathways, 163 courses (14 core), reviewed data
+data/catalog/         18 pathways, 163 courses (15 core), aliases, reviewed data
 data/layout/          hand-authored Pathway Map coordinates
 tools/extraction/     Python, developer-only, reads ../Source_docs
 tests/rules/          node --test

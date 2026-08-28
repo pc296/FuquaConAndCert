@@ -164,7 +164,10 @@
       "title": "Resource & Environmental Economics I",
       "area": "ENERGY",
       "credits": 1.5,
-      "isFuqua": false
+      "isFuqua": false,
+      "aliases": [
+        "ENVIRON 520"
+      ]
     },
     {
       "id": "ENERGY 579",
@@ -231,7 +234,10 @@
       "title": "Energy Economics and Policy",
       "area": "ENERGY",
       "credits": 1.5,
-      "isFuqua": false
+      "isFuqua": false,
+      "aliases": [
+        "ENVIRON 635"
+      ]
     },
     {
       "id": "ENERGY 711",
@@ -239,7 +245,10 @@
       "title": "Energy and the Environment",
       "area": "ENERGY",
       "credits": 3,
-      "isFuqua": false
+      "isFuqua": false,
+      "aliases": [
+        "ENVIRON 711"
+      ]
     },
     {
       "id": "ENERGY 716L",
@@ -315,14 +324,6 @@
       "credits": 6,
       "isFuqua": true,
       "isPracticum": true
-    },
-    {
-      "id": "ENVIRON 520",
-      "code": "ENVIRON 520",
-      "title": "Resource and Environmental Economics 1",
-      "area": "ENVIRON",
-      "credits": 3,
-      "isFuqua": false
     },
     {
       "id": "ENVIRON 592",
@@ -1121,8 +1122,7 @@
       "title": "Value Chain Innovation in Business Processes",
       "area": "OPERATNS",
       "credits": 3,
-      "isFuqua": true,
-      "aliases": []
+      "isFuqua": true
     },
     {
       "id": "OPERATNS 894::sustainable-ops",

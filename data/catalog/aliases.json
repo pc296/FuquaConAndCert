@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-08-28",
+  "note": "Alternate codes for the same course. Reviewed data, not inference (ADR-0037). Each entry maps a canonical course id to the other codes that mean the same course. Two kinds appear: genuine cross-listings, where Duke's registrar and a Fuqua requirement document file one course under different subject prefixes, and spelling variants inside the documents themselves. Resolution is exact-code only; nothing is matched by similarity at runtime.",
+  "distinctFamilies": {
+    "895": "Fuqua Client Consulting Practicum. Every FCCP course is numbered 895 and the subject prefix is what distinguishes them. The source documents state directly that a Marketing 895 does not satisfy a requirement for Strategy 895. These must never be aliased to each other, however similar their titles look.",
+    "894": "Special Topics. The number is reused for unrelated courses across and within subjects.",
+    "898": "Special Topics and named seminars. HLTHMGMT 898 alone covers five different courses."
+  },
+  "aliases": {
+    "ENERGY 520": {
+      "codes": ["ENVIRON 520"],
+      "reason": "Cross-listed. The Energy & Environment document lists ENERGY 520 'Resource & Environmental Economics I'; the Social Entrepreneurship document lists ENVIRON 520 'Resource and Environmental Economics 1'. Same course, and both pathways should see it.",
+      "confirmedBy": "identical titles across two source documents; flagged automatically by verify.py"
+    },
+    "ENERGY 635": {
+      "codes": ["ENVIRON 635"],
+      "reason": "Cross-listed. The Energy & Environment document lists ENERGY 635 'Energy Economics and Policy'; Duke's registrar records the same course as ENVIRON 635.",
+      "confirmedBy": "Pat, 2026-08-28, from his own transcript"
+    },
+    "ENERGY 711": {
+      "codes": ["ENVIRON 711"],
+      "reason": "Cross-listed. The Energy & Environment document lists ENERGY 711 'Energy and the Environment'; Duke's registrar records the same course as ENVIRON 711.",
+      "confirmedBy": "Pat, 2026-08-28, from his own transcript"
+    },
+    "PUBPOL 559S": {
+      "codes": ["LAW 585"],
+      "reason": "Cross-listed in the source itself, which writes the line as 'PUBPOL 559S/LAW 585'.",
+      "confirmedBy": "the Social Entrepreneurship document"
+    },
+    "MARKETNG 807": {
+      "codes": ["MARKETING 807"],
+      "reason": "Spelling variant. Two documents write MARKETING where four write MARKETNG, which is the registrar's subject code.",
+      "confirmedBy": "four documents against two"
+    },
+    "MANAGEMT 754": {
+      "codes": ["MANAGEMENT 754"],
+      "reason": "Spelling variant. Prose in two documents writes 'Mentored Study (Management 754)' in title case.",
+      "confirmedBy": "the Energy & Environment and Energy Finance documents"
+    },
+    "ENERGY 590.05": {
+      "codes": ["ENERGY 590-05"],
+      "reason": "Punctuation variant. One document writes 590.05 and another 590-05 for Economics of Modern Power Systems.",
+      "confirmedBy": "identical titles across two source documents"
+    },
+    "ACCOUNTG 597": {
+      "codes": ["ACCT 597"],
+      "reason": "Abbreviation used in prose in the Leadership and Ethics document.",
+      "confirmedBy": "the Leadership and Ethics document"
+    }
+  }
+}

@@ -56,7 +56,9 @@ Every conditional rule in the source documents gets an explicit test:
 - The Social Entrepreneurship cap of 6 credits of non-Fuqua coursework.
 - The Entrepreneurship rule that a practicum must match the discipline: Marketing 895 does not satisfy a requirement for Strategy 895.
 - The Finance Certificate 3.75 GPA threshold and its intermediate qualifying state, once grades land in stage 2 (ADR-0013).
-- The specialty cap as a slot count: two ordinary pathways fit, Dual Finance alone fills the cap, two certificates is valid (ADR-0017).
+- The specialty cap as a slot count: two ordinary pathways fit, Dual Finance alone fills the cap, and two certificates is rejected because certificates are capped at one (ADR-0025, which superseded ADR-0017 and then ADR-0021).
+- A course listed under different subject prefixes by two source documents resolving to one course, so it counts on every pathway that lists it under any of its names (ADR-0037).
+- A transcript's term headings placing courses in different terms, coursework before the program start landing in the Pre-Fuqua bucket, and a v0.3.0 backup migrating without loss (ADR-0035, ADR-0036).
 - A course counting toward every pathway it appears on at once (ADR-0018). Assert this positively with a course present on three pathways, since a regression here would silently understate progress.
 
 ## Coverage expectations

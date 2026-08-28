@@ -5,11 +5,11 @@
 
 import { buildCatalog, evaluateAll, checkCombination, recommend, rankPathways, STATUS } from '../rules/index.js';
 import * as store from '../storage/plan.js';
-import { parsePaste } from './parse-paste.js';
+import { parseTranscript, inferStartYear } from './parse-transcript.js';
 import { renderMap } from './map.js';
 import {
-  PRE_FUQUA, PRE_FUQUA_LABEL, SEMESTERS, TERM_LABELS,
-  placementOptions, normalizeQuarter, spansSemester, placementLabel,
+  PRE_FUQUA, TERMS, termById, termGroups,
+  placementOptions, normalizeTerm, spansSemester, placementLabel,
 } from './placement.js';
 import { buildReportHtml } from './report.js';
 import { extractPdfText, looksLikePdf } from './pdf-import.js';
@@ -38,10 +38,12 @@ async function init() {
 
   const loaded = store.load();
   plan = loaded.plan;
+  store.normalizeEntries(plan, (id) => catalog.courses.get(id)?.isFuqua !== false);
   if (loaded.error) {
     setStatus('Could not read a saved plan in this browser. Import a plan file to restore it.');
   }
 
+  buildStartYearControl();
   buildQuarterSelect();
   buildCourseList();
   bindControls();
@@ -56,13 +58,37 @@ async function fetchJson(path) {
 
 function buildQuarterSelect() {
   const select = $('quarter-select');
-  for (const option of placementOptions(true)) {
+  select.replaceChildren();
+  for (const option of placementOptions(true, plan?.startYear ?? null)) {
     const el = document.createElement('option');
-    el.value = String(option.value);
-    el.textContent = option.value === PRE_FUQUA ? 'Pre-Fuqua' : option.label;
-    if (option.value === 1) el.selected = true;
+    el.value = option.value;
+    el.textContent = option.label;
+    if (option.value === 'y1-fall-1') el.selected = true;
     select.appendChild(el);
   }
+}
+
+/** The program start year drives every calendar label and the transcript mapping. */
+function buildStartYearControl() {
+  const select = $('start-year');
+  select.replaceChildren();
+  const blank = document.createElement('option');
+  blank.value = '';
+  blank.textContent = 'not set';
+  select.appendChild(blank);
+  const thisYear = new Date().getFullYear();
+  for (let y = thisYear - 6; y <= thisYear + 3; y += 1) {
+    const el = document.createElement('option');
+    el.value = String(y);
+    el.textContent = `Fall ${y}`;
+    el.selected = plan.startYear === y;
+    select.appendChild(el);
+  }
+  select.onchange = () => {
+    plan.startYear = select.value === '' ? null : Number(select.value);
+    buildQuarterSelect();
+    persist();
+  };
 }
 
 function buildCourseList() {
@@ -97,7 +123,7 @@ function persist() {
   render();
 }
 
-function addCourse(courseId, quarter) {
+function addCourse(courseId, termId) {
   const course = catalog.courses.get(courseId);
   if (!course) return false;
   const taken = plan.entries.filter((e) => e.courseId === courseId).length;
@@ -106,7 +132,7 @@ function addCourse(courseId, quarter) {
     setStatus(`${course.code} is already in your plan${limit > 1 ? ` ${limit} times, its maximum` : ''}.`);
     return false;
   }
-  plan.entries.push({ courseId, quarter });
+  plan.entries.push({ courseId, term: normalizeTerm(course.isFuqua !== false, termId) });
   return true;
 }
 
@@ -118,11 +144,9 @@ function addFromSearch() {
   const code = option?.dataset.id ?? value.split('—')[0].trim();
   const course = catalog.courses.get(code) ?? catalog.courseList.find((c) => c.code === code);
   if (!course) { setStatus(`No course matches "${value}".`); return; }
-  const placed = normalizeQuarter(course.isFuqua, $('quarter-select').value);
+  const placed = normalizeTerm(course.isFuqua !== false, $('quarter-select').value);
   if (addCourse(course.id, placed)) {
-    setStatus(course.isFuqua || placed === PRE_FUQUA
-      ? `Added ${course.code}.`
-      : `Added ${course.code} as a semester course (${placementLabel(false, placed)}).`);
+    setStatus(`Added ${course.code} to ${placementLabel(course.isFuqua !== false, placed, plan.startYear)}.`);
     input.value = '';
     persist();
   }
@@ -165,38 +189,99 @@ async function importTranscriptPdf(file) {
   }
 }
 
+/**
+ * The confirmation screen. Extraction proposes, the student confirms (ADR-0012).
+ *
+ * Each row carries its own placement, because a transcript cannot say whether a
+ * Fuqua course ran in Fall 1 or Fall 2 (ADR-0036). Sorting them here means one
+ * pass before anything is saved, rather than editing chips afterward.
+ */
 function showConfirm(text) {
-  const { matched, unmatched } = parsePaste(text, catalog.courses);
+  const result = parseTranscript(text, catalog, { startYear: plan.startYear });
+  if (plan.startYear == null && result.startYear != null) {
+    plan.startYear = result.startYear;
+    buildStartYearControl();
+    buildQuarterSelect();
+  }
+
   const already = new Set(plan.entries.map((e) => e.courseId));
-  state.pending = matched.filter((m) => !already.has(m.courseId));
+  state.pending = result.matched
+    .filter((m) => !already.has(m.courseId))
+    .map((m) => ({ ...m, termId: m.termId ?? 'y1-fall-1' }));
+
   const area = $('confirm-area');
   area.replaceChildren();
 
-  if (state.pending.length === 0 && unmatched.length === 0) {
+  if (state.pending.length === 0 && result.unmatched.length === 0) {
     area.innerHTML = '<p class="muted">No course codes found in that text.</p>';
     return;
   }
 
   const box = document.createElement('div');
   box.className = 'confirm';
+  const inexact = state.pending.filter((p) => !p.exact && p.termId !== PRE_FUQUA).length;
   box.innerHTML = `<h3>Check before adding</h3>
-    <p class="muted">Nothing enters your plan until you confirm it. Untick anything that is wrong.</p>`;
+    <p class="band-note">Nothing enters your plan until you confirm it. Untick anything wrong,
+    and set the term on anything placed incorrectly.</p>
+    ${result.usedHeadings
+      ? `<p class="band-note">Placed from the term headings in the file.${inexact > 0
+          ? ` Duke transcripts record semesters, not Fuqua's 6-week terms, so ${inexact}
+             course${inexact === 1 ? '' : 's'} defaulted to the first term of the semester.
+             Set Fall 1 or Fall 2 below.` : ''}</p>`
+      : '<p class="band-note">That text had no term headings, so everything defaults to Year 1 Fall 1. Set the term on each row.</p>'}`;
 
   const list = document.createElement('ul');
   state.pending.forEach((item, i) => {
     const course = catalog.courses.get(item.courseId);
+    const isFuqua = course?.isFuqua !== false;
     const li = document.createElement('li');
-    li.innerHTML = `<input type="checkbox" id="pend-${i}" ${item.ambiguous ? '' : 'checked'}>
-      <label for="pend-${i}"><strong>${course.code}</strong> ${escapeHtml(course.title)}</label>
-      ${item.ambiguous ? '<span class="amb">shared course number, pick the right one</span>' : ''}`;
+    li.className = 'confirm-row';
+
+    const tick = document.createElement('input');
+    tick.type = 'checkbox';
+    tick.id = `pend-${i}`;
+    tick.checked = !item.ambiguous;
+
+    const label = document.createElement('label');
+    label.className = 'grow';
+    label.htmlFor = tick.id;
+    label.innerHTML = `<strong>${escapeHtml(course?.code ?? item.courseId)}</strong> ${escapeHtml(course?.title ?? '')}`
+      + (item.viaAlias ? ` <span class="alt">listed as ${escapeHtml(item.raw)}</span>` : '')
+      + (item.ambiguous ? ' <span class="amb">shared number, pick the right one</span>' : '');
+
+    const where = document.createElement('select');
+    where.setAttribute('aria-label', `Placement for ${course?.code ?? item.courseId}`);
+    for (const option of placementOptions(isFuqua, plan.startYear)) {
+      const el = document.createElement('option');
+      el.value = option.value;
+      el.textContent = option.short;
+      el.selected = normalizeTerm(isFuqua, item.termId) === option.value;
+      where.appendChild(el);
+    }
+    where.addEventListener('change', () => { item.termId = normalizeTerm(isFuqua, where.value); });
+    if (!item.exact && item.termId !== PRE_FUQUA) where.classList.add('needs-check');
+
+    li.append(tick, label, where);
     list.appendChild(li);
   });
   box.appendChild(list);
 
-  if (unmatched.length > 0) {
-    const note = document.createElement('p');
-    note.className = 'muted';
-    note.textContent = `Not in the catalog, so not offered: ${unmatched.join(', ')}. These may be core courses, or courses that need advising approval.`;
+  if (result.unmatched.length > 0) {
+    const note = document.createElement('div');
+    note.className = 'unmatched';
+    note.innerHTML = '<h4>Not in the catalog</h4>';
+    const ul = document.createElement('ul');
+    for (const miss of result.unmatched) {
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${escapeHtml(miss.code)}</strong>`
+        + (miss.suggestion
+          ? ` — same number as <strong>${escapeHtml(miss.suggestion.code)}</strong>
+             ${escapeHtml(miss.suggestion.title)}. If those are the same course, tell me and
+             it becomes a catalog alias.`
+          : ' — not listed on any concentration, or a core course this tool does not track.');
+      ul.appendChild(li);
+    }
+    note.appendChild(ul);
     box.appendChild(note);
   }
 
@@ -207,12 +292,12 @@ function showConfirm(text) {
   confirm.addEventListener('click', () => {
     let added = 0;
     state.pending.forEach((item, i) => {
-      if ($(`pend-${i}`)?.checked && addCourse(item.courseId, 1)) added += 1;
+      if ($(`pend-${i}`)?.checked && addCourse(item.courseId, item.termId)) added += 1;
     });
     $('confirm-area').replaceChildren();
     $('paste-box').value = '';
     setImportStatus('');
-    setStatus(`${added} course${added === 1 ? '' : 's'} added. Set their placement below.`);
+    setStatus(`${added} course${added === 1 ? '' : 's'} added.`);
     persist();
   });
   const cancel = document.createElement('button');
@@ -289,74 +374,82 @@ function renderQuarters() {
     : `Core curriculum: ${haveCore} of ${catalog.coreCourses.length} recorded. Core courses count toward no concentration; only the HSM certificate requires them.`;
   host.appendChild(core);
 
-  const isFuquaEntry = (entry) => catalog.courses.get(entry.courseId)?.isFuqua !== false;
+  const isFuquaEntry = (e) => catalog.courses.get(e.courseId)?.isFuqua !== false;
+  const at = (termId) => plan.entries.filter((e) => (e.term ?? PRE_FUQUA) === termId);
   const creditsOf = (entries) =>
     entries.reduce((sum, e) => sum + (catalog.courses.get(e.courseId)?.credits ?? 0), 0);
 
-  // Pre-Fuqua bucket first: dual-degree coursework taken before Fuqua. Placement is
-  // display metadata only, so these count toward pathways like any course (ADR-0030).
-  const pre = plan.entries.filter((e) => e.quarter === PRE_FUQUA);
-  const preSection = document.createElement('div');
-  preSection.className = 'quarter prefuqua';
-  const preHeading = document.createElement('h3');
-  const preCredits = creditsOf(pre);
-  preHeading.textContent = preCredits > 0
-    ? `${PRE_FUQUA_LABEL} — ${preCredits} credits`
-    : PRE_FUQUA_LABEL;
-  preSection.appendChild(preHeading);
-  if (pre.length === 0) {
-    preSection.insertAdjacentHTML('beforeend', '<p class="empty-quarter">nothing recorded</p>');
-  }
-  for (const entry of pre) preSection.appendChild(renderChip(entry));
-  host.appendChild(preSection);
+  // Pre-Fuqua first: dual-degree coursework taken before the program, counting
+  // toward pathways exactly like any other course (ADR-0030).
+  host.appendChild(renderTermSection(termById(PRE_FUQUA), at(PRE_FUQUA), creditsOf, true));
 
-  for (const semester of SEMESTERS) {
-    const section = document.createElement('div');
-    section.className = 'semester-block';
-    const semesterLong = plan.entries.filter(
-      (e) => e.quarter === semester.start && !isFuquaEntry(e),
-    );
-    const termEntries = semester.quarters.map((q) =>
-      plan.entries.filter((e) => e.quarter === q && isFuquaEntry(e)),
-    );
-    const total = creditsOf(semesterLong) + creditsOf(termEntries.flat());
+  for (const year of termGroups()) {
+    const yearEntries = year.semesters.flatMap((s) => s.terms.flatMap((t) => at(t.id)));
+    const block = document.createElement('div');
+    block.className = 'year-block';
 
     const heading = document.createElement('h3');
-    heading.className = 'semester-heading';
-    heading.textContent = total > 0 ? `${semester.label} — ${total} credits` : semester.label;
-    section.appendChild(heading);
+    heading.className = 'year-heading';
+    const credits = creditsOf(yearEntries);
+    const span = plan.startYear
+      ? `${plan.startYear + year.year - 1}–${String(plan.startYear + year.year).slice(2)}`
+      : `Year ${year.year}`;
+    heading.textContent = credits > 0 ? `${span} — ${credits} credits` : span;
+    block.appendChild(heading);
 
-    if (semesterLong.length > 0) {
-      const band = document.createElement('div');
-      band.className = 'semester-band';
-      band.insertAdjacentHTML('beforeend',
-        '<h4>Semester courses</h4><p class="band-note">Run on the Duke semester calendar and span both Fuqua terms.</p>');
-      for (const entry of semesterLong) band.appendChild(renderChip(entry));
-      section.appendChild(band);
-    }
+    for (const semester of year.semesters) {
+      const semesterEntries = semester.terms.flatMap((t) => at(t.id));
+      const optional = semester.terms.every((t) => !t.always);
+      // An optional term with nothing in it stays hidden, so the column does not
+      // fill with empty sections a student never uses.
+      if (optional && semesterEntries.length === 0) continue;
 
-    semester.quarters.forEach((quarter, i) => {
-      const sub = document.createElement('div');
-      sub.className = 'quarter';
-      const entries = termEntries[i];
-      const heading3 = document.createElement('h3');
-      const credits = creditsOf(entries);
-      const coreCount = entries.filter((e) => catalog.courses.get(e.courseId)?.isCore).length;
-      const bits = [];
-      if (credits > 0) bits.push(`${credits} credits`);
-      if (coreCount > 0) bits.push(`${coreCount} core`);
-      heading3.textContent = bits.length
-        ? `${TERM_LABELS[quarter]} — ${bits.join(', ')}`
-        : TERM_LABELS[quarter];
-      sub.appendChild(heading3);
-      if (entries.length === 0 && semesterLong.length === 0) {
-        sub.insertAdjacentHTML('beforeend', '<p class="empty-quarter">nothing planned</p>');
+      const spanning = semester.terms.length > 1
+        ? at(semester.terms[0].id).filter((e) => !isFuquaEntry(e)) : [];
+
+      if (semester.terms.length > 1) {
+        const label = document.createElement('h4');
+        label.className = 'semester-label';
+        label.textContent = semester.season;
+        block.appendChild(label);
       }
-      for (const entry of entries) sub.appendChild(renderChip(entry));
-      section.appendChild(sub);
-    });
-    host.appendChild(section);
+      if (spanning.length > 0) {
+        const band = document.createElement('div');
+        band.className = 'semester-band';
+        band.insertAdjacentHTML('beforeend',
+          '<h4>Semester courses</h4><p class="band-note">Run on the Duke semester calendar and span both Fuqua terms.</p>');
+        for (const entry of spanning) band.appendChild(renderChip(entry));
+        block.appendChild(band);
+      }
+      for (const term of semester.terms) {
+        const entries = at(term.id).filter((e) => isFuquaEntry(e) || semester.terms.length === 1);
+        block.appendChild(renderTermSection(term, entries, creditsOf, false, spanning.length > 0));
+      }
+    }
+    host.appendChild(block);
   }
+}
+
+function renderTermSection(term, entries, creditsOf, isBucket, siblingHasBand = false) {
+  const section = document.createElement('div');
+  section.className = isBucket ? 'quarter prefuqua' : 'quarter';
+
+  const heading = document.createElement('h3');
+  const credits = creditsOf(entries);
+  const coreCount = entries.filter((e) => catalog.courses.get(e.courseId)?.isCore).length;
+  const bits = [];
+  if (credits > 0) bits.push(`${credits} credits`);
+  if (coreCount > 0) bits.push(`${coreCount} core`);
+  const name = isBucket ? term.label : term.label;
+  heading.textContent = bits.length ? `${name} — ${bits.join(', ')}` : name;
+  section.appendChild(heading);
+
+  if (entries.length === 0 && !siblingHasBand) {
+    section.insertAdjacentHTML('beforeend',
+      `<p class="empty-quarter">${isBucket ? 'nothing recorded' : 'nothing planned'}</p>`);
+  }
+  for (const entry of entries) section.appendChild(renderChip(entry));
+  return section;
 }
 
 function renderChip(entry) {
@@ -392,17 +485,15 @@ function renderChip(entry) {
 
   const where = document.createElement('select');
   where.setAttribute('aria-label', `Placement for ${course?.code ?? entry.courseId}`);
-  for (const option of placementOptions(isFuqua)) {
+  for (const option of placementOptions(isFuqua, plan.startYear)) {
     const el = document.createElement('option');
-    el.value = String(option.value);
-    el.textContent = option.value === PRE_FUQUA ? 'Pre-Fuqua'
-      : isFuqua ? option.label
-      : option.label.replace(' (both terms)', ' · both terms');
-    el.selected = entry.quarter === option.value;
+    el.value = option.value;
+    el.textContent = option.short;
+    el.selected = (entry.term ?? PRE_FUQUA) === option.value;
     where.appendChild(el);
   }
   where.addEventListener('change', () => {
-    entry.quarter = normalizeQuarter(isFuqua, where.value);
+    entry.term = normalizeTerm(isFuqua, where.value);
     persist();
   });
 

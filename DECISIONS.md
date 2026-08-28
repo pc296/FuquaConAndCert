@@ -535,3 +535,56 @@ Status: accepted
 **Consequences.** Restoring a backup is now reached through a button that says transcript, which is a small mismatch in the other direction, softened by the status line naming what it did ("Restored a backup: 10 courses"). A test asserts the page has exactly one file input and that it accepts both types, because the defect was structural rather than behavioural and no rule test could have caught it.
 
 **Wider lesson.** The feature worked, was deployed, and was verified in a browser, and still failed the person using it. Verification confirmed the control existed; it never asked whether anyone would find it. That question is not answerable by the person who chose where to put it.
+
+---
+
+## ADR-0035: String term ids, summer and winter terms, plan format 2
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** Placement used integer quarters 1 to 8 with 0 as the Pre-Fuqua bucket. Pat's transcript showed the gap: FUQINTRD 565, MGMTCOM 567 and FUQINTRD 692 are the summer orientation block, and Duke files them under "2026 Fall Term" because orientation runs in August. With no summer slot they landed in Fall 1 beside genuine Fall 1 courses, with no way to separate them. Reading the published calendar again also surfaced an optional Winter workshop between Fall 2 and Spring 1, and a Year 2 August pre-term where C-Lead 2 is taken.
+
+**Decision.** Each year runs Summer, Fall 1, Fall 2, Winter, Spring 1, Spring 2. With the Pre-Fuqua bucket that is 13 terms. Terms are string ids such as `y1-fall-2` rather than integers, because the integers could not accommodate the new terms without renumbering and because a backup file that says `y1-summer` is readable while one that says `2` is not. Optional terms, both Winters and the Year 2 Summer, render only when they contain a course, so the plan column does not fill with empty sections.
+
+Plan format 2 stores `term` instead of `quarter`. `migrate` maps every format 1 integer onto its term id, which is what the version field has been there for since the first release (ADR-0011). A test imports a plan written in the v0.3.0 format and asserts the placements and grades survive.
+
+**Alternatives.** Appending new integers out of order, so 9 meant Year 1 Summer and sorted before 1. Rejected: it makes the stored value meaningless to a reader and puts ordering knowledge in a second place. Renumbering the integers, rejected because it has the same migration cost as strings with none of the readability.
+
+**Consequences.** Safe because ADR-0030 made placement display metadata that the rule engine never reads, so no evaluation changed. Every UI surface that touched `quarter` moved to `term`, including the report. Pat chose all three optional terms, so both years have identical shapes and the plan column has one repeating structure rather than two special cases.
+
+---
+
+## ADR-0036: Term-aware transcript parsing with an explicit program start
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** Importing a transcript put every course in Year 1 Fall 1. `parsePaste` matched course codes with a regex and discarded everything else, and the confirmation screen then called `addCourse` with the term hardcoded to 1. Pat's transcript spans two school records and three calendar terms, two of which precede his Fuqua enrolment, and none of that reached the plan.
+
+**Decision.** `app/ui/parse-transcript.js` reads the document's structure: school records ("Beginning of Fuqua School of Business Record") and term headings ("2026 Fall Term"). Each course takes the term of the heading above it. Calendar terms map onto program terms through a program start year stored with the plan, inferred from the earliest term inside the Fuqua record and overridable by the student. Terms before the start go to the Pre-Fuqua bucket. Text with no headings is treated as a plain paste, and placement is left to the student rather than invented.
+
+**The limit that cannot be engineered away.** Duke's registrar records semesters, not Fuqua's 6-week terms. Pat's twelve Fuqua courses all sit under one "2026 Fall Term" heading whether they ran in Fall 1 or Fall 2, and no parser can recover the difference. Courses land in the semester's first term, are marked `exact: false`, and the confirmation screen carries a placement dropdown per row plus a sentence saying plainly why. Sorting happens once, before anything is saved.
+
+**Alternatives.** Inferring the start year and never asking, rejected by Pat in favour of an explicit setting, which is also more robust for a transcript with no Fuqua record yet. Hardcoding which core course falls in which term, rejected because the published structure gives counts but not assignments, and exemptions change it per student; a guess here is the confidently wrong answer this project exists to avoid. Drag and drop for sorting, rejected as several times the cost of a dropdown, worse on touch, and harder to make keyboard accessible.
+
+---
+
+## ADR-0037: Cross-listings are reviewed data, discovered mechanically
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** Aliases lived in a hand-written dictionary inside `build_courses.py`, and every entry got there because someone tripped over it. Pat's transcript showed the cost: Duke records two of his completed courses as ENVIRON 635 and ENVIRON 711, the Energy & Environment document lists them as ENERGY 635 and ENERGY 711, and coursework he had already finished toward his own concentration was invisible. A second defect sat underneath: ENERGY 520 and ENVIRON 520 existed as two separate catalog courses with identical titles, so one course counted toward whichever pathway matched its spelling and never both.
+
+**Decision.** Three parts.
+
+Aliases move to `data/catalog/aliases.json`, reviewed data beside the rest of the catalog, each entry carrying why it exists and who confirmed it. Pathway records keep citing courses exactly as their source document spells them, so the catalog stays checkable against the PDF, and `buildCatalog` resolves the references at load.
+
+`verify.py` gains a standing check that flags any course number appearing under two subject prefixes with titles matching 75 percent or better. Discovery becomes automatic; accepting an alias stays a human edit.
+
+The confirmation screen proposes candidates when an imported code misses, so every transcript import is also a discovery mechanism.
+
+**What is deliberately not automated.** Nothing is aliased on similarity. The detector scored the FCCP practicums between 0.65 and 0.88 on title similarity, and the source documents state directly that a Marketing 895 does not satisfy a requirement for Strategy 895. `aliases.json` records 895, 894 and 898 as families that must never be merged whatever their titles look like.
+
+**Consequences.** ENVIRON 520 folded into ENERGY 520, taking the catalog from 164 courses to 163, and that one course now counts toward both Energy & Environment and Social Entrepreneurship. `verify.py` had to fold aliases on both the source and pathway sides; folding one made an aliased reference read as simultaneously missing from its document and orphaned in it.

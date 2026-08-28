@@ -19,6 +19,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 CATALOG = REPO_ROOT / "data" / "catalog"
 DRAFT = REPO_ROOT / "data" / "raw" / "courses_draft.json"
 CORE = CATALOG / "core.json"
+ALIASES_FILE = CATALOG / "aliases.json"
 
 FUQUA_AREAS = {
     "ACCOUNTG", "DECISION", "ENRGYENV", "FINANCE", "FUQINTRD", "HLTHMGMT",
@@ -128,20 +129,6 @@ PRACTICUM = {
     "SOCENT 895", "STRATEGY 895", "HLTHMGMT 895", "HLTHMGMT 896", "FINANCE 894",
 }
 
-# Alternate codes for the same course. Two kinds appear in the sources: genuine
-# cross-listings (PUBPOL 559S is also LAW 585) and spelling variants inside the
-# documents themselves (MARKETING for MARKETNG, ENERGY 590-05 for 590.05). Both
-# need to resolve to one course when a student pastes a transcript.
-ALIASES = {
-    "PUBPOL 559S": ["LAW 585"],
-    "MARKETNG 807": ["MARKETING 807"],
-    "MANAGEMT 754": ["MANAGEMENT 754"],
-    "MANAGEMT 754::energy-env": ["MANAGEMENT 754"],
-    "ENERGY 590.05": ["ENERGY 590-05"],
-    "ACCOUNTG 597": ["ACCT 597"],
-    "OPERATNS 828": ["OPERATNS 828"],
-}
-
 # Courses counted at a credit value different from their catalog credits within a
 # specific pathway. Operations Management states this explicitly for SOCENT 895.
 COUNTED_CREDITS = {"operations-management": {"SOCENT 895": 3}}
@@ -163,11 +150,22 @@ def collect_ids(pathways: dict) -> set[str]:
 
 def main() -> None:
     pathways = json.loads((CATALOG / "pathways.json").read_text(encoding="utf8"))
+    alias_data = json.loads(ALIASES_FILE.read_text(encoding="utf8"))
+    alias_codes = {k: v["codes"] for k, v in alias_data["aliases"].items()}
+    # Alternate code -> canonical id, so a course listed under two prefixes across
+    # two source documents becomes one record instead of two.
+    canonical = {code: cid for cid, codes in alias_codes.items() for code in codes}
     draft = json.loads(DRAFT.read_text(encoding="utf8")) if DRAFT.exists() else {}
 
     courses = {}
     missing_titles = []
+    merged = []
     for course_id in sorted(collect_ids(pathways)):
+        if course_id in canonical:
+            # A pathway cites this course under an alternate code. Keep the pathway
+            # file faithful to its source document and fold the record here.
+            merged.append(f"{course_id} -> {canonical[course_id]}")
+            continue
         base = course_id.split("::")[0]
         title = TITLES.get(course_id)
         if title is None:
@@ -191,7 +189,7 @@ def main() -> None:
             record["maxTimes"] = REPEATABLE[course_id]
         if course_id in PRACTICUM:
             record["isPracticum"] = True
-        aliases = ALIASES.get(course_id) or ALIASES.get(base)
+        aliases = alias_codes.get(course_id) or alias_codes.get(base)
         if aliases:
             record["aliases"] = [a for a in aliases if a != base]
         courses[course_id] = record
@@ -226,6 +224,8 @@ def main() -> None:
     (CATALOG / "courses.json").write_text(json.dumps(out, indent=2), encoding="utf8")
 
     print(f"courses written: {len(courses)} ({len(core['courses'])} core)")
+    if merged:
+        print(f"alias merges: {len(merged)} -> {', '.join(merged)}")
     print(f"non-Fuqua: {sum(1 for c in courses.values() if not c['isFuqua'])}")
     if missing_titles:
         print(f"NO TITLE FOUND for {len(missing_titles)}: {missing_titles}")
