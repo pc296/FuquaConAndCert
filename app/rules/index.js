@@ -1,6 +1,7 @@
 export { evaluatePathway, evaluateAll, STATUS } from './evaluate.js';
 export { checkCombination } from './cap.js';
 export { allocate } from './allocate.js';
+export { recommend, rankPathways } from './recommend.js';
 
 /** Build the shape evaluate() expects from the two catalog files. */
 export function buildCatalog(pathwaysJson, coursesJson) {

@@ -51,6 +51,8 @@ Turns the source PDFs into pathway records. Runs on Pat's machine only, never in
 **[2] rules** (JavaScript, `app/rules/`)
 Pure ES modules. No DOM access, no fetch, no localStorage. Given a course list and a pathway record, returns satisfied groups, remaining requirements, credits counted, and status. Evaluation runs 18 independent passes, one per pathway, with no shared state between them. Also owns the specialty cap check (ADR-0021). This is the layer that gets the heaviest test coverage, and it is importable by `node --test` without a browser.
 
+`recommend.js` answers "what should I take next" by greedy search that calls the evaluator on each candidate rather than reasoning about requirements itself, so advice and progress can never disagree (ADR-0027).
+
 `allocate.js` handles the one place where courses do compete: within a single pathway, a course is assigned to at most one group, because several pathways have groups whose lists overlap on purpose. Exact search with a node budget, falling back to a flagged approximation (ADR-0022).
 
 **[3] ui** (JavaScript, `app/ui/`)

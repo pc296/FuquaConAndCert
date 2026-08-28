@@ -3,7 +3,7 @@
  * No requirement logic lives here (ARCHITECTURE.md boundaries).
  */
 
-import { buildCatalog, evaluateAll, checkCombination, STATUS } from '../rules/index.js';
+import { buildCatalog, evaluateAll, checkCombination, recommend, rankPathways, STATUS } from '../rules/index.js';
 import * as store from '../storage/plan.js';
 import { parsePaste } from './parse-paste.js';
 import { renderMap } from './map.js';
@@ -18,7 +18,7 @@ const GRADES = [
 ];
 
 const $ = (id) => document.getElementById(id);
-const state = { selected: null, blocked: new Set(), pending: null };
+const state = { selected: null, blocked: new Set(), pending: null, showClosest: false };
 
 let catalog;
 let layout;
@@ -79,6 +79,10 @@ function bindControls() {
   $('export-btn').addEventListener('click', exportPlan);
   $('import-btn').addEventListener('click', () => $('import-file').click());
   $('import-file').addEventListener('change', importPlan);
+  $('closest-btn').addEventListener('click', () => {
+    state.showClosest = !state.showClosest;
+    render();
+  });
 }
 
 /* ---------- plan mutation ---------- */
@@ -210,6 +214,7 @@ function render() {
   renderQuarters();
   renderCapBar(results);
   renderMap($('map'), layout, results, state, (id) => { state.selected = id; render(); });
+  renderClosest();
   renderDetail(results);
 
   const done = results.filter((r) => r.status === STATUS.COMPLETE).length;
@@ -452,10 +457,99 @@ function renderDetail(results) {
     host.appendChild(notes);
   }
 
+  host.appendChild(renderNextUp(result));
+
   const source = document.createElement('p');
   source.className = 'muted';
   source.textContent = `Source: ${result.source}`;
   host.appendChild(source);
+}
+
+/** The shortest remaining route to a pathway, with one-click adds. */
+function renderNextUp(result) {
+  const pathway = catalog.pathways.find((p) => p.id === result.pathwayId);
+  const advice = recommend(pathway, plan.entries, catalog, { declared: plan.declared });
+
+  const box = document.createElement('div');
+  box.className = 'next-up';
+
+  if (advice.complete && advice.courses.length === 0) {
+    box.innerHTML = '<div class="done">Complete. Nothing further is needed for this one.</div>';
+    return box;
+  }
+  if (!advice.reachable) {
+    box.innerHTML = '<div class="done">No route to completion could be found from the courses this pathway lists. That is a catalog problem, not a planning one; please report it.</div>';
+    return box;
+  }
+
+  const header = document.createElement('header');
+  header.innerHTML = `<strong>Shortest way to finish</strong>
+    <span class="muted">${advice.courses.length} more course${advice.courses.length === 1 ? '' : 's'}</span>`;
+  box.appendChild(header);
+
+  const list = document.createElement('ol');
+  advice.courses.forEach((item, i) => {
+    const li = document.createElement('li');
+    const step = document.createElement('span');
+    step.className = 'step';
+    step.textContent = String(i + 1);
+
+    const label = document.createElement('span');
+    label.className = 'grow';
+    label.innerHTML = `<strong>${item.course.code}</strong> ${escapeHtml(item.course.title)}` +
+      (item.alsoCountsToward.length
+        ? ` <span class="also">also counts toward ${item.alsoCountsToward.map(escapeHtml).join(', ')}</span>`
+        : '');
+
+    const add = document.createElement('button');
+    add.className = 'ghost tiny';
+    add.textContent = 'Add';
+    add.addEventListener('click', () => {
+      if (addCourse(item.courseId, 1)) {
+        setStatus(`Added ${item.course.code}. Set its quarter below.`);
+        persist();
+      }
+    });
+
+    li.append(step, label, add);
+    list.appendChild(li);
+  });
+  box.appendChild(list);
+  return box;
+}
+
+/** Every pathway ranked by how few courses it still needs. */
+function renderClosest() {
+  const host = $('closest');
+  $('closest-btn').textContent = state.showClosest ? 'Hide ranking' : "What's closest";
+  if (!state.showClosest) {
+    host.hidden = true;
+    host.replaceChildren();
+    return;
+  }
+  host.hidden = false;
+  const ranked = rankPathways(catalog, plan.entries, plan.declared);
+  const max = Math.max(...ranked.map((r) => r.remaining ?? 0), 1);
+
+  const wrap = document.createElement('div');
+  wrap.className = 'closest';
+  wrap.innerHTML = '<p class="muted">Ranked by how few additional courses each would take from where you are now. Click a row to open it.</p>';
+  const table = document.createElement('table');
+  for (const row of ranked) {
+    const tr = document.createElement('tr');
+    if (row.complete) tr.className = 'done';
+    const remaining = row.remaining === null ? 'unreachable'
+      : row.complete ? 'complete'
+      : `${row.remaining} to go`;
+    tr.innerHTML = `<td>${escapeHtml(row.name)}${row.kind === 'certificate' ? ' ◆' : ''}</td>
+      <td><div class="bar"><i style="width:${row.remaining === null ? 0 : 100 - (row.remaining / max) * 100}%"></i></div></td>
+      <td class="n">${remaining}</td>`;
+    tr.style.cursor = 'pointer';
+    tr.addEventListener('click', () => { state.selected = row.pathwayId; render(); });
+    table.appendChild(tr);
+  }
+  wrap.appendChild(table);
+  host.appendChild(wrap);
 }
 
 function flag(text, ok = false) {

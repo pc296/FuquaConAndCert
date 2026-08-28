@@ -10,6 +10,7 @@ Categories: Added, Changed, Fixed, Removed. Newest at the top. Entries describe 
 
 ### Added
 
+- 2026-08-28: Recommendations. Each pathway shows the shortest remaining route to finishing it, with one-click adds and a note when a course also counts toward something else you have declared. A ranking panel orders all 18 by how few courses each still needs.
 - 2026-08-28: Merriweather and Open Sans vendored as Latin-subset woff2 files, so the app renders in the Duke pairing offline with no third-party request. 176 KB, SIL Open Font License.
 - 2026-08-28: `.nojekyll` so GitHub Pages serves the tree as-is.
 - 2026-08-28: Catalog verification pass over all 18 pathways against the 16 source documents. Requirement structures confirmed correct; the audit's findings were in the tooling, not the data. `tools/extraction/verify.py` now runs as a standing check via `npm run verify`.
@@ -25,6 +26,7 @@ Categories: Added, Changed, Fixed, Removed. Newest at the top. Entries describe 
 
 ### Fixed
 
+- 2026-08-28: The HSM certificate could not be completed by any sequence of courses. Group constraints were evaluated against allocated courses, and allocation stops at a group's minimum, so a qualifying course could sit unassigned while its constraint reported failure. Minimum constraints now count what the student holds; maximum constraints count what a valid selection would be forced to use. A group with a failing constraint no longer displays as satisfied.
 - 2026-08-28: Extraction dropped cross-listed course lines entirely. `PUBPOL 559S/LAW 585 — Philanthropy...` parsed as prose because a slash followed the course number. Alternate codes are now captured and reported.
 - 2026-08-28: `npm test` invoked `node --test tests/rules`, which this Node build treats as a module path rather than a directory and fails on. Now passes the glob.
 - 2026-08-28: Extraction dropped any course whose title ended in a word ending in "a", because the prose filter used a character-suffix test. GLHLTH 671 was the casualty.

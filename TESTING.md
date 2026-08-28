@@ -63,6 +63,15 @@ Every conditional rule in the source documents gets an explicit test:
 - `tools/extraction/`: at least one golden-file test per distinct requirement pattern across the 18 pathways, not one per document.
 - No repo-wide coverage percentage target. A number invites tests written to move the number. The rule is that new logic ships with tests, and review asks whether the test would actually fail if the logic were wrong.
 
+## Whole-catalog properties
+
+Per-rule examples are necessary and not sufficient: a test written from the same mental model as the code cannot falsify that model, which is how the constraint-allocation defect in ADR-0028 survived a passing suite. Keep these properties, which must hold for every pathway:
+
+- Every pathway is reachable from an empty plan.
+- Following the tool's own recommendation completes the pathway it was given for.
+- From an empty plan, the recommended course count equals the number the source document states.
+- Every pathway evaluates without throwing, with a percentage between 0 and 100.
+
 ## What verified means
 
 1. The relevant suite passes locally and the actual output is pasted, not summarized.

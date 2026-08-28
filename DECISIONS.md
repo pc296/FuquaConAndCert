@@ -403,3 +403,33 @@ Supersedes: the typography half of ADR-0024
 **Consequences.** 176 KB added to the repo, cached after first load. The app now renders in the intended Duke pairing with no network dependency. Adding a weight means adding a file and a rule, deliberately. The fallback stack stays in place for the moment before the fonts load and for anyone who blocks font downloads.
 
 **Note.** The font files were obtained through the npm package manager in the same way pdfplumber was obtained through pip, and only the woff2 binaries and licences were copied into the repo. No package manifest, lockfile, or `node_modules` enters the tree, which keeps the no-dependency rule in CONVENTIONS.md intact: these are assets, not a runtime dependency.
+
+---
+
+## ADR-0027: The recommender uses the evaluator as its oracle
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** Showing a student the shortest remaining route to a pathway needs a search over candidate courses. The search could reason about requirements directly, which would be fast, or call the existing evaluator on each candidate, which is slower.
+
+**Decision.** `app/rules/recommend.js` performs a greedy search that adds one course at a time, scoring candidates by calling `evaluatePathway`. It never interprets a requirement itself.
+
+**Alternatives.** A direct solver over the group structure, rejected because it would duplicate the requirement semantics in a second place. Two implementations of the same rules drift, and the drift shows up as advice that contradicts the progress bars.
+
+**Consequences.** The recommendation can never disagree with the progress display, because both come from the same function. Ranking all 18 pathways costs about 120 ms, which is fine on demand and is why the ranking panel is opened deliberately rather than computed on every render. Greedy is not provably minimal; the tests assert that from an empty plan it reaches every pathway in exactly the number of courses the source documents require, which is the property that matters.
+
+---
+
+## ADR-0028: Minimum constraints count what is held, maximum constraints count what must be used
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** Group constraints were evaluated against the courses allocation happened to assign. Allocation stops once a group's minimum is met, so a qualifying course could sit unassigned while its constraint read as failed. The HSM certificate exposed this: four breadth electives filled the group numerically, the industry-context constraint failed, and no additional course could fix it, because allocation would not assign a fifth course to a group that already had four. The recommender found it by being unable to complete the pathway at all.
+
+**Decision.** Minimum constraints (`minOutsideArea`, `minFromSubset`, `minFromArea`) are evaluated over every planned course eligible for the group, because they ask whether the student HAS enough qualifying courses. Maximum constraints (`maxPracticum`) are evaluated over the fewest restricted courses any valid selection would be forced to include, because they ask whether the student must OVERUSE something. A group's `satisfied` now requires its constraints as well as its count.
+
+**Alternatives.** A repair pass that swaps unassigned courses into a group to fix a failing constraint, rejected as more machinery for the same answer. Leaving constraints on allocation output, rejected because it was producing wrong results.
+
+**Consequences.** A group showing four of four with a failed constraint now reads as unsatisfied rather than complete, which is honest. Progress percentage weights the count at 70 percent and constraint satisfaction at 30 percent, so a student can see a constrained group moving. Every pathway is now reachable from an empty plan, which was not true before.

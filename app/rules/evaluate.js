@@ -97,10 +97,14 @@ export function evaluatePathway(pathway, plan, catalog) {
     if (group.type === 'all') continue;
     const keys = assignment[group.id] ?? [];
     const assigned = keys.map((k) => itemByKey.get(k).entry.courseId);
+    const eligible = items
+      .filter((item) => item.groups.includes(group.id))
+      .map((item) => item.entry.courseId);
     const have =
       group.type === 'credits'
         ? keys.reduce((sum, k) => sum + itemByKey.get(k).credits, 0)
         : keys.length;
+    const constraints = checkGroupConstraints(group, assigned, eligible, catalog);
     groupResults.push({
       id: group.id,
       label: group.label,
@@ -108,10 +112,13 @@ export function evaluatePathway(pathway, plan, catalog) {
       min: group.min,
       have: round2(have),
       unit: group.type === 'credits' ? 'credits' : 'courses',
-      satisfied: have >= group.min - 1e-9,
+      // A group is not satisfied by its count alone. Leadership and Ethics needs
+      // four electives AND two of them outside Management; four Management
+      // courses is 4 of 4 and still does not meet the requirement.
+      satisfied: have >= group.min - 1e-9 && constraints.every((c) => c.satisfied),
       assigned,
       missing: [],
-      constraints: checkGroupConstraints(group, assigned, catalog),
+      constraints,
     });
   }
 
@@ -186,30 +193,50 @@ function buildEligibility(pathway) {
   return map;
 }
 
-function checkGroupConstraints(group, assignedIds, catalog) {
+/**
+ * Group constraints, evaluated against what the student could use rather than what
+ * allocation happened to pick.
+ *
+ * Minimum constraints ask whether the student HAS enough qualifying courses, so
+ * they count every planned course eligible for the group. Allocation stops once a
+ * group's minimum is met and may leave a qualifying course unassigned, which would
+ * otherwise read as a failure the student cannot fix by taking more courses.
+ *
+ * Maximum constraints ask whether the student must OVERUSE something, so they
+ * compute the fewest restricted courses any valid selection would have to include.
+ * A student who takes three core courses, two of them practicums, can still choose
+ * the two that include only one practicum.
+ */
+function checkGroupConstraints(group, assignedIds, eligibleIds, catalog) {
+  const lookup = (ids) => ids.map((id) => catalog.courses.get(id)).filter(Boolean);
   return (group.constraints ?? []).map((constraint) => {
-    const courses = assignedIds.map((id) => catalog.courses.get(id)).filter(Boolean);
     switch (constraint.type) {
       case 'minOutsideArea': {
-        const have = courses.filter((c) => c.area !== constraint.area).length;
+        const have = lookup(eligibleIds).filter((c) => c.area !== constraint.area).length;
         return result(constraint, have >= constraint.n,
           `${have} of ${constraint.n} courses outside ${constraint.area}`);
       }
-      case 'maxPracticum': {
-        const have = courses.filter((c) => c.isPracticum).length;
-        return result(constraint, have <= constraint.n,
-          `${have} practicum course${have === 1 ? '' : 's'}, limit ${constraint.n}`);
-      }
       case 'minFromSubset': {
         const subset = new Set(constraint.subset);
-        const have = assignedIds.filter((id) => subset.has(id)).length;
+        const have = eligibleIds.filter((id) => subset.has(id)).length;
         return result(constraint, have >= constraint.n,
           `${have} of ${constraint.n} ${constraint.label ?? 'required subset'}`);
       }
       case 'minFromArea': {
-        const have = courses.filter((c) => c.area === constraint.area).length;
+        const have = lookup(eligibleIds).filter((c) => c.area === constraint.area).length;
         return result(constraint, have >= constraint.n,
           `${have} of ${constraint.n} ${constraint.area} courses`);
+      }
+      case 'maxPracticum': {
+        const eligible = lookup(eligibleIds);
+        const nonPracticum = eligible.filter((c) => !c.isPracticum).length;
+        const forced = Math.max(0, (group.min ?? 0) - nonPracticum);
+        const used = Math.min(
+          eligible.filter((c) => c.isPracticum).length,
+          Math.max(forced, 0),
+        );
+        return result(constraint, used <= constraint.n,
+          `${used} practicum course${used === 1 ? '' : 's'} would have to count, limit ${constraint.n}`);
       }
       default:
         return result(constraint, true, 'not evaluated');
@@ -278,7 +305,13 @@ function evaluateIntermediate(pathway, countable, catalog, gpa) {
 }
 
 function progressPercent(groups, totals) {
-  const parts = groups.map((g) => Math.min(1, g.min === 0 ? 1 : g.have / g.min));
+  const parts = groups.map((g) => {
+    const count = Math.min(1, g.min === 0 ? 1 : g.have / g.min);
+    const constraints = g.constraints ?? [];
+    if (constraints.length === 0) return count;
+    const met = constraints.filter((c) => c.satisfied).length / constraints.length;
+    return count * 0.7 + met * 0.3;
+  });
   if (totals.minCredits) parts.push(Math.min(1, totals.credits / totals.minCredits));
   if (totals.minCourses) parts.push(Math.min(1, totals.courses / totals.minCourses));
   if (parts.length === 0) return 0;

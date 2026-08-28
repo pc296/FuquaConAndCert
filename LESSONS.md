@@ -91,3 +91,13 @@ The engine gap: the Finance Certificate's intermediate qualification was recorde
 **Takeaway.** When a hand-authored artifact and a generated one cover the same ground, the hand-authored one masks defects in the generator. Check the generator against the source on its own terms, not through the artifact. `tools/extraction/verify.py` now does that mechanically after every catalog change, and a fixture of real source lines guards the parser from both sides.
 
 Second takeaway: every field in a data file should have a consumer or a comment saying why it does not yet. Search the code for each new catalog key before considering the record done.
+
+---
+
+## 2026-08-28: A new feature found a modelling error the tests had agreed with
+
+**What happened.** Building the recommender surfaced that the HSM certificate could not be completed by any sequence of courses. Group constraints were being checked against the courses that allocation assigned, and allocation stops at a group's minimum, so the industry-context elective could sit in the plan unassigned while its own constraint reported failure. Nothing the student did could fix it.
+
+**Why.** The existing constraint tests all used plans where the constrained courses happened to be the ones allocation picked, so they passed while the semantics were wrong. The tests encoded the same misunderstanding as the code, which is what tests written alongside an implementation tend to do.
+
+**Takeaway.** A test written from the same mental model as the code cannot falsify that model. The check that found this was a different kind: an end-to-end property asking whether every pathway is reachable at all. Properties that must hold across the whole catalog are worth more than another example per rule, and there is now one asserting that following the tool's own advice completes the pathway it was given for.

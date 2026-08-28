@@ -52,7 +52,10 @@
   <section class="panel" aria-labelledby="map-heading">
     <header>
       <h2 id="map-heading">Skill Map</h2>
-      <span class="muted" id="map-summary"></span>
+      <div class="row">
+        <span class="muted" id="map-summary"></span>
+        <button class="ghost tiny" id="closest-btn">What's closest</button>
+      </div>
     </header>
     <div class="capbar" id="capbar"></div>
     <div class="map-wrap"><svg class="map" id="map" role="img" aria-label="Concentration and certificate progress map"></svg></div>
@@ -63,6 +66,7 @@
       <span><i class="swatch" style="background:#4a1d05;border:2px solid #C84E00"></i> Blocked by the two-specialty limit</span>
       <span>&#9670; Certificate</span>
     </div>
+    <div id="closest" hidden></div>
     <div class="detail" id="detail"></div>
   </section>
 </div>
