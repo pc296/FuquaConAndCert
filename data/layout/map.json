@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "viewBox": "0 0 1040 720",
+  "note": "Hand-authored constellation coordinates (ADR-0010). Clusters group pathways by discipline family. Adding a pathway means adding a node here.",
+  "center": { "x": 520, "y": 360, "label": "Daytime MBA Core" },
+  "anchors": [
+    { "id": "finance", "x": 672, "y": 360, "label": "Finance" },
+    { "id": "people", "x": 368, "y": 360, "label": "People" },
+    { "id": "analytics", "x": 520, "y": 248, "label": "Analytics" },
+    { "id": "impact", "x": 520, "y": 472, "label": "Impact" }
+  ],
+  "nodes": [
+    { "id": "finance-corporate", "anchor": "finance", "x": 800, "y": 250 },
+    { "id": "finance-investment", "anchor": "finance", "x": 812, "y": 360 },
+    { "id": "finance-dual", "anchor": "finance", "x": 940, "y": 305 },
+    { "id": "financial-analysis", "anchor": "finance", "x": 800, "y": 470 },
+    { "id": "fintech-finance", "anchor": "finance", "x": 930, "y": 430 },
+    { "id": "energy-finance", "anchor": "finance", "x": 930, "y": 180 },
+    { "id": "cert-finance", "anchor": "finance", "x": 700, "y": 545 },
+    { "id": "management", "anchor": "people", "x": 240, "y": 300 },
+    { "id": "leadership-ethics", "anchor": "people", "x": 110, "y": 250 },
+    { "id": "dei", "anchor": "people", "x": 96, "y": 390 },
+    { "id": "marketing", "anchor": "people", "x": 232, "y": 440 },
+    { "id": "decision-sciences", "anchor": "analytics", "x": 380, "y": 130 },
+    { "id": "operations-management", "anchor": "analytics", "x": 520, "y": 96 },
+    { "id": "strategy", "anchor": "analytics", "x": 660, "y": 130 },
+    { "id": "energy-environment", "anchor": "impact", "x": 392, "y": 600 },
+    { "id": "social-entrepreneurship", "anchor": "impact", "x": 540, "y": 636 },
+    { "id": "entrepreneurship-innovation", "anchor": "impact", "x": 330, "y": 505 },
+    { "id": "cert-hsm", "anchor": "impact", "x": 168, "y": 545 }
+  ]
+}

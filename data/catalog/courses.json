@@ -1,0 +1,1220 @@
+{
+  "schemaVersion": 1,
+  "retrieved": "2026-08-27",
+  "countedCredits": {
+    "operations-management": {
+      "SOCENT 895": 3
+    }
+  },
+  "courses": [
+    {
+      "id": "ACCOUNTG 591",
+      "code": "ACCOUNTG 591",
+      "title": "Managerial Accounting",
+      "area": "ACCOUNTG",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "ACCOUNTG 592",
+      "code": "ACCOUNTG 592",
+      "title": "Detecting Earnings Management",
+      "area": "ACCOUNTG",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "ACCOUNTG 596",
+      "code": "ACCOUNTG 596",
+      "title": "Accounting for Mergers and Acquisitions",
+      "area": "ACCOUNTG",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "ACCOUNTG 597",
+      "code": "ACCOUNTG 597",
+      "title": "Financial Statement Analysis",
+      "area": "ACCOUNTG",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "ACCOUNTG 598",
+      "code": "ACCOUNTG 598",
+      "title": "Valuation and Fundamental Analysis",
+      "area": "ACCOUNTG",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "ACCOUNTG 601",
+      "code": "ACCOUNTG 601",
+      "title": "Taxation and Global Management Decisions",
+      "area": "ACCOUNTG",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "ACCOUNTG 894::sustainability-reporting",
+      "code": "ACCOUNTG 894",
+      "title": "Special Topics: Business Sustainability Reporting & Analysis",
+      "area": "ACCOUNTG",
+      "credits": 1.5,
+      "isFuqua": true
+    },
+    {
+      "id": "BME 788",
+      "code": "BME 788",
+      "title": "Invention to Application",
+      "area": "BME",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "DECISION 611",
+      "code": "DECISION 611",
+      "title": "Decision Models",
+      "area": "DECISION",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "DECISION 614",
+      "code": "DECISION 614",
+      "title": "Forecasting",
+      "area": "DECISION",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "DECISION 617",
+      "code": "DECISION 617",
+      "title": "Information Management",
+      "area": "DECISION",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "DECISION 618",
+      "code": "DECISION 618",
+      "title": "Data Analytics for Business",
+      "area": "DECISION",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "DECISION 619",
+      "code": "DECISION 619",
+      "title": "Digital Platforms",
+      "area": "DECISION",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "DECISION 894::modern-ai",
+      "code": "DECISION 894",
+      "title": "Modern AI for Managers",
+      "area": "DECISION",
+      "credits": 1.5,
+      "isFuqua": true
+    },
+    {
+      "id": "DECISION 894::tech-analytics",
+      "code": "DECISION 894",
+      "title": "Transforming Tech Analytics with Machine Intelligence",
+      "area": "DECISION",
+      "credits": 1.5,
+      "isFuqua": true
+    },
+    {
+      "id": "ENERGY 520",
+      "code": "ENERGY 520",
+      "title": "Resource & Environmental Economics I",
+      "area": "ENERGY",
+      "credits": 1.5,
+      "isFuqua": false
+    },
+    {
+      "id": "ENERGY 579",
+      "code": "ENERGY 579",
+      "title": "Climate Tech Startups and Investors",
+      "area": "ENERGY",
+      "credits": 1.5,
+      "isFuqua": false
+    },
+    {
+      "id": "ENERGY 588",
+      "code": "ENERGY 588",
+      "title": "Intro to Solar Project Development",
+      "area": "ENERGY",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "ENERGY 590.01",
+      "code": "ENERGY 590.01",
+      "title": "ESG Investing",
+      "area": "ENERGY",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "ENERGY 590.05",
+      "code": "ENERGY 590.05",
+      "title": "Economics of Modern Power Systems",
+      "area": "ENERGY",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "ENERGY 590.50",
+      "code": "ENERGY 590.50",
+      "title": "Intro to Solar Project Development",
+      "area": "ENERGY",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "ENERGY 630",
+      "code": "ENERGY 630",
+      "title": "Transportation and Energy",
+      "area": "ENERGY",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "ENERGY 631",
+      "code": "ENERGY 631",
+      "title": "Energy Technology and Its Impact on the Environment",
+      "area": "ENERGY",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "ENERGY 635",
+      "code": "ENERGY 635",
+      "title": "Energy Economics and Policy",
+      "area": "ENERGY",
+      "credits": 1.5,
+      "isFuqua": false
+    },
+    {
+      "id": "ENERGY 711",
+      "code": "ENERGY 711",
+      "title": "Energy and the Environment",
+      "area": "ENERGY",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "ENERGY 716L",
+      "code": "ENERGY 716L",
+      "title": "Modeling for Energy Systems",
+      "area": "ENERGY",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "ENERGY 727",
+      "code": "ENERGY 727",
+      "title": "Energy Law",
+      "area": "ENERGY",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "ENERGY 790-1::clean-energy",
+      "code": "ENERGY 790-1",
+      "title": "Clean Energy in Emerging Economies",
+      "area": "ENERGY",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "ENERGY 790-1::emerging-tech",
+      "code": "ENERGY 790-1",
+      "title": "Emerging Energy Technologies: From Lab to Market",
+      "area": "ENERGY",
+      "credits": 1.5,
+      "isFuqua": false
+    },
+    {
+      "id": "ENRGYENV 625",
+      "code": "ENRGYENV 625",
+      "title": "Energy, Markets, & Innovation",
+      "area": "ENRGYENV",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "ENRGYENV 626",
+      "code": "ENRGYENV 626",
+      "title": "Modeling and Analysis for Environmental Management",
+      "area": "ENRGYENV",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "ENRGYENV 628",
+      "code": "ENRGYENV 628",
+      "title": "EDGE Seminar on Energy & Environment - Energy Focus",
+      "area": "ENRGYENV",
+      "credits": 1.5,
+      "isFuqua": true,
+      "maxTimes": 2
+    },
+    {
+      "id": "ENRGYENV 629",
+      "code": "ENRGYENV 629",
+      "title": "EDGE Seminar on Energy & Environment - Environment Focus",
+      "area": "ENRGYENV",
+      "credits": 1.5,
+      "isFuqua": true,
+      "maxTimes": 2
+    },
+    {
+      "id": "ENRGYENV 895",
+      "code": "ENRGYENV 895",
+      "title": "Fuqua Client Consulting Practicum: EDGE Project, Energy and/or Environment",
+      "area": "ENRGYENV",
+      "credits": 6,
+      "isFuqua": true,
+      "isPracticum": true
+    },
+    {
+      "id": "ENVIRON 520",
+      "code": "ENVIRON 520",
+      "title": "Resource and Environmental Economics 1",
+      "area": "ENVIRON",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "ENVIRON 592",
+      "code": "ENVIRON 592",
+      "title": "UN Climate Change Negotiations Practicum",
+      "area": "ENVIRON",
+      "credits": 1.5,
+      "isFuqua": false
+    },
+    {
+      "id": "ENVIRON 638",
+      "code": "ENVIRON 638",
+      "title": "Environmental Life Cycle Analysis and Decision Making",
+      "area": "ENVIRON",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "ENVIRON 640",
+      "code": "ENVIRON 640",
+      "title": "Climate Change Economics and Policy",
+      "area": "ENVIRON",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "ENVIRON 717",
+      "code": "ENVIRON 717",
+      "title": "Markets for Electric Power",
+      "area": "ENVIRON",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "ENVIRON 801",
+      "code": "ENVIRON 801",
+      "title": "Approaches to a Low Carbon Economy",
+      "area": "ENVIRON",
+      "credits": 1,
+      "isFuqua": false
+    },
+    {
+      "id": "FINANCE 646",
+      "code": "FINANCE 646",
+      "title": "Corporate Finance",
+      "area": "FINANCE",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "FINANCE 647",
+      "code": "FINANCE 647",
+      "title": "Investment",
+      "area": "FINANCE",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "FINANCE 648",
+      "code": "FINANCE 648",
+      "title": "Derivatives",
+      "area": "FINANCE",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "FINANCE 651",
+      "code": "FINANCE 651",
+      "title": "Entrepreneurial Finance and Venture Capital",
+      "area": "FINANCE",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "FINANCE 652",
+      "code": "FINANCE 652",
+      "title": "Project Finance",
+      "area": "FINANCE",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "FINANCE 653",
+      "code": "FINANCE 653",
+      "title": "Fixed Income Securities and Risk Management",
+      "area": "FINANCE",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "FINANCE 654",
+      "code": "FINANCE 654",
+      "title": "Advanced Corporate Finance",
+      "area": "FINANCE",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "FINANCE 656",
+      "code": "FINANCE 656",
+      "title": "Global Asset Allocation & Stock Selection",
+      "area": "FINANCE",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "FINANCE 658",
+      "code": "FINANCE 658",
+      "title": "Corporate Restructuring",
+      "area": "FINANCE",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "FINANCE 660",
+      "code": "FINANCE 660",
+      "title": "Private Capital Markets",
+      "area": "FINANCE",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "FINANCE 661",
+      "code": "FINANCE 661",
+      "title": "Raising Capital and Financial Technologies",
+      "area": "FINANCE",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "FINANCE 662",
+      "code": "FINANCE 662",
+      "title": "Real Estate Entrepreneurship",
+      "area": "FINANCE",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "FINANCE 663",
+      "code": "FINANCE 663",
+      "title": "International Finance",
+      "area": "FINANCE",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "FINANCE 894",
+      "code": "FINANCE 894",
+      "title": "Private Equity Buyout Lab",
+      "area": "FINANCE",
+      "credits": 3,
+      "isFuqua": true,
+      "isPracticum": true
+    },
+    {
+      "id": "FINANCE 898",
+      "code": "FINANCE 898",
+      "title": "Entrepreneurship Through Acquisition",
+      "area": "FINANCE",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "FUQINTRD 693",
+      "code": "FUQINTRD 693",
+      "title": "Irrational Choices, Unconscious Decisions & Market Failure",
+      "area": "FUQINTRD",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "FUQINTRD 697",
+      "code": "FUQINTRD 697",
+      "title": "Innovation and Cryptoventures",
+      "area": "FUQINTRD",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "GLHLTH 671",
+      "code": "GLHLTH 671",
+      "title": "Global Health and Health Systems in Africa",
+      "area": "GLHLTH",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "GLHLTH 701",
+      "code": "GLHLTH 701",
+      "title": "Global Health Challenges",
+      "area": "GLHLTH",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "GLHLTH 750",
+      "code": "GLHLTH 750",
+      "title": "Health Systems in Developing Countries",
+      "area": "GLHLTH",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "GLHLTH 755",
+      "code": "GLHLTH 755",
+      "title": "Global Health Systems (Duke Global Heath Institute Course)",
+      "area": "GLHLTH",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "HLTHMGMT 705",
+      "code": "HLTHMGMT 705",
+      "title": "Seminars in Health Care, Part One",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "HLTHMGMT 706",
+      "code": "HLTHMGMT 706",
+      "title": "Seminars in Health Care, Part Two",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "HLTHMGMT 710",
+      "code": "HLTHMGMT 710",
+      "title": "Health Institutions, Systems and Policy (HSM Bootcamp)",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "HLTHMGMT 711",
+      "code": "HLTHMGMT 711",
+      "title": "Health Care Markets",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "HLTHMGMT 712",
+      "code": "HLTHMGMT 712",
+      "title": "Medical Device Strategy",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "HLTHMGMT 714",
+      "code": "HLTHMGMT 714",
+      "title": "Health Care Provider Strategy",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "HLTHMGMT 715",
+      "code": "HLTHMGMT 715",
+      "title": "The Marketing of Health and Wellness",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "HLTHMGMT 716",
+      "code": "HLTHMGMT 716",
+      "title": "Health Care Systems and Policy",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "HLTHMGMT 717",
+      "code": "HLTHMGMT 717",
+      "title": "Biotechnology and Pharmaceutical Strategy",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "HLTHMGMT 895",
+      "code": "HLTHMGMT 895",
+      "title": "Fuqua Client Consulting Practicum (Health Sector Management)",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true,
+      "isPracticum": true
+    },
+    {
+      "id": "HLTHMGMT 896",
+      "code": "HLTHMGMT 896",
+      "title": "Duke University Hospital Experiential Learning Program",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true,
+      "isPracticum": true
+    },
+    {
+      "id": "HLTHMGMT 898::design-1",
+      "code": "HLTHMGMT 898",
+      "title": "Design in Healthcare 1: Discover",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "HLTHMGMT 898::design-2",
+      "code": "HLTHMGMT 898",
+      "title": "Design in Healthcare 2: Design",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "HLTHMGMT 898::design-3",
+      "code": "HLTHMGMT 898",
+      "title": "Design in Healthcare 3: Deploy",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "HLTHMGMT 898::health-law",
+      "code": "HLTHMGMT 898",
+      "title": "Health Law and Policy",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "HLTHMGMT 898::new-ventures",
+      "code": "HLTHMGMT 898",
+      "title": "New Ventures Clinic: Healthcare",
+      "area": "HLTHMGMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "I&E 590",
+      "code": "I&E 590",
+      "title": "New Ventures: Climate",
+      "area": "I&E",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "I&E 720",
+      "code": "I&E 720",
+      "title": "Design in Healthcare",
+      "area": "I&E",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "LAW 235",
+      "code": "LAW 235",
+      "title": "Environmental Law",
+      "area": "LAW",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "LAW 327",
+      "code": "LAW 327",
+      "title": "Energy Law",
+      "area": "LAW",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "LAW 347",
+      "code": "LAW 347",
+      "title": "Health Care Law & Policy",
+      "area": "LAW",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "LAW 520",
+      "code": "LAW 520",
+      "title": "Climate Change and the Law",
+      "area": "LAW",
+      "credits": 2,
+      "isFuqua": false
+    },
+    {
+      "id": "LAW 527",
+      "code": "LAW 527",
+      "title": "Access to Medicines \u2013 IP and Global Public Health Law",
+      "area": "LAW",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "LAW 539",
+      "code": "LAW 539",
+      "title": "Ethics in Action",
+      "area": "LAW",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "LAW 541",
+      "code": "LAW 541",
+      "title": "Non-Profit Organizations",
+      "area": "LAW",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "LAW 561",
+      "code": "LAW 561",
+      "title": "Tax Policy",
+      "area": "LAW",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "MANAGEMT 738",
+      "code": "MANAGEMT 738",
+      "title": "Managing Innovation in a Global Organization",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MANAGEMT 743",
+      "code": "MANAGEMT 743",
+      "title": "The Legal Environment of Business",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MANAGEMT 744",
+      "code": "MANAGEMT 744",
+      "title": "Managerial Decision Making",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MANAGEMT 745",
+      "code": "MANAGEMT 745",
+      "title": "Negotiation",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MANAGEMT 746",
+      "code": "MANAGEMT 746",
+      "title": "Power and Influence",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MANAGEMT 747",
+      "code": "MANAGEMT 747",
+      "title": "Leadership",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MANAGEMT 748",
+      "code": "MANAGEMT 748",
+      "title": "Diversity & Talent Management",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MANAGEMT 749",
+      "code": "MANAGEMT 749",
+      "title": "Ethics in Management",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MANAGEMT 750",
+      "code": "MANAGEMT 750",
+      "title": "Social Entrepreneurship",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MANAGEMT 754",
+      "code": "MANAGEMT 754",
+      "title": "Mentored Study in Entrepreneurship",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MANAGEMT 754::energy-env",
+      "code": "MANAGEMT 754",
+      "title": "Mentored Study with an Energy and/or Environment Focus",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true,
+      "variableCredits": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "MANAGEMT 762",
+      "code": "MANAGEMT 762",
+      "title": "Advanced Seminar in Social Entrepreneurship",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MANAGEMT 894",
+      "code": "MANAGEMT 894",
+      "title": "Women and Leadership",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MANAGEMT 895",
+      "code": "MANAGEMT 895",
+      "title": "Fuqua Client Consulting Practicum",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true,
+      "isPracticum": true
+    },
+    {
+      "id": "MANAGEMT 896",
+      "code": "MANAGEMT 896",
+      "title": "Entrepreneurship Planning Practicum",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true,
+      "isPracticum": true
+    },
+    {
+      "id": "MANAGEMT 898",
+      "code": "MANAGEMT 898",
+      "title": "Impact Investing / FCCP Foundations (CASE i3)",
+      "area": "MANAGEMT",
+      "credits": 3,
+      "isFuqua": true,
+      "isPracticum": true
+    },
+    {
+      "id": "MARKETNG 796",
+      "code": "MARKETNG 796",
+      "title": "Market Research",
+      "area": "MARKETNG",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MARKETNG 797",
+      "code": "MARKETNG 797",
+      "title": "Consumer Behavior",
+      "area": "MARKETNG",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MARKETNG 799",
+      "code": "MARKETNG 799",
+      "title": "Strategic Brand Management",
+      "area": "MARKETNG",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MARKETNG 802",
+      "code": "MARKETNG 802",
+      "title": "Marketing of Innovations",
+      "area": "MARKETNG",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MARKETNG 807",
+      "code": "MARKETNG 807",
+      "title": "Marketing Strategy",
+      "area": "MARKETNG",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MARKETNG 808",
+      "code": "MARKETNG 808",
+      "title": "Strategy and Tactics of Pricing",
+      "area": "MARKETNG",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MARKETNG 809",
+      "code": "MARKETNG 809",
+      "title": "Value Creation in MarTech",
+      "area": "MARKETNG",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MARKETNG 895",
+      "code": "MARKETNG 895",
+      "title": "Fuqua Client Consulting Practicum (Marketing)",
+      "area": "MARKETNG",
+      "credits": 3,
+      "isFuqua": true,
+      "isPracticum": true
+    },
+    {
+      "id": "MARKETNG 898",
+      "code": "MARKETNG 898",
+      "title": "Value Creation in MarTech",
+      "area": "MARKETNG",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MGMTCOM 570",
+      "code": "MGMTCOM 570",
+      "title": "Effective Advocacy",
+      "area": "MGMTCOM",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MGRECON 781",
+      "code": "MGRECON 781",
+      "title": "The World Economy",
+      "area": "MGRECON",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MGRECON 784",
+      "code": "MGRECON 784",
+      "title": "Art and Application of Game Theory",
+      "area": "MGRECON",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MGRECON 787",
+      "code": "MGRECON 787",
+      "title": "Behavioral Economics",
+      "area": "MGRECON",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "MGRECON 788",
+      "code": "MGRECON 788",
+      "title": "Competitive Analysis",
+      "area": "MGRECON",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "OPERATNS 823",
+      "code": "OPERATNS 823",
+      "title": "Operations Strategy",
+      "area": "OPERATNS",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "OPERATNS 824",
+      "code": "OPERATNS 824",
+      "title": "Service Operations Management",
+      "area": "OPERATNS",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "OPERATNS 827",
+      "code": "OPERATNS 827",
+      "title": "Global Operations",
+      "area": "OPERATNS",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "OPERATNS 828",
+      "code": "OPERATNS 828",
+      "title": "Value Chain Innovation in Business Processes",
+      "area": "OPERATNS",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "OPERATNS 894::sustainable-ops",
+      "code": "OPERATNS 894",
+      "title": "Sustainable Operations",
+      "area": "OPERATNS",
+      "credits": 1.5,
+      "isFuqua": true
+    },
+    {
+      "id": "PHIL 503S",
+      "code": "PHIL 503S",
+      "title": "Contemporary Ethical Theories",
+      "area": "PHIL",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "PSY 739",
+      "code": "PSY 739",
+      "title": "Ethical Issues in Research and Practice Topics",
+      "area": "PSY",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "PUBPOL 544S",
+      "code": "PUBPOL 544S",
+      "title": "Schools and School Policy",
+      "area": "PUBPOL",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "PUBPOL 559S",
+      "code": "PUBPOL 559S",
+      "title": "Philanthropy, Voluntarism & Not-For-Profit Management",
+      "area": "PUBPOL",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "PUBPOL 642S",
+      "code": "PUBPOL 642S",
+      "title": "Designing Innovations for Global Health: From Philanthropy to People",
+      "area": "PUBPOL",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "PUBPOL 721S",
+      "code": "PUBPOL 721S",
+      "title": "Institutional Design for Sustainable Development",
+      "area": "PUBPOL",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "PUBPOL 723",
+      "code": "PUBPOL 723",
+      "title": "Poverty Reduction and the International Financial Institutions",
+      "area": "PUBPOL",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "PUBPOL 726",
+      "code": "PUBPOL 726",
+      "title": "Innovation and Policy Entrepreneurship",
+      "area": "PUBPOL",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "PUBPOL 790.01",
+      "code": "PUBPOL 790.01",
+      "title": "Economic Development and Environmental Conservation",
+      "area": "PUBPOL",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "PUBPOL 816",
+      "code": "PUBPOL 816",
+      "title": "Ethics and Policymaking",
+      "area": "PUBPOL",
+      "credits": 3,
+      "isFuqua": false
+    },
+    {
+      "id": "SOCENT 895",
+      "code": "SOCENT 895",
+      "title": "Fuqua Client Consulting Practicum (Social Entrepreneurship)",
+      "area": "SOCENT",
+      "credits": 3,
+      "isFuqua": true,
+      "isPracticum": true
+    },
+    {
+      "id": "STRATEGY 627",
+      "code": "STRATEGY 627",
+      "title": "Climate, Sustainability and Corporate Governance",
+      "area": "STRATEGY",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "STRATEGY 837",
+      "code": "STRATEGY 837",
+      "title": "International Strategy",
+      "area": "STRATEGY",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "STRATEGY 838",
+      "code": "STRATEGY 838",
+      "title": "Entrepreneurial Strategy for Innovation-Based Ventures",
+      "area": "STRATEGY",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "STRATEGY 839",
+      "code": "STRATEGY 839",
+      "title": "Strategies for Driving Corporate Growth",
+      "area": "STRATEGY",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "STRATEGY 840",
+      "code": "STRATEGY 840",
+      "title": "Business Strategy by Firms Based in Developing Countries",
+      "area": "STRATEGY",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "STRATEGY 841",
+      "code": "STRATEGY 841",
+      "title": "Strategy Implementation",
+      "area": "STRATEGY",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "STRATEGY 842",
+      "code": "STRATEGY 842",
+      "title": "Strategic Modeling and Business Dynamics",
+      "area": "STRATEGY",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "STRATEGY 845",
+      "code": "STRATEGY 845",
+      "title": "Entrepreneurial Execution & Planning",
+      "area": "STRATEGY",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "STRATEGY 848",
+      "code": "STRATEGY 848",
+      "title": "New Ventures Discovery",
+      "area": "STRATEGY",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "STRATEGY 849",
+      "code": "STRATEGY 849",
+      "title": "New Ventures Development 1",
+      "area": "STRATEGY",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "STRATEGY 850",
+      "code": "STRATEGY 850",
+      "title": "New Ventures Development 2",
+      "area": "STRATEGY",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "STRATEGY 851",
+      "code": "STRATEGY 851",
+      "title": "New Ventures Delivery 1",
+      "area": "STRATEGY",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "STRATEGY 852",
+      "code": "STRATEGY 852",
+      "title": "New Ventures Delivery 2",
+      "area": "STRATEGY",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "STRATEGY 853",
+      "code": "STRATEGY 853",
+      "title": "Advanced Corporate Strategy",
+      "area": "STRATEGY",
+      "credits": 3,
+      "isFuqua": true
+    },
+    {
+      "id": "STRATEGY 895",
+      "code": "STRATEGY 895",
+      "title": "Fuqua Client Consulting Practicum (Strategy)",
+      "area": "STRATEGY",
+      "credits": 3,
+      "isFuqua": true,
+      "isPracticum": true
+    },
+    {
+      "id": "XTIANETH 890",
+      "code": "XTIANETH 890",
+      "title": "Ethical Topics Topic: Christian Ethics as Improvisation",
+      "area": "XTIANETH",
+      "credits": 3,
+      "isFuqua": false
+    }
+  ]
+}

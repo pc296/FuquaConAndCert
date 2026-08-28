@@ -1,0 +1,41 @@
+Decision Sciences Concentration
+This concentration provides students with an opportunity to acquire in-depth knowledge of the business analytics
+tools and applications. The concentration equips students with a skill set that is increasingly important in many
+managerial roles and industries: how to structure and analyze information and data to improve business decisions,
+processes and strategies. The concentration requires students to take a total of 18 credits, with at least 6 credits in
+foundational business analytics courses (the first category below), and at least 9 credits from the second category,
+which consider applications of business analytics approach and tools across other functional areas. The final 3 credits
+can come from either category. The first category empowers students with in-depth business analytics tools, while
+the second category provides students with understanding of breadth of applications of these tools. For that reason,
+it is strongly suggested that the courses from the second category involve at least three different area designations
+(ACCOUNTG, DECISION, FINANCE, FUQINTRD, MARKETNG, MGRECON, OPERATNS, STRATEGY).
+Coursework       requirements:
+Note updates to the requirements, effective September 2025.
+Students must take a total of 18 credits (all courses are worth 3 credits unless noted):
+at least 6 from Business Analytics Tools
+at least 9 from Business Analytics Applications
+the remaining 3 credits from either category
+Business Analytics Tools — Choose at least 6 credits among of the following courses
+DECISION 611 — Decision Models
+DECISION 614 — Forecasting
+DECISION 618 — Data Analytics for Business
+DECISION 894 – Modern AI for Managers (1.5 cr)
+DECISION 894 – Transforming Tech Analytics with Machine Intelligence (1.5 cr)
+Business Analytics Applications — Choose at least 9 credits among the following courses. (It is strongly suggested
+to choose courses with at least three different area designations).
+ACCOUNTG 597 — Financial Statement Analysis
+ACCOUNTG 598 — Valuation and Fundamental Analysis
+DECISION 617 — Information Management
+DECISION 619 — Digital Platforms
+FINANCE 647 — Investment
+FINANCE 648 — Derivatives
+FINANCE 661 — Raising Capital and Financial Technologies
+FUQINTRD 697 — Innovation and Cryptoventures
+MARKETNG 796 — Market Research
+MARKETNG 808 — Strategy and Tactics of Pricing
+MARKETNG 809 — Value Creation in Martech
+MGRECON 784 — The Art & Application of Game Theory
+MGRECON 788 — Competitive Analysis
+OPERATNS 823 — Operations Strategy
+OPERATNS 828 — Value Chain Innovation in Business Processes
+STRATEGY 842 — Strategic Modeling & Business Dynamics

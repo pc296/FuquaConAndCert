@@ -2,13 +2,15 @@
 
 Purpose: living map of Fuqua ConCert. Components, responsibilities, data flow, boundaries, and external dependencies.
 
-Last updated: 2026-08-27
+Last updated: 2026-08-28
 
 ## Status
 
-Greenfield. Nothing below is built. This describes intended design and will change once extraction meets the real PDFs. Update it in POSTFLIGHT whenever structure changes.
+Stage 1 built and passing (ADR-0013 staging). Extraction, the catalog for all 18 pathways, the rule engine, storage, and the interface exist and are verified. Stages 2 to 4 (grades beyond the Finance Certificate, MEM and dual-degree coursework, user-added substitutions) are not built; the schema already carries their fields.
 
-Superseded design note: ADR-0003 originally specified Python and FastAPI. ADR-0008 replaced that with a static-first split. Do not follow ADR-0003.
+Superseded design notes: ADR-0003 specified Python and FastAPI, replaced by ADR-0008. ADR-0014 made double-counting configurable, replaced by ADR-0018. ADR-0017 allowed two certificates, replaced by ADR-0021. Do not follow any of the three.
+
+Running it locally needs a static server, because browsers block ES modules over `file://`: `npm run serve`, then http://localhost:8080. On GitHub Pages no server step is needed (ADR-0024).
 
 ## What the system does
 
@@ -47,7 +49,9 @@ There is no server. The shipped artifact is a static site.
 Turns the source PDFs into pathway records. Runs on Pat's machine only, never in the browser, never at request time. Owns PDF text extraction via pdfplumber (ADR-0009), section splitting, course code and credit parsing, and mapping 16 documents onto 18 pathways (ADR-0020). Output is reviewed by a human before commit (ADR-0004). Does not own rule evaluation.
 
 **[2] rules** (JavaScript, `app/rules/`)
-Pure ES modules. No DOM access, no fetch, no localStorage. Given a course list and a pathway record, returns satisfied groups, remaining requirements, credits counted, and status. Evaluation runs 18 independent passes, one per pathway, with no shared state between them. Also owns the specialty cap check, which is a slot count rather than a category rule (ADR-0017). This is the layer that gets the heaviest test coverage, and it is importable by `node --test` without a browser.
+Pure ES modules. No DOM access, no fetch, no localStorage. Given a course list and a pathway record, returns satisfied groups, remaining requirements, credits counted, and status. Evaluation runs 18 independent passes, one per pathway, with no shared state between them. Also owns the specialty cap check (ADR-0021). This is the layer that gets the heaviest test coverage, and it is importable by `node --test` without a browser.
+
+`allocate.js` handles the one place where courses do compete: within a single pathway, a course is assigned to at most one group, because several pathways have groups whose lists overlap on purpose. Exact search with a node budget, falling back to a flagged approximation (ADR-0022).
 
 **[3] ui** (JavaScript, `app/ui/`)
 Owns the quarter grid where courses are placed across eight quarters, the skill map rendered as SVG from hand-authored layout coordinates (ADR-0010), and the confirmation screen that every input path routes through before anything is saved (ADR-0012). Contains no requirement logic. If the UI needs to know whether something is satisfied, it calls `rules`.
@@ -74,8 +78,9 @@ localStorage as the working store, with explicit export and import of a versione
 ## External dependencies
 
 - Extraction: Python 3.13 with pdfplumber. Pat's machine only.
-- Application: none. No framework, no bundler, no build step, no CDN. Fonts are vendored into the repo so the app works offline.
-- Tests: `node --test` from Node 22, standard library only. pytest for extraction.
+- Application: none. No framework, no bundler, no build step, no CDN.
+- Local development: `tools/serve.js`, Node standard library only.
+- Tests: `node --test` from Node 22, standard library only.
 
 ## Deployment
 
@@ -83,7 +88,9 @@ GitHub Pages from the main branch root of `pc296/FuquaConAndCert` (ADR-0015). `i
 
 ## Design language
 
-Duke brand. Primary colors Duke Navy Blue `#012169` and Duke Royal Blue `#00539B`; the brand guide requires at least one primary blue in any project and prohibits altering their opacity or saturation. Secondary accents from the Duke palette carry state and category coding on the map: Persimmon `#E89923`, Eno `#339898`, Copper `#C84E00`. Neutrals Hatteras `#E2E6ED` and Whisper Gray `#F3F2F1`. Typography is the Duke pairing Merriweather for headings with Open Sans for body, both vendored locally rather than loaded from the Google CDN.
+Duke brand. Primary colors Duke Navy Blue `#012169` and Duke Royal Blue `#00539B`; the brand guide requires at least one primary blue in any project and prohibits altering their opacity or saturation, so map tints are separate palette entries rather than transparent blues. Secondary accents carry state and category coding: Persimmon `#E89923` for in progress, Eno `#339898` for complete, Dandelion `#FFD960` for emphasis, Copper `#C84E00` for blocked. Neutrals Hatteras `#E2E6ED` and Whisper Gray `#F3F2F1`.
+
+Typography is the Duke pairing Merriweather with Open Sans, currently declared as a font stack with Georgia and a system sans as fallbacks. The font files are not yet vendored, so most machines render the fallbacks (ADR-0024).
 
 Unverified: this is the Duke University brand guide. Fuqua may maintain a school-level variant that differs. Not checked.
 

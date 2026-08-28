@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fuqua ConCert</title>
+<meta name="description" content="Plan your Duke Fuqua Daytime MBA coursework and see which concentrations and certificates it earns.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23012169'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='19' font-weight='700' fill='%23FFD960' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="app/styles/main.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-row">
+    <div class="wordmark">Fuqua <em>ConCert</em></div>
+    <p class="tagline">Concentration and certificate planner for the Duke Daytime MBA</p>
+  </div>
+  <p class="notice">
+    Unofficial planning aid. The Fuqua registrar is the authority on what you have earned.
+    Requirements transcribed from FuquaWorld pages retrieved <span id="retrieved">2026-08-27</span>; confirm anything that matters with advising.
+  </p>
+</header>
+
+<div class="layout">
+  <section class="panel" aria-labelledby="plan-heading">
+    <header>
+      <h2 id="plan-heading">My Plan</h2>
+      <div class="row">
+        <button class="ghost tiny" id="export-btn">Export</button>
+        <button class="ghost tiny" id="import-btn">Import</button>
+        <input type="file" id="import-file" accept="application/json" hidden>
+      </div>
+    </header>
+    <div class="panel-body">
+      <input type="search" id="course-search" list="course-list" style="width:100%" placeholder="Search a course, e.g. FINANCE 646" autocomplete="off">
+      <div class="row" style="margin-top:8px">
+        <select class="grow" id="quarter-select" aria-label="Quarter"></select>
+        <button id="add-btn">Add course</button>
+      </div>
+      <datalist id="course-list"></datalist>
+      <p class="muted" id="add-status"></p>
+
+      <details id="paste-details">
+        <summary class="muted">Paste from a transcript or schedule</summary>
+        <textarea id="paste-box" rows="5" style="width:100%;margin-top:8px" placeholder="Paste text here. Nothing is added until you confirm it."></textarea>
+        <div class="row"><button class="ghost" id="paste-btn">Find courses</button></div>
+        <div id="confirm-area"></div>
+      </details>
+    </div>
+    <div class="panel-body" id="quarters" style="padding-top:0"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="map-heading">
+    <header>
+      <h2 id="map-heading">Skill Map</h2>
+      <span class="muted" id="map-summary"></span>
+    </header>
+    <div class="capbar" id="capbar"></div>
+    <div class="map-wrap"><svg class="map" id="map" role="img" aria-label="Concentration and certificate progress map"></svg></div>
+    <div class="legend">
+      <span><i class="swatch" style="background:#339898"></i> Complete</span>
+      <span><i class="swatch" style="background:#0b2f70;border:2px solid #E89923"></i> In progress</span>
+      <span><i class="swatch" style="background:#0b2f70;border:2px solid rgba(226,230,237,0.5)"></i> Not started</span>
+      <span><i class="swatch" style="background:#4a1d05;border:2px solid #C84E00"></i> Blocked by the two-specialty limit</span>
+      <span>&#9670; Certificate</span>
+    </div>
+    <div class="detail" id="detail"></div>
+  </section>
+</div>
+
+<footer class="foot">
+  Fuqua ConCert. Course requirements are transcribed from printed FuquaWorld pages and may be out of date.
+  Your plan is stored in this browser only. Export it to keep a copy.
+</footer>
+
+<script type="module" src="app/ui/main.js"></script>
+</body>
+</html>

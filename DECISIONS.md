@@ -312,3 +312,62 @@ Status: accepted
 **Decision.** Extraction maps documents to pathways many-to-one where needed. The catalog is keyed by pathway, not by source file, and each pathway record names the file and page section it came from.
 
 **Consequences.** Extraction cannot assume one file equals one pathway, and the Finance document needs section-aware splitting that the others do not. This is the known case; a second one may surface during extraction and would be handled the same way.
+
+---
+
+## ADR-0021: Certificates are capped at one, superseding ADR-0017
+
+Date: 2026-08-28
+Status: accepted
+Supersedes: ADR-0017
+
+**Context.** ADR-0017 read the cap as two specialties in any combination, based on the Fuqua program page listing "2 concentrations, 2 certificates, 1 concentration + 1 certificate" under Combinations Allowed. Pat states that two certificates is not allowed. The same page also says "if you plan to work toward a certificate, you may pursue no more than one concentration," which constrains concentrations but does not by itself forbid two certificates. The page therefore appears to contradict itself, or the list is stale.
+
+**Decision.** The cap is two specialties, with certificates limited to one. Pat's rule wins over the page. Both the slot cap and the certificate cap live in `combinationRule` in `data/catalog/pathways.json`, with both citations recorded beside them, so changing this is one data edit and no code change.
+
+**Alternatives.** Follow the page and allow two certificates, rejected because Pat is closer to the source. Block the feature pending confirmation, rejected because the cap is needed now and the disagreement affects exactly one combination, Finance plus HSM.
+
+**Consequences.** A student pursuing both certificates sees a warning the page suggests they might not deserve. Confirm with advising and log the answer as a new ADR either way. This is the second cross-cutting rule this project has had to correct, which is why it now lives in data rather than in code.
+
+---
+
+## ADR-0022: Within-pathway allocation by exact search with a node budget
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** ADR-0018 settled that a course counts toward every pathway it appears on. It does not settle what happens inside one pathway, where a course can appear in two groups. Strategy's third group explicitly accepts surplus from its first, so counting one course in both groups would award the concentration for four courses instead of six.
+
+**Decision.** Within a pathway, each course is allocated to at most one group. `app/rules/allocate.js` searches exactly, most-constrained course first, with memoization and a 200,000-node budget. If the budget is exhausted it returns the best assignment found and sets `approximate: true`, which the UI surfaces rather than hides.
+
+**Alternatives.** Greedy assignment, rejected because it silently understates progress on pathways with overlapping groups. Max-flow, which would be exact for credit groups but awkward where course-count and credit groups mix inside one pathway, as they do in Energy Finance.
+
+**Consequences.** Results are proven, not estimated, for every pathway in the current catalog. The approximate flag exists so a future catalog with much larger groups degrades visibly rather than quietly.
+
+---
+
+## ADR-0023: Shared course numbers get composite ids
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** Extraction found that several course numbers cover different courses: DECISION 894 is both Modern AI for Managers and Transforming Tech Analytics, ENERGY 790-1 is two different courses, HLTHMGMT 898 is five. A course code is therefore not a unique key.
+
+**Decision.** Course ids are the code by default and `CODE::slug` where a code covers several courses. The original code is preserved in the `code` field and is what the UI displays.
+
+**Consequences.** Pasted text that contains a shared number cannot be resolved automatically, so the confirmation screen offers every course using that number, marked ambiguous and unticked by default. The student picks.
+
+---
+
+## ADR-0024: Local use requires a static server; Duke fonts are not yet vendored
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** Two gaps surfaced during the build. First, browsers block ES modules and fetch over `file://`, so opening `index.html` by double-clicking does not work; the app needs an HTTP origin. Second, vendoring Merriweather and Open Sans means committing font binaries, which was not done in this pass.
+
+**Decision.** Ship `tools/serve.js` and `npm run serve` for local use, and rely on the GitHub Pages URL as the normal way to open the app. Use a font stack of Merriweather and Open Sans with Georgia and a system sans as fallbacks until the files are vendored.
+
+**Alternatives.** Convert to classic scripts with data inlined as JavaScript so `file://` works, rejected because it costs the module structure that makes the rule engine testable under `node --test`. Load fonts from the Google CDN, rejected because it breaks offline use and adds a third-party request.
+
+**Consequences.** Anyone who clones the repo needs Node or Python to run it locally, which is fine because the shared artifact is the Pages URL. Typography currently falls back to Georgia and the system sans on most machines, which is on-brand but not the intended pairing. Vendoring the two font families is a small follow-up.

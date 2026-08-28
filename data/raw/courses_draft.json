@@ -1,0 +1,1684 @@
+{
+  "ACCOUNTG 591": {
+    "titles": [
+      "Managerial Accounting"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Financial Analysis Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Management Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Operations Management Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "ACCOUNTG 592": {
+    "titles": [
+      "Detecting Earnings Management"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Financial Analysis Concentration.pdf",
+      "Marketing Concentration.pdf"
+    ]
+  },
+  "ACCOUNTG 596": {
+    "titles": [
+      "Accounting for Mergers and Acquisitions"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Financial Analysis Concentration.pdf"
+    ]
+  },
+  "ACCOUNTG 597": {
+    "titles": [
+      "Financial Statement Analysis"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Decision Sciences Concentration.pdf",
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Financial Analysis Concentration.pdf",
+      "Leadership and Ethics Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "ACCOUNTG 598": {
+    "titles": [
+      "Valuation and Fundamental Analysis",
+      "Valuation & Fundamental Analysis"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Decision Sciences Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Financial Analysis Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "ACCOUNTG 601": {
+    "titles": [
+      "Taxation and Global Management Decisions"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Financial Analysis Concentration.pdf"
+    ]
+  },
+  "ACCOUNTG 894": {
+    "titles": [
+      "Special Topics: Business Sustainability Reporting & Analysis",
+      "Special Topics - Business Sustainability Reporting and Analysis"
+    ],
+    "creditsSeen": [
+      1.5
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf"
+    ]
+  },
+  "BME 788": {
+    "titles": [
+      "Invention to Application"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Entreprenuership and Innovation Concentration.pdf"
+    ]
+  },
+  "DECISION 611": {
+    "titles": [
+      "Decision Models"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Decision Sciences Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf",
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Leadership and Ethics Concentration.pdf",
+      "Management Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Operations Management Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "DECISION 614": {
+    "titles": [
+      "Forecasting"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Decision Sciences Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Financial Analysis Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Management Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Operations Management Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "DECISION 617": {
+    "titles": [
+      "Information Management"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Decision Sciences Concentration.pdf",
+      "Financial Analysis Concentration.pdf"
+    ]
+  },
+  "DECISION 618": {
+    "titles": [
+      "Data Analytics for Business"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Decision Sciences Concentration.pdf",
+      "Finance Certificate.pdf",
+      "Fintech Finance Concentration.pdf",
+      "Management Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Operations Management Concentration.pdf"
+    ]
+  },
+  "DECISION 619": {
+    "titles": [
+      "Digital Platforms"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Decision Sciences Concentration.pdf"
+    ]
+  },
+  "DECISION 894": {
+    "titles": [
+      "Modern AI for Managers",
+      "Transforming Tech Analytics with Machine Intelligence",
+      "AI for Managers"
+    ],
+    "creditsSeen": [
+      1.5
+    ],
+    "sources": [
+      "Decision Sciences Concentration.pdf",
+      "Operations Management Concentration.pdf"
+    ]
+  },
+  "ENERGY 520": {
+    "titles": [
+      "Resource & Environmental Economics I"
+    ],
+    "creditsSeen": [
+      1.5
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf"
+    ]
+  },
+  "ENERGY 579": {
+    "titles": [
+      "Climate Tech Startups and Investors"
+    ],
+    "creditsSeen": [
+      1.5
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf"
+    ]
+  },
+  "ENERGY 588": {
+    "titles": [
+      "Intro to Solar Project Development"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf"
+    ]
+  },
+  "ENERGY 590-05": {
+    "titles": [
+      "Economics of Modern Power Systems"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy Finance Concentration.pdf"
+    ]
+  },
+  "ENERGY 590.01": {
+    "titles": [
+      "ESG Investing"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf"
+    ]
+  },
+  "ENERGY 590.05": {
+    "titles": [
+      "Economics of Modern Power Systems"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf"
+    ]
+  },
+  "ENERGY 590.50": {
+    "titles": [
+      "Intro to Solar Project Development"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf"
+    ]
+  },
+  "ENERGY 630": {
+    "titles": [
+      "Transportation and Energy"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf"
+    ]
+  },
+  "ENERGY 631": {
+    "titles": [
+      "Energy Technology and Impact on the Environment",
+      "Energy Technology and Its Impact on the Environment"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf"
+    ]
+  },
+  "ENERGY 635": {
+    "titles": [
+      "Energy Economics and Policy"
+    ],
+    "creditsSeen": [
+      1.5
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf"
+    ]
+  },
+  "ENERGY 711": {
+    "titles": [
+      "Energy and the Environment"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf"
+    ]
+  },
+  "ENERGY 716L": {
+    "titles": [
+      "Modeling for Energy Systems"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf"
+    ]
+  },
+  "ENERGY 727": {
+    "titles": [
+      "Energy Law"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf"
+    ]
+  },
+  "ENERGY 790-1": {
+    "titles": [
+      "Clean Energy in Emerging Economies",
+      "Emerging Energy Technologies: From Lab to Market"
+    ],
+    "creditsSeen": [
+      1.5,
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf"
+    ]
+  },
+  "ENRGYENV 625": {
+    "titles": [
+      "Energy, Markets, & Innovation  Offered every other year. This course is expected",
+      "Energy, Markets, & Innovation  Offered every other year. This course is expected to be"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf"
+    ]
+  },
+  "ENRGYENV 626": {
+    "titles": [
+      "Modeling and Analysis for Environmental"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "ENRGYENV 628": {
+    "titles": [
+      "EDGE Seminar on Energy & Environment \u2013 Energy Focus",
+      "EDGE Seminar on Energy & Environment - Energy Focus"
+    ],
+    "creditsSeen": [
+      1.5
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf"
+    ]
+  },
+  "ENRGYENV 629": {
+    "titles": [
+      "EDGE Seminar on Energy & Environment \u2013 Environment Focus (1.5 credits, may be taken"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Energy & Environment Concentration.pdf"
+    ]
+  },
+  "ENRGYENV 895": {
+    "titles": [
+      "Fuqua Client Consulting Practicum: EDGE Project with an Energy and/or Environment",
+      "Fuqua Client Consulting Practicum: EDGE Project with an Energy and/or Environment Focus (6"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf"
+    ]
+  },
+  "ENVIRON 520": {
+    "titles": [
+      "Resource and Environmental Economics 1"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "ENVIRON 592": {
+    "titles": [
+      "UN Climate Change Negotiations Practicum"
+    ],
+    "creditsSeen": [
+      1.5
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf"
+    ]
+  },
+  "ENVIRON 638": {
+    "titles": [
+      "Environmental Life Cycle Analysis and Decision Making"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf"
+    ]
+  },
+  "ENVIRON 640": {
+    "titles": [
+      "Climate Change Economics and Policy"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf"
+    ]
+  },
+  "ENVIRON 717": {
+    "titles": [
+      "Markets for Electric Power"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf"
+    ]
+  },
+  "ENVIRON 801": {
+    "titles": [
+      "Approaches to a Low Carbon Economy"
+    ],
+    "creditsSeen": [
+      1.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf"
+    ]
+  },
+  "FINANCE 646": {
+    "titles": [
+      "Corporate Finance"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf",
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Financial Analysis Concentration.pdf",
+      "Fintech Finance Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Management Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Social Entrepreneurship Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "FINANCE 647": {
+    "titles": [
+      "Investment"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Decision Sciences Concentration.pdf",
+      "Energy Finance Concentration.pdf",
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Fintech Finance Concentration.pdf"
+    ]
+  },
+  "FINANCE 648": {
+    "titles": [
+      "Derivatives"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Decision Sciences Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf",
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Fintech Finance Concentration.pdf"
+    ]
+  },
+  "FINANCE 651": {
+    "titles": [
+      "Entrepreneurial Finance and Venture Capital",
+      "Entrepreneurial Finance",
+      "Entrepreneurial Finance & Venture Capital"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Fintech Finance Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Social Entrepreneurship Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "FINANCE 652": {
+    "titles": [
+      "Project Finance"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf",
+      "Finance Concentrations.pdf"
+    ]
+  },
+  "FINANCE 653": {
+    "titles": [
+      "Fixed-Income Securities and Risk Management",
+      "Fixed Income Securities and Risk Management"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf"
+    ]
+  },
+  "FINANCE 654": {
+    "titles": [
+      "Advanced Corporate Finance",
+      "Advance Corporate Finance"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Energy Finance Concentration.pdf",
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "FINANCE 656": {
+    "titles": [
+      "Global Asset Allocation and Stock Selection",
+      "Global Asset Allocation & Stock Selection"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf"
+    ]
+  },
+  "FINANCE 658": {
+    "titles": [
+      "Corporate Restructuring"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Financial Analysis Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "FINANCE 660": {
+    "titles": [
+      "Private Capital Markets",
+      "Venture Capital and Private Equity"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Fintech Finance Concentration.pdf",
+      "Marketing Concentration.pdf"
+    ]
+  },
+  "FINANCE 661": {
+    "titles": [
+      "Raising Capital and Financial Technologies"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Decision Sciences Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Fintech Finance Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "FINANCE 662": {
+    "titles": [
+      "Real Estate Entrepreneurship"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Entreprenuership and Innovation Concentration.pdf"
+    ]
+  },
+  "FINANCE 663": {
+    "titles": [
+      "International Finance"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Energy Finance Concentration.pdf",
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Fintech Finance Concentration.pdf"
+    ]
+  },
+  "FINANCE 894": {
+    "titles": [
+      "Private Equity Buyout Lab"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Entreprenuership and Innovation Concentration.pdf"
+    ]
+  },
+  "FINANCE 898": {
+    "titles": [
+      "Entrepreneurship Through Acquisition"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Entreprenuership and Innovation Concentration.pdf"
+    ]
+  },
+  "FUQINTRD 693": {
+    "titles": [
+      "Irrational Choices, Unconscious Decisions & Market Failure"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf"
+    ]
+  },
+  "FUQINTRD 697": {
+    "titles": [
+      "Innovation and Cryptoventures"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Decision Sciences Concentration.pdf",
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Fintech Finance Concentration.pdf"
+    ]
+  },
+  "GLHLTH 671": {
+    "titles": [
+      "Global Health and Health Systems in Africa"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "GLHLTH 701": {
+    "titles": [
+      "Global Health Challenges"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "GLHLTH 750": {
+    "titles": [
+      "Health Systems in Developing Countries"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "GLHLTH 755": {
+    "titles": [
+      "Global Health Systems (Duke Global Heath Institute Course)"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf"
+    ]
+  },
+  "HLTHMGMT 711": {
+    "titles": [
+      "Health Care Markets"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "HLTHMGMT 712": {
+    "titles": [
+      "Medical Device Strategy"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Social Entrepreneurship Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "HLTHMGMT 714": {
+    "titles": [
+      "Health Care Provider Strategy",
+      "Healthcare Provider Strategy"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf",
+      "Operations Management Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "HLTHMGMT 715": {
+    "titles": [
+      "The Marketing of Health and Wellness"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf",
+      "Marketing Concentration.pdf"
+    ]
+  },
+  "HLTHMGMT 716": {
+    "titles": [
+      "Management of Health Systems and Policy (Week in Washington, DC)",
+      "Health Care Systems and Policy"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "HLTHMGMT 717": {
+    "titles": [
+      "Biotechnology and Pharmaceutical Strategy"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf",
+      "Leadership and Ethics Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "HLTHMGMT 895": {
+    "titles": [
+      "Fuqua Client Consulting Practicum"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf"
+    ]
+  },
+  "HLTHMGMT 896": {
+    "titles": [
+      "Duke University Hospital Experiential Learning Program"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf"
+    ]
+  },
+  "HLTHMGMT 898": {
+    "titles": [
+      "New Ventures Clinic: Healthcare (formerly Strategy 898)",
+      "Design in Healthcare 1: Discover (formerly Strategy 898)",
+      "Design in Healthcare 2: Design (formerly Strategy 898)",
+      "Design in Healthcare 3: Deploy (formerly Strategy 898)",
+      "Health Law and Policy"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf"
+    ]
+  },
+  "I&E 590": {
+    "titles": [
+      "New Ventures: Climate"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf"
+    ]
+  },
+  "I&E 720": {
+    "titles": [
+      "Design in Healthcare"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf"
+    ]
+  },
+  "LAW 235": {
+    "titles": [
+      "Environmental Law"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "LAW 327": {
+    "titles": [
+      "Energy Law"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Energy Finance Concentration.pdf"
+    ]
+  },
+  "LAW 347": {
+    "titles": [
+      "Health Care Law & Policy"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf"
+    ]
+  },
+  "LAW 520": {
+    "titles": [
+      "Climate Change and the Law"
+    ],
+    "creditsSeen": [
+      2.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf"
+    ]
+  },
+  "LAW 527": {
+    "titles": [
+      "Access to Medicines \u2013 IP and Global Public Health Law"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf"
+    ]
+  },
+  "LAW 539": {
+    "titles": [
+      "Ethics in Action"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Leadership and Ethics Concentration.pdf"
+    ]
+  },
+  "LAW 541": {
+    "titles": [
+      "Non-Profit Organizations"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "LAW 561": {
+    "titles": [
+      "Tax Policy"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Leadership and Ethics Concentration.pdf"
+    ]
+  },
+  "MANAGEMT 738": {
+    "titles": [
+      "Managing Innovation in a Global Organization",
+      "Managing Innovation"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Fintech Finance Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Leadership and Ethics Concentration.pdf",
+      "Management Concentration.pdf",
+      "Operations Management Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "MANAGEMT 743": {
+    "titles": [
+      "The Legal Environment of Business"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "MANAGEMT 744": {
+    "titles": [
+      "Managerial Decision Making"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Leadership and Ethics Concentration.pdf",
+      "Management Concentration.pdf"
+    ]
+  },
+  "MANAGEMT 745": {
+    "titles": [
+      "Negotiation"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Leadership and Ethics Concentration.pdf",
+      "Management Concentration.pdf",
+      "Marketing Concentration.pdf"
+    ]
+  },
+  "MANAGEMT 746": {
+    "titles": [
+      "Power and Influence",
+      "Power & Influence (Formerly Power and Politics in Organizations)"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Leadership and Ethics Concentration.pdf",
+      "Management Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "MANAGEMT 747": {
+    "titles": [
+      "Leadership"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Leadership and Ethics Concentration.pdf",
+      "Management Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "MANAGEMT 748": {
+    "titles": [
+      "Diversity and Talent Management",
+      "Diversity & Talent Management",
+      "Managing Human Assets & Organizational Change"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Leadership and Ethics Concentration.pdf",
+      "Management Concentration.pdf",
+      "Operations Management Concentration.pdf",
+      "Social Entrepreneurship Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "MANAGEMT 749": {
+    "titles": [
+      "Ethics",
+      "Ethics in Management"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Leadership and Ethics Concentration.pdf",
+      "Management Concentration.pdf",
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "MANAGEMT 750": {
+    "titles": [
+      "Social Entrepreneurship"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Leadership and Ethics Concentration.pdf"
+    ]
+  },
+  "MANAGEMT 754": {
+    "titles": [
+      "Mentored Study in Entrepreneurship"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Marketing Concentration.pdf",
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "MANAGEMT 762": {
+    "titles": [
+      "Social Venture Capital",
+      "Advanced Seminar in Social Entrepreneurship"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "MANAGEMT 894": {
+    "titles": [
+      "Women and Leadership"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "DEI Concentration.pdf"
+    ]
+  },
+  "MANAGEMT 895": {
+    "titles": [
+      "Fuqua Client Consulting Practicum or MANAGEMT 896 \u2014 Entrepreneurship Planning"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Entreprenuership and Innovation Concentration.pdf"
+    ]
+  },
+  "MANAGEMT 898": {
+    "titles": [
+      "Impact Investing"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "MARKETING 807": {
+    "titles": [
+      "Marketing Strategy"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Management Concentration.pdf"
+    ]
+  },
+  "MARKETNG 796": {
+    "titles": [
+      "Market Research"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Decision Sciences Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Leadership and Ethics Concentration.pdf",
+      "Management Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Social Entrepreneurship Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "MARKETNG 797": {
+    "titles": [
+      "Consumer Behavior"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Marketing Concentration.pdf"
+    ]
+  },
+  "MARKETNG 799": {
+    "titles": [
+      "Strategic Brand Management"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Financial Analysis Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Operations Management Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "MARKETNG 802": {
+    "titles": [
+      "Marketing Innovations",
+      "Marketing of Innovations"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Fintech Finance Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Marketing Concentration.pdf",
+      "Operations Management Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "MARKETNG 807": {
+    "titles": [
+      "Marketing Strategy"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Marketing Concentration.pdf",
+      "Operations Management Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "MARKETNG 808": {
+    "titles": [
+      "Strategy and Tactics of Pricing"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Decision Sciences Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Marketing Concentration.pdf",
+      "Operations Management Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "MARKETNG 809": {
+    "titles": [
+      "Value Creation in Martech",
+      "Value Creation in MarTech"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Decision Sciences Concentration.pdf",
+      "Marketing Concentration.pdf"
+    ]
+  },
+  "MARKETNG 895": {
+    "titles": [
+      "Fuqua Client Consulting Practicum"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Entreprenuership and Innovation Concentration.pdf"
+    ]
+  },
+  "MARKETNG 898": {
+    "titles": [
+      "Value Creation in MarTech"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Marketing Concentration.pdf"
+    ]
+  },
+  "MGMTCOM 570": {
+    "titles": [
+      "Effective Advocacy"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "MGRECON 781": {
+    "titles": [
+      "The World Economy"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Finance Certificate.pdf",
+      "Finance Concentrations.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "MGRECON 784": {
+    "titles": [
+      "Art and Application of Game Theory",
+      "The Art & Application of Game Theory",
+      "Art & Application of Game Theory"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Decision Sciences Concentration.pdf",
+      "Fintech Finance Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Management Concentration.pdf",
+      "Operations Management Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "MGRECON 787": {
+    "titles": [
+      "Behavioral Economics"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "MGRECON 788": {
+    "titles": [
+      "Competitive Analysis"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Decision Sciences Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Financial Analysis Concentration.pdf",
+      "Management Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Operations Management Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "OPERATNS 823": {
+    "titles": [
+      "Operations Strategy"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Decision Sciences Concentration.pdf",
+      "Management Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Operations Management Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "OPERATNS 824": {
+    "titles": [
+      "Service Operations Management"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf",
+      "Marketing Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "OPERATNS 827": {
+    "titles": [
+      "Global Operations"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "OPERATNS 828": {
+    "titles": [
+      "Value Chain Innovation in Business Processes",
+      "Supply Chain Management",
+      "Value Chain Innovation in Business Practices (formerly Supply Chain Management)"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Decision Sciences Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Fintech Finance Concentration.pdf",
+      "Management Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Operations Management Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "OPERATNS 894": {
+    "titles": [
+      "Special Topics: Sustainable Operations",
+      "Sustainable Operations"
+    ],
+    "creditsSeen": [
+      1.5
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Operations Management Concentration.pdf"
+    ]
+  },
+  "PHIL 503S": {
+    "titles": [
+      "Contemporary Ethical Theories"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Leadership and Ethics Concentration.pdf"
+    ]
+  },
+  "PSY 739": {
+    "titles": [
+      "Ethical Issues in Research and Practice Topics"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Leadership and Ethics Concentration.pdf"
+    ]
+  },
+  "PUBPOL 544S": {
+    "titles": [
+      "Schools and School Policy"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "PUBPOL 642S": {
+    "titles": [
+      "Designing Innovations for Global Health: From Philanthropy to People"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "PUBPOL 721S": {
+    "titles": [
+      "Institutional Design for Sustainable Development"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "PUBPOL 723": {
+    "titles": [
+      "Poverty Reduction and the International Financial Institutions"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "PUBPOL 726": {
+    "titles": [
+      "Innovation and Policy Entrepreneurship"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "PUBPOL 790.01": {
+    "titles": [
+      "Economic Development and Environmental Conservation"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf"
+    ]
+  },
+  "PUBPOL 816": {
+    "titles": [
+      "Ethics and Policymaking"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Leadership and Ethics Concentration.pdf"
+    ]
+  },
+  "SOCENT 895": {
+    "titles": [
+      "Fuqua Client Consulting Practicum \u2010\u2010 Operations Focus",
+      "Fuqua Client Consulting Practicum (Social Entrepreneurship projects) or MANAGEMT 898 \u2014"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Operations Management Concentration.pdf",
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "STRATEGY 627": {
+    "titles": [
+      "Climate, Sustainability and Corporate Governance",
+      "Climate, Sustainability, and Corporate Governance"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "STRATEGY 837": {
+    "titles": [
+      "International Strategy"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "STRATEGY 838": {
+    "titles": [
+      "Entrepreneurial Strategy for Innovation-Based Ventures",
+      "Entrepreneurial Strategy"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Fintech Finance Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Operations Management Concentration.pdf",
+      "Social Entrepreneurship Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "STRATEGY 839": {
+    "titles": [
+      "Strategies for Driving Corporate Growth"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "STRATEGY 840": {
+    "titles": [
+      "Business Strategy by Firms Based in Emerging Market Economies",
+      "Business Strategy by Firms Based in Developing Countries"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf",
+      "Social Entrepreneurship Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "STRATEGY 841": {
+    "titles": [
+      "Strategy Implementation"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Management Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "STRATEGY 842": {
+    "titles": [
+      "Strategic Modeling and Business Dynamics",
+      "Strategic Modeling & Business Dynamics"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "DEI Concentration.pdf",
+      "Decision Sciences Concentration.pdf",
+      "Energy & Environment Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Leadership and Ethics Concentration.pdf",
+      "Management Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Operations Management Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "STRATEGY 845": {
+    "titles": [
+      "Entrepreneurial Execution/Planning",
+      "Entrepreneurial Execution",
+      "Entrepreneurial Execution & Planning"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Fintech Finance Concentration.pdf",
+      "Leadership and Ethics Concentration.pdf",
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "STRATEGY 848": {
+    "titles": [
+      "New Ventures Discover",
+      "New Ventures Discovery"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "STRATEGY 849": {
+    "titles": [
+      "New Ventures Develop",
+      "New Ventures Development 1",
+      "New Ventures Development and STRATEGY 850 \u2014 New Ventures 2: Strategy Development"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "STRATEGY 850": {
+    "titles": [
+      "New Ventures Development 2"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf"
+    ]
+  },
+  "STRATEGY 851": {
+    "titles": [
+      "New Ventures Deliver",
+      "New Ventures Delivery 1",
+      "New Ventures Delivery 1 and STRATEGY 852 \u2014 New Ventures 3: Operating Plan"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Entreprenuership and Innovation Concentration.pdf",
+      "Health Sector Management Certificate.pdf",
+      "Social Entrepreneurship Concentration.pdf"
+    ]
+  },
+  "STRATEGY 852": {
+    "titles": [
+      "New Ventures Delivery 2"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Health Sector Management Certificate.pdf"
+    ]
+  },
+  "STRATEGY 853": {
+    "titles": [
+      "Advanced Corporate Strategy"
+    ],
+    "creditsSeen": [
+      3.0
+    ],
+    "sources": [
+      "Energy & Environment Concentration.pdf",
+      "Marketing Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "STRATEGY 895": {
+    "titles": [
+      "Fuqua Client Consulting Practicum (STRATEGY FCCP)",
+      "Fuqua Client Consulting Practicum"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Marketing Concentration.pdf",
+      "Strategy Concentration.pdf"
+    ]
+  },
+  "XTIANETH 890": {
+    "titles": [
+      "Ethical Topics Topic: Christian Ethics as Improvisation"
+    ],
+    "creditsSeen": [],
+    "sources": [
+      "Leadership and Ethics Concentration.pdf"
+    ]
+  }
+}

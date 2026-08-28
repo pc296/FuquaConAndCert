@@ -1,0 +1,11 @@
+{
+  "name": "fuqua-concert",
+  "version": "0.1.0",
+  "description": "Fuqua ConCert: a course planner for the Duke Fuqua full-time MBA",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/rules",
+    "serve": "node tools/serve.js"
+  }
+}
