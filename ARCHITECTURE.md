@@ -27,7 +27,8 @@ Source_docs/*.pdf          read-only input, outside the repo, 16 files
         |
         |  [1] extraction  (Python, offline, developer-only, run on demand)
         v
-data/catalog/*.json        18 pathway records, committed, human-reviewed
+data/catalog/pathways.json 18 pathway records, committed, human-reviewed
+data/catalog/core.json     14 Daytime MBA core courses, hand-maintained (ADR-0029)
 data/layout/*.json         hand-authored SVG node coordinates per pathway
         |
         |  loaded by the browser at page load, static fetch

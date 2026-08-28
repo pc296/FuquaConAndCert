@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "retrieved": "2026-08-28",
+  "note": "Daytime MBA core courses. These never count toward a concentration or certificate: every requirement document defines its coursework as electives 'beyond the required core'. They exist here so transcripts parse cleanly and so the HSM certificate's core requirement can be checked. Credits are deliberately not modelled (confirmed with Pat 2026-08-28): nothing counts them, so a wrong value could only mislead. See ADR-0029.",
+  "sources": [
+    "https://www.fuqua.duke.edu/exempting-courses retrieved 2026-08-28 (names 7 core courses with numbers)",
+    "https://www.fuqua.duke.edu/programs/daytime-mba/curriculum retrieved 2026-08-28 (names core courses; the section mixes core and electives)",
+    "https://www.fuqua.duke.edu/programs/daytime-mba/program-format retrieved 2026-08-28 (term structure and counts)",
+    "https://fuqua.bulletins.duke.edu/departments/FUQUA/courses retrieved 2026-08-28 (course numbers and titles)",
+    "Pat, 2026-08-28: confirmed FUQINTRD 565, FUQINTRD 566, STRATEGY 836 and DECISION 616 as core"
+  ],
+  "openQuestion": "The curriculum page says 13 mandated core classes; the program format page says first-year students complete approximately 14, and its term breakdown (3 summer, 5 Fall 1, 4 Fall 2, 1 Spring 1, 1 Spring 2) totals 14 in first year alone. This list holds 14 in total, of which 13 are first year. If the program format page is right there is one first-year core course still missing. The leading candidate is FUQINTRD 692 Leading Business in a Complex World, because the program format page describes summer orientation as three courses 'that emphasize leading and managing in an uncertain world', which nearly quotes that title. Unconfirmed, so it is not in this list.",
+  "courses": [
+    { "id": "ACCOUNTG 590", "code": "ACCOUNTG 590", "title": "Financial Accounting", "area": "ACCOUNTG", "confidence": "confirmed" },
+    { "id": "DECISION 610", "code": "DECISION 610", "title": "Foundations of Business Analytics", "area": "DECISION", "confidence": "confirmed" },
+    { "id": "FINANCE 645", "code": "FINANCE 645", "title": "Financial Management", "area": "FINANCE", "confidence": "confirmed" },
+    { "id": "MGRECON 780", "code": "MGRECON 780", "title": "Managerial Economics", "area": "MGRECON", "confidence": "confirmed" },
+    { "id": "OPERATNS 820", "code": "OPERATNS 820", "title": "Operations Management", "area": "OPERATNS", "confidence": "confirmed" },
+    { "id": "MARKETNG 795", "code": "MARKETNG 795", "title": "Marketing Management", "area": "MARKETNG", "confidence": "confirmed" },
+    { "id": "STRATEGY 835", "code": "STRATEGY 835", "title": "Foundations of Strategy", "area": "STRATEGY", "confidence": "confirmed" },
+    { "id": "MANAGEMT 730", "code": "MANAGEMT 730", "title": "Leadership, Ethics and Organizations", "area": "MANAGEMT", "confidence": "confirmed" },
+    { "id": "MGMTCOM 567", "code": "MGMTCOM 567", "title": "Leadership Communication 1", "area": "MGMTCOM", "confidence": "confirmed" },
+    { "id": "MGMTCOM 568", "code": "MGMTCOM 568", "title": "Leadership Communication 2", "area": "MGMTCOM", "confidence": "confirmed" },
+    { "id": "FUQINTRD 565", "code": "FUQINTRD 565", "title": "Collaborative Leadership 1", "area": "FUQINTRD", "confidence": "confirmed", "note": "Branded Consequential Leadership (C-Lead) in Fuqua communications." },
+    { "id": "FUQINTRD 566", "code": "FUQINTRD 566", "title": "Collaborative Leadership 2", "area": "FUQINTRD", "confidence": "confirmed", "note": "Taken in second year at re-orientation, per the academic calendar." },
+    { "id": "STRATEGY 836", "code": "STRATEGY 836", "title": "Global Institutions and Environments", "area": "STRATEGY", "confidence": "confirmed" },
+    { "id": "DECISION 616", "code": "DECISION 616", "title": "Software Tools for Analytics", "area": "DECISION", "confidence": "confirmed", "note": "Delivered as mandatory online modules before the first term." }
+  ]
+}

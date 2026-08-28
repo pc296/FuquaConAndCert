@@ -18,6 +18,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CATALOG = REPO_ROOT / "data" / "catalog"
 DRAFT = REPO_ROOT / "data" / "raw" / "courses_draft.json"
+CORE = CATALOG / "core.json"
 
 FUQUA_AREAS = {
     "ACCOUNTG", "DECISION", "ENRGYENV", "FINANCE", "FUQINTRD", "HLTHMGMT",
@@ -195,15 +196,36 @@ def main() -> None:
             record["aliases"] = [a for a in aliases if a != base]
         courses[course_id] = record
 
+    # Core courses are hand-maintained in core.json rather than extracted, because
+    # no source document lists them. They carry no credits by design: nothing counts
+    # them toward a pathway, so a wrong value could only mislead (ADR-0029).
+    core = json.loads(CORE.read_text(encoding="utf8"))
+    for record in core["courses"]:
+        if record["id"] in courses:
+            raise SystemExit(
+                f"{record['id']} is both a core course and a pathway elective. "
+                "One of the two is wrong; resolve it before rebuilding."
+            )
+        courses[record["id"]] = {
+            "id": record["id"],
+            "code": record["code"],
+            "title": record["title"],
+            "area": record["area"],
+            "credits": None,
+            "isFuqua": True,
+            "isCore": True,
+        }
+
     out = {
         "schemaVersion": 1,
         "retrieved": pathways["retrieved"],
+        "coreRetrieved": core["retrieved"],
         "countedCredits": COUNTED_CREDITS,
         "courses": [courses[k] for k in sorted(courses)],
     }
     (CATALOG / "courses.json").write_text(json.dumps(out, indent=2), encoding="utf8")
 
-    print(f"courses written: {len(courses)}")
+    print(f"courses written: {len(courses)} ({len(core['courses'])} core)")
     print(f"non-Fuqua: {sum(1 for c in courses.values() if not c['isFuqua'])}")
     if missing_titles:
         print(f"NO TITLE FOUND for {len(missing_titles)}: {missing_titles}")

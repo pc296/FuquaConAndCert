@@ -101,3 +101,13 @@ Second takeaway: every field in a data file should have a consumer or a comment 
 **Why.** The existing constraint tests all used plans where the constrained courses happened to be the ones allocation picked, so they passed while the semantics were wrong. The tests encoded the same misunderstanding as the code, which is what tests written alongside an implementation tend to do.
 
 **Takeaway.** A test written from the same mental model as the code cannot falsify that model. The check that found this was a different kind: an end-to-end property asking whether every pathway is reachable at all. Properties that must hold across the whole catalog are worth more than another example per rule, and there is now one asserting that following the tool's own advice completes the pathway it was given for.
+
+---
+
+## 2026-08-28: An all-or-nothing rule gave the search nothing to climb
+
+**What happened.** Adding the HSM core requirement made that certificate unreachable again, for the second time and a different reason. The recommender scores a candidate course by how much it improves the evaluation, and `requiresCore` was binary: it stayed false until all fourteen core courses were present. Adding the first core course improved nothing the search could measure, so no core course was ever chosen, so the requirement was never met.
+
+**Why.** Constraints were modelled as satisfied or not, which is all an evaluator needs. A search needs a gradient. The two consumers wanted different shapes from the same data and only one of them was considered when the shape was chosen.
+
+**Takeaway.** Any rule a search has to satisfy needs partial credit, not just a verdict. Constraint results now carry a `progress` value from 0 to 1 alongside `satisfied`, defaulting to the binary value, and both the recommender and the progress percentage read it. When adding a constraint type, ask what a partially-complete version of it looks like; if the answer is "there isn't one", say so deliberately rather than by omission.

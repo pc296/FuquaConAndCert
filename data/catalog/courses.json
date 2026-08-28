@@ -1,12 +1,22 @@
 {
   "schemaVersion": 1,
   "retrieved": "2026-08-27",
+  "coreRetrieved": "2026-08-28",
   "countedCredits": {
     "operations-management": {
       "SOCENT 895": 3
     }
   },
   "courses": [
+    {
+      "id": "ACCOUNTG 590",
+      "code": "ACCOUNTG 590",
+      "title": "Financial Accounting",
+      "area": "ACCOUNTG",
+      "credits": null,
+      "isFuqua": true,
+      "isCore": true
+    },
     {
       "id": "ACCOUNTG 591",
       "code": "ACCOUNTG 591",
@@ -75,6 +85,15 @@
       "isFuqua": false
     },
     {
+      "id": "DECISION 610",
+      "code": "DECISION 610",
+      "title": "Foundations of Business Analytics",
+      "area": "DECISION",
+      "credits": null,
+      "isFuqua": true,
+      "isCore": true
+    },
+    {
       "id": "DECISION 611",
       "code": "DECISION 611",
       "title": "Decision Models",
@@ -89,6 +108,15 @@
       "area": "DECISION",
       "credits": 3,
       "isFuqua": true
+    },
+    {
+      "id": "DECISION 616",
+      "code": "DECISION 616",
+      "title": "Software Tools for Analytics",
+      "area": "DECISION",
+      "credits": null,
+      "isFuqua": true,
+      "isCore": true
     },
     {
       "id": "DECISION 617",
@@ -337,6 +365,15 @@
       "isFuqua": false
     },
     {
+      "id": "FINANCE 645",
+      "code": "FINANCE 645",
+      "title": "Financial Management",
+      "area": "FINANCE",
+      "credits": null,
+      "isFuqua": true,
+      "isCore": true
+    },
+    {
       "id": "FINANCE 646",
       "code": "FINANCE 646",
       "title": "Corporate Finance",
@@ -456,6 +493,24 @@
       "area": "FINANCE",
       "credits": 3,
       "isFuqua": true
+    },
+    {
+      "id": "FUQINTRD 565",
+      "code": "FUQINTRD 565",
+      "title": "Collaborative Leadership 1",
+      "area": "FUQINTRD",
+      "credits": null,
+      "isFuqua": true,
+      "isCore": true
+    },
+    {
+      "id": "FUQINTRD 566",
+      "code": "FUQINTRD 566",
+      "title": "Collaborative Leadership 2",
+      "area": "FUQINTRD",
+      "credits": null,
+      "isFuqua": true,
+      "isCore": true
     },
     {
       "id": "FUQINTRD 693",
@@ -716,6 +771,15 @@
       "isFuqua": false
     },
     {
+      "id": "MANAGEMT 730",
+      "code": "MANAGEMT 730",
+      "title": "Leadership, Ethics and Organizations",
+      "area": "MANAGEMT",
+      "credits": null,
+      "isFuqua": true,
+      "isCore": true
+    },
+    {
       "id": "MANAGEMT 738",
       "code": "MANAGEMT 738",
       "title": "Managing Innovation in a Global Organization",
@@ -858,6 +922,15 @@
       "isPracticum": true
     },
     {
+      "id": "MARKETNG 795",
+      "code": "MARKETNG 795",
+      "title": "Marketing Management",
+      "area": "MARKETNG",
+      "credits": null,
+      "isFuqua": true,
+      "isCore": true
+    },
+    {
       "id": "MARKETNG 796",
       "code": "MARKETNG 796",
       "title": "Market Research",
@@ -934,12 +1007,39 @@
       "isFuqua": true
     },
     {
+      "id": "MGMTCOM 567",
+      "code": "MGMTCOM 567",
+      "title": "Leadership Communication 1",
+      "area": "MGMTCOM",
+      "credits": null,
+      "isFuqua": true,
+      "isCore": true
+    },
+    {
+      "id": "MGMTCOM 568",
+      "code": "MGMTCOM 568",
+      "title": "Leadership Communication 2",
+      "area": "MGMTCOM",
+      "credits": null,
+      "isFuqua": true,
+      "isCore": true
+    },
+    {
       "id": "MGMTCOM 570",
       "code": "MGMTCOM 570",
       "title": "Effective Advocacy",
       "area": "MGMTCOM",
       "credits": 3,
       "isFuqua": true
+    },
+    {
+      "id": "MGRECON 780",
+      "code": "MGRECON 780",
+      "title": "Managerial Economics",
+      "area": "MGRECON",
+      "credits": null,
+      "isFuqua": true,
+      "isCore": true
     },
     {
       "id": "MGRECON 781",
@@ -972,6 +1072,15 @@
       "area": "MGRECON",
       "credits": 3,
       "isFuqua": true
+    },
+    {
+      "id": "OPERATNS 820",
+      "code": "OPERATNS 820",
+      "title": "Operations Management",
+      "area": "OPERATNS",
+      "credits": null,
+      "isFuqua": true,
+      "isCore": true
     },
     {
       "id": "OPERATNS 823",
@@ -1113,6 +1222,24 @@
       "area": "STRATEGY",
       "credits": 3,
       "isFuqua": true
+    },
+    {
+      "id": "STRATEGY 835",
+      "code": "STRATEGY 835",
+      "title": "Foundations of Strategy",
+      "area": "STRATEGY",
+      "credits": null,
+      "isFuqua": true,
+      "isCore": true
+    },
+    {
+      "id": "STRATEGY 836",
+      "code": "STRATEGY 836",
+      "title": "Global Institutions and Environments",
+      "area": "STRATEGY",
+      "credits": null,
+      "isFuqua": true,
+      "isCore": true
     },
     {
       "id": "STRATEGY 837",

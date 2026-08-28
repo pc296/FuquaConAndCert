@@ -275,3 +275,17 @@ footer.foot { padding: 14px 28px 40px; color: var(--graphite); font-size: 12px; 
 .closest tr.done td { color: var(--magnolia); }
 .closest .bar { background: var(--hatteras); height: 6px; border-radius: 3px; overflow: hidden; }
 .closest .bar i { display: block; height: 100%; background: var(--duke-royal); }
+
+/* ---------- core courses ---------- */
+
+.chip.core { border-left-color: var(--graphite); background: var(--whisper); }
+.chip.core .code { color: var(--graphite); }
+.coretag {
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.6px;
+  color: var(--graphite); border: 1px solid var(--granite);
+  border-radius: 3px; padding: 0 4px; flex: none;
+}
+.coreline {
+  font-size: 12px; color: var(--graphite); margin: 0 0 8px;
+  border-left: 3px solid var(--granite); padding-left: 8px;
+}

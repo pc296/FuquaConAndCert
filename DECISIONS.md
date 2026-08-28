@@ -433,3 +433,20 @@ Status: accepted
 **Alternatives.** A repair pass that swaps unassigned courses into a group to fix a failing constraint, rejected as more machinery for the same answer. Leaving constraints on allocation output, rejected because it was producing wrong results.
 
 **Consequences.** A group showing four of four with a failed constraint now reads as unsatisfied rather than complete, which is honest. Progress percentage weights the count at 70 percent and constraint satisfaction at 30 percent, so a student can see a constrained group moving. Every pathway is now reachable from an empty plan, which was not true before.
+
+---
+
+## ADR-0029: Core courses are a separate hand-maintained catalog with no credits
+
+Date: 2026-08-28
+Status: accepted
+
+**Context.** Every requirement document defines its coursework as electives "beyond the required core", and the HSM certificate requires completing the core outright, but none of the 16 documents lists the core. Pasted transcripts reported every core course as unrecognized. The core had to be assembled from Fuqua's exemption page, curriculum page, program format page, and the Duke bulletin, then confirmed by Pat.
+
+**Decision.** `data/catalog/core.json` holds 14 core courses, hand-maintained rather than extracted, each carrying the confidence with which it was established. They merge into `courses.json` with `isCore: true` and `credits: null`. They belong to no group in any pathway, so they can never count toward a concentration. HSM gains a `requiresCore` pathway constraint. The build fails loudly if a course appears in both the core list and a pathway elective list.
+
+**Alternatives.** Model credits with an assumed value of 3, rejected on Pat's decision and on merit: nothing counts core credits, so a wrong value could only mislead. Fold core courses into the ordinary catalog with a flag, rejected because their provenance is different and deserves its own file with its own sources.
+
+**Consequences.** Transcripts parse cleanly. HSM is checkable for the first time. Quarter credit totals exclude core courses and show a separate core count, which is honest rather than convenient. The count question is not fully closed: see the `openQuestion` field in `core.json`.
+
+**Unresolved.** The curriculum page says 13 mandated core classes; the program format page says first-year students complete approximately 14, and its own term breakdown totals 14 in first year alone. This list holds 14 in total, of which 13 are first year. If the program format page is right, one first-year core course is missing. The leading candidate is FUQINTRD 692, Leading Business in a Complex World, because the program format page describes summer orientation as three courses "that emphasize leading and managing in an uncertain world", which nearly quotes that title. Not added without confirmation.

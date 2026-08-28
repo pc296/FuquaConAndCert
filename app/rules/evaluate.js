@@ -130,7 +130,7 @@ export function evaluatePathway(pathway, plan, catalog) {
   const totalCredits = round2(countable.reduce((sum, e) => sum + creditsOf(e), 0));
   const totalCourses = countable.length;
 
-  const pathwayConstraints = checkPathwayConstraints(pathway, countable, catalog, creditsOf);
+  const pathwayConstraints = checkPathwayConstraints(pathway, countable, catalog, creditsOf, plan);
   const gpa = evaluateGpa(pathway, countable);
   const intermediate = evaluateIntermediate(pathway, countable, catalog, gpa);
 
@@ -160,7 +160,7 @@ export function evaluatePathway(pathway, plan, catalog) {
     kind: pathway.kind,
     slots: pathway.slots ?? 1,
     status: complete ? STATUS.COMPLETE : totalCourses > 0 ? STATUS.IN_PROGRESS : STATUS.NOT_STARTED,
-    percent: progressPercent(groupResults, totals),
+    percent: progressPercent(groupResults, totals, pathwayConstraints),
     groups: groupResults,
     totals,
     constraints: pathwayConstraints,
@@ -244,8 +244,21 @@ function checkGroupConstraints(group, assignedIds, eligibleIds, catalog) {
   });
 }
 
-function checkPathwayConstraints(pathway, countable, catalog, creditsOf) {
+function checkPathwayConstraints(pathway, countable, catalog, creditsOf, plan) {
   return (pathway.constraints ?? []).map((constraint) => {
+    if (constraint.type === 'requiresCore') {
+      // Checked against the whole plan, not the countable set: core courses are in
+      // no group, so they are never countable toward a pathway by design.
+      const held = new Set(plan.map((e) => e.courseId));
+      const total = catalog.coreCourses.length;
+      const missing = catalog.coreCourses.filter((c) => !held.has(c.id));
+      const have = total - missing.length;
+      return result(constraint, missing.length === 0,
+        missing.length === 0
+          ? 'all core courses recorded'
+          : `${have} of ${total} core courses recorded`,
+        total === 0 ? 1 : have / total);
+    }
     if (constraint.type === 'maxNonFuquaCredits') {
       const have = round2(
         countable
@@ -304,7 +317,7 @@ function evaluateIntermediate(pathway, countable, catalog, gpa) {
   };
 }
 
-function progressPercent(groups, totals) {
+function progressPercent(groups, totals, pathwayConstraints = []) {
   const parts = groups.map((g) => {
     const count = Math.min(1, g.min === 0 ? 1 : g.have / g.min);
     const constraints = g.constraints ?? [];
@@ -314,15 +327,23 @@ function progressPercent(groups, totals) {
   });
   if (totals.minCredits) parts.push(Math.min(1, totals.credits / totals.minCredits));
   if (totals.minCourses) parts.push(Math.min(1, totals.courses / totals.minCourses));
+  for (const constraint of pathwayConstraints) parts.push(constraint.progress);
   if (parts.length === 0) return 0;
   return Math.round((parts.reduce((a, b) => a + b, 0) / parts.length) * 100);
 }
 
-const result = (constraint, satisfied, detail) => ({
+/**
+ * @param {number} [progress] - 0 to 1. Defaults to the binary satisfied value.
+ *   An all-or-nothing constraint gives a search no gradient to climb: the
+ *   recommender could not see that adding the first of fourteen core courses was
+ *   progress, so it never added any and HSM read as unreachable.
+ */
+const result = (constraint, satisfied, detail, progress) => ({
   type: constraint.type,
   note: constraint.note ?? constraint.label ?? '',
   satisfied,
   detail,
+  progress: progress ?? (satisfied ? 1 : 0),
 });
 
 const round2 = (n) => Math.round(n * 100) / 100;

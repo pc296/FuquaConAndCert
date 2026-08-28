@@ -226,6 +226,15 @@ function render() {
 function renderQuarters() {
   const host = $('quarters');
   host.replaceChildren();
+
+  const held = new Set(plan.entries.map((e) => e.courseId));
+  const haveCore = catalog.coreCourses.filter((c) => held.has(c.id)).length;
+  const core = document.createElement('p');
+  core.className = 'coreline';
+  core.textContent = haveCore === catalog.coreCourses.length
+    ? `Core curriculum: all ${catalog.coreCourses.length} recorded.`
+    : `Core curriculum: ${haveCore} of ${catalog.coreCourses.length} recorded. Core courses count toward no concentration; only the HSM certificate requires them.`;
+  host.appendChild(core);
   QUARTERS.forEach((label, index) => {
     const quarter = index + 1;
     const section = document.createElement('div');
@@ -233,7 +242,11 @@ function renderQuarters() {
     const heading = document.createElement('h3');
     const entries = plan.entries.filter((e) => e.quarter === quarter);
     const credits = entries.reduce((s, e) => s + (catalog.courses.get(e.courseId)?.credits ?? 0), 0);
-    heading.textContent = credits > 0 ? `${label} — ${credits} credits` : label;
+    const coreCount = entries.filter((e) => catalog.courses.get(e.courseId)?.isCore).length;
+    const bits = [];
+    if (credits > 0) bits.push(`${credits} credits`);
+    if (coreCount > 0) bits.push(`${coreCount} core`);
+    heading.textContent = bits.length ? `${label} — ${bits.join(', ')}` : label;
     section.appendChild(heading);
 
     if (entries.length === 0) {
@@ -250,7 +263,7 @@ function renderQuarters() {
 function renderChip(entry) {
   const course = catalog.courses.get(entry.courseId);
   const chip = document.createElement('div');
-  chip.className = 'chip';
+  chip.className = course?.isCore ? 'chip core' : 'chip';
 
   const code = document.createElement('span');
   code.className = 'code';
@@ -259,6 +272,14 @@ function renderChip(entry) {
   title.className = 'title grow';
   title.textContent = course?.title ?? 'unknown course';
   title.title = course?.title ?? '';
+  if (course?.isCore) {
+    const tag = document.createElement('span');
+    tag.className = 'coretag';
+    tag.textContent = 'CORE';
+    tag.title = 'Core courses do not count toward any concentration or certificate.';
+    chip.dataset.core = 'true';
+    chip.append(tag);
+  }
 
   const quarter = document.createElement('select');
   quarter.setAttribute('aria-label', 'Quarter');
@@ -487,8 +508,18 @@ function renderNextUp(result) {
     <span class="muted">${advice.courses.length} more course${advice.courses.length === 1 ? '' : 's'}</span>`;
   box.appendChild(header);
 
+  // Core courses are listed as one line rather than fourteen: they are not a choice.
+  const coreNeeded = advice.courses.filter((c) => c.isCore);
+  const electives = advice.courses.filter((c) => !c.isCore);
+  if (coreNeeded.length > 0) {
+    const note = document.createElement('div');
+    note.className = 'done';
+    note.textContent = `Plus ${coreNeeded.length} core course${coreNeeded.length === 1 ? '' : 's'} you have not recorded yet. Core coursework is required for this certificate but is not a choice, so it is not listed step by step.`;
+    box.appendChild(note);
+  }
+
   const list = document.createElement('ol');
-  advice.courses.forEach((item, i) => {
+  electives.forEach((item, i) => {
     const li = document.createElement('li');
     const step = document.createElement('span');
     step.className = 'step';

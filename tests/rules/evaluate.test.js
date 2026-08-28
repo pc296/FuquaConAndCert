@@ -163,7 +163,10 @@ test('repeatable course counts twice when taken twice', () => {
 });
 
 test('hsm certificate: needs an industry context elective and a second HLTHMGMT course', () => {
+  const core = catalog.coreCourses.map((c) => c.id);
+
   const breadthOnly = evalOf('cert-hsm', [
+    ...core,
     'HLTHMGMT 710', 'HLTHMGMT 705', 'HLTHMGMT 706',
     'ACCOUNTG 591', 'DECISION 611', 'FINANCE 646', 'MARKETNG 796',
   ]);
@@ -172,10 +175,31 @@ test('hsm certificate: needs an industry context elective and a second HLTHMGMT 
   assert.equal(breadthOnly.status, STATUS.IN_PROGRESS);
 
   const proper = evalOf('cert-hsm', [
+    ...core,
     'HLTHMGMT 710', 'HLTHMGMT 705', 'HLTHMGMT 706',
     'HLTHMGMT 711', 'HLTHMGMT 715', 'DECISION 611', 'MARKETNG 796',
   ]);
   assert.equal(proper.status, STATUS.COMPLETE);
+});
+
+test('hsm certificate: the core requirement blocks completion until the core is recorded', () => {
+  const electivesOnly = evalOf('cert-hsm', [
+    'HLTHMGMT 710', 'HLTHMGMT 705', 'HLTHMGMT 706',
+    'HLTHMGMT 711', 'HLTHMGMT 715', 'DECISION 611', 'MARKETNG 796',
+  ]);
+  const coreRule = electivesOnly.constraints.find((c) => c.type === 'requiresCore');
+  assert.equal(coreRule.satisfied, false);
+  assert.match(coreRule.detail, /0 of 14 core courses recorded/);
+  assert.equal(electivesOnly.status, STATUS.IN_PROGRESS);
+});
+
+test('core courses never count toward a concentration', () => {
+  const coreOnly = catalog.coreCourses.map((c) => c.id);
+  for (const p of catalog.pathways) {
+    const r = evaluatePathway(p, plan(coreOnly), catalog);
+    assert.equal(r.totals.courses, 0, `${p.id} counted a core course`);
+    assert.equal(r.totals.credits, 0, `${p.id} counted core credits`);
+  }
 });
 
 test('finance certificate: GPA below 3.75 blocks completion', () => {

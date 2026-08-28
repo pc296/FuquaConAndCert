@@ -12,5 +12,6 @@ export function buildCatalog(pathwaysJson, coursesJson) {
     countedCredits: coursesJson.countedCredits ?? {},
     courses: new Map(coursesJson.courses.map((c) => [c.id, c])),
     courseList: coursesJson.courses,
+    coreCourses: coursesJson.courses.filter((c) => c.isCore),
   };
 }

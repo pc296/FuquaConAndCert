@@ -13,7 +13,10 @@
 
 import { evaluatePathway, STATUS } from './evaluate.js';
 
-const MAX_STEPS = 14;
+// Bound on search depth. No pathway needs more than ten elective courses, so 14
+// leaves room; a pathway that also requires the core needs the core on top of that,
+// which is why the bound is derived rather than constant. HSM needs 21.
+const MAX_ELECTIVE_STEPS = 14;
 
 /**
  * @param {object} pathway
@@ -34,8 +37,11 @@ export function recommend(pathway, plan, catalog, options = {}) {
     return { complete: true, courses: [], reachable: true };
   }
 
+  const requiresCore = (pathway.constraints ?? []).some((c) => c.type === 'requiresCore');
+  const maxSteps = MAX_ELECTIVE_STEPS + (requiresCore ? catalog.coreCourses.length : 0);
+
   const picked = [];
-  for (let step = 0; step < MAX_STEPS; step += 1) {
+  for (let step = 0; step < maxSteps; step += 1) {
     const candidates = candidateIds(pathway, current, catalog);
     let best = null;
 
@@ -43,15 +49,15 @@ export function recommend(pathway, plan, catalog, options = {}) {
       const trial = [...current, { courseId }];
       const trialResult = evaluatePathway(pathway, trial, catalog);
       const gain = trialResult.percent - result.percent;
-      const groupsGained =
-        countSatisfied(trialResult) - countSatisfied(result);
-      if (gain <= 0 && groupsGained <= 0) continue;
+      const groupsGained = countSatisfied(trialResult) - countSatisfied(result);
+      const constraintGain = constraintProgress(trialResult) - constraintProgress(result);
+      if (gain <= 0 && groupsGained <= 0 && constraintGain <= 0) continue;
 
       const elsewhere = others.filter((other) =>
         appearsIn(other, courseId),
       ).length;
 
-      const score = [groupsGained, gain, elsewhere];
+      const score = [groupsGained, constraintGain, gain, elsewhere];
       if (best === null || better(score, best.score) ||
           (equal(score, best.score) && courseId < best.courseId)) {
         best = { courseId, score, result: trialResult };
@@ -65,6 +71,7 @@ export function recommend(pathway, plan, catalog, options = {}) {
     picked.push({
       courseId: best.courseId,
       course: catalog.courses.get(best.courseId),
+      isCore: catalog.courses.get(best.courseId)?.isCore === true,
       alsoCountsToward: others
         .filter((other) => appearsIn(other, best.courseId))
         .map((other) => other.shortName ?? other.name),
@@ -79,13 +86,24 @@ export function recommend(pathway, plan, catalog, options = {}) {
   return { complete: false, courses: picked, reachable: false };
 }
 
-/** Courses this pathway lists that the plan can still take. */
+/**
+ * Courses this pathway lists that the plan can still take.
+ *
+ * Core courses are in no group, so they are normally not candidates. A pathway
+ * that requires the core (the HSM certificate) is the exception: without them it
+ * would be unreachable by any sequence of courses, which is how this surfaced.
+ */
 function candidateIds(pathway, plan, catalog) {
   const counts = new Map();
   for (const entry of plan) {
     counts.set(entry.courseId, (counts.get(entry.courseId) ?? 0) + 1);
   }
   const ids = new Set();
+  if ((pathway.constraints ?? []).some((c) => c.type === 'requiresCore')) {
+    for (const course of catalog.coreCourses) {
+      if (!counts.has(course.id)) ids.add(course.id);
+    }
+  }
   for (const group of pathway.groups) {
     for (const courseId of group.courses) {
       const limit = catalog.courses.get(courseId)?.maxTimes ?? 1;
@@ -99,6 +117,10 @@ const appearsIn = (pathway, courseId) =>
   pathway.groups.some((g) => g.courses.includes(courseId));
 
 const countSatisfied = (result) => result.groups.filter((g) => g.satisfied).length;
+
+/** Total progress across pathway-level constraints, so partial movement is visible. */
+const constraintProgress = (result) =>
+  result.constraints.reduce((sum, c) => sum + (c.progress ?? 0), 0);
 
 function better(a, b) {
   for (let i = 0; i < a.length; i += 1) {

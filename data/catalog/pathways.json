@@ -1207,6 +1207,12 @@
             }
           ]
         }
+      ],
+      "constraints": [
+        {
+          "type": "requiresCore",
+          "note": "Requires completion of all Fuqua Daytime MBA core course requirements."
+        }
       ]
     }
   ]

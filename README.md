@@ -25,6 +25,7 @@ Then open http://localhost:8080. Published to GitHub Pages, no server step is ne
 - Tracks progress on all 18 pathways at once: 16 concentrations and 2 certificates.
 - A course counts toward every pathway it appears on. Inside a single pathway, each course is allocated to one group, because several pathways have deliberately overlapping group lists.
 - Warns when a declared set would exceed the two-specialty limit. Dual Finance counts as two and fills the allowance alone.
+- Knows the 14 Daytime MBA core courses, so pasted transcripts parse cleanly. Core courses count toward no concentration; only the HSM certificate requires them.
 - Handles the conditional rules in the source documents: the Energy Finance overflow clause, the Leadership and Ethics outside-Management minimum, the Social Entrepreneurship practicum and non-Fuqua credit limits, the Operations practicum credit adjustment, repeatable and variable-credit courses, and the Finance Certificate GPA threshold.
 - Your plan is stored in this browser only. Export writes a JSON file, which is the backup and the sharing format.
 
@@ -35,7 +36,7 @@ index.html            entry point, served from the repo root
 app/rules/            pure ES modules: evaluation, allocation, the specialty cap
 app/ui/               DOM and SVG, no requirement logic
 app/storage/          localStorage plus export and import
-data/catalog/         18 pathways, 149 courses, reviewed data
+data/catalog/         18 pathways, 163 courses (14 core), reviewed data
 data/layout/          hand-authored skill map coordinates
 tools/extraction/     Python, developer-only, reads ../Source_docs
 tests/rules/          node --test
@@ -59,7 +60,7 @@ ADR-0003, ADR-0014, and ADR-0017 in `DECISIONS.md` are superseded. Do not follow
 
 ## Known gaps
 
-- Core courses are not modeled. Several documents define requirements as coursework "beyond the required core" and the HSM certificate requires completing the core outright, but no source document lists the core curriculum. Pasted transcripts will report core courses as unrecognized.
+- The core course count is unresolved. Fuqua's curriculum page says 13 mandated core classes; its program format page says approximately 14 in first year alone. The catalog holds 14, and one first-year course may be missing (ADR-0029).
 - Prerequisites and which years a course is offered are mentioned throughout the sources and listed reliably in none of them.
 
 - Whether two certificates is an allowed combination is unresolved; the app follows the stricter reading (ADR-0021).
