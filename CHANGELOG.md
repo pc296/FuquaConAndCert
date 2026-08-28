@@ -10,6 +10,8 @@ Categories: Added, Changed, Fixed, Removed. Newest at the top. Entries describe 
 
 ### Added
 
+- 2026-08-28: Merriweather and Open Sans vendored as Latin-subset woff2 files, so the app renders in the Duke pairing offline with no third-party request. 176 KB, SIL Open Font License.
+- 2026-08-28: `.nojekyll` so GitHub Pages serves the tree as-is.
 - 2026-08-28: Catalog verification pass over all 18 pathways against the 16 source documents. Requirement structures confirmed correct; the audit's findings were in the tooling, not the data. `tools/extraction/verify.py` now runs as a standing check via `npm run verify`.
 - 2026-08-28: Course aliases, so cross-listings and source spelling variants resolve to one course: PUBPOL 559S also matches LAW 585, and MARKETING 807, MANAGEMENT 754, ENERGY 590-05, and ACCT 597 resolve to their canonical codes.
 - 2026-08-28: The Finance Certificate's intermediate qualification is now evaluated and shown. It was recorded in the catalog and read by nothing.

@@ -6,6 +6,10 @@ A course planner for the Duke Fuqua Daytime MBA. Enter the courses you have take
 
 The repository is `FuquaConAndCert`; the tool is called Fuqua ConCert. The names differ for historical reasons.
 
+## Where it lives
+
+Published at **https://pc296.github.io/FuquaConAndCert/** once GitHub Pages is enabled on the repository: Settings, Pages, Source "Deploy from a branch", branch `main`, folder `/ (root)`. There is no build step and no workflow, so every push publishes.
+
 ## Running it
 
 The app is a static site with no build step, but browsers block ES modules over `file://`, so it needs an HTTP origin:
@@ -35,12 +39,16 @@ data/catalog/         18 pathways, 149 courses, reviewed data
 data/layout/          hand-authored skill map coordinates
 tools/extraction/     Python, developer-only, reads ../Source_docs
 tests/rules/          node --test
+tests/extraction/     pytest
+app/fonts/            vendored Merriweather and Open Sans, SIL OFL
 ```
 
 ## Tests
 
 ```
-npm test              # node --test tests/rules/*.test.js
+npm test              # rule engine, node --test
+npm run test:extraction   # parser golden-file tests, pytest
+npm run verify        # cross-check the catalog against the source documents
 ```
 
 ## For contributors
@@ -51,6 +59,8 @@ ADR-0003, ADR-0014, and ADR-0017 in `DECISIONS.md` are superseded. Do not follow
 
 ## Known gaps
 
-- Merriweather and Open Sans are declared but not vendored, so most machines render the Georgia and system-sans fallbacks (ADR-0024).
+- Core courses are not modeled. Several documents define requirements as coursework "beyond the required core" and the HSM certificate requires completing the core outright, but no source document lists the core curriculum. Pasted transcripts will report core courses as unrecognized.
+- Prerequisites and which years a course is offered are mentioned throughout the sources and listed reliably in none of them.
+
 - Whether two certificates is an allowed combination is unresolved; the app follows the stricter reading (ADR-0021).
 - Stages 2 to 4 are unbuilt: grades beyond the Finance Certificate, MEM and dual-degree coursework, and user-added substitutions (ADR-0013).

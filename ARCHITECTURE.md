@@ -90,7 +90,7 @@ GitHub Pages from the main branch root of `pc296/FuquaConAndCert` (ADR-0015). `i
 
 Duke brand. Primary colors Duke Navy Blue `#012169` and Duke Royal Blue `#00539B`; the brand guide requires at least one primary blue in any project and prohibits altering their opacity or saturation, so map tints are separate palette entries rather than transparent blues. Secondary accents carry state and category coding: Persimmon `#E89923` for in progress, Eno `#339898` for complete, Dandelion `#FFD960` for emphasis, Copper `#C84E00` for blocked. Neutrals Hatteras `#E2E6ED` and Whisper Gray `#F3F2F1`.
 
-Typography is the Duke pairing Merriweather with Open Sans, currently declared as a font stack with Georgia and a system sans as fallbacks. The font files are not yet vendored, so most machines render the fallbacks (ADR-0024).
+Typography is the Duke pairing Merriweather with Open Sans, vendored as Latin-subset woff2 files in `app/fonts/` under the SIL Open Font License (ADR-0026). Georgia and a system sans remain as the fallback stack.
 
 Unverified: this is the Duke University brand guide. Fuqua may maintain a school-level variant that differs. Not checked.
 

@@ -385,3 +385,21 @@ Supersedes: ADR-0021
 **Decision.** Two specialties maximum, at most one of which may be a certificate. This is settled. The catalog note no longer asks anyone to confirm it, and the contradicting line on the Fuqua page is treated as stale or erroneous rather than as an open question.
 
 **Consequences.** Finance Certificate plus HSM Certificate is rejected, and the app says so plainly rather than hedging. The rule still lives in `combinationRule` in the catalog, so a future correction is one data edit. The citation to the contradicting page stays recorded, because a future reader who finds that page deserves to know it was seen and set aside deliberately.
+
+---
+
+## ADR-0026: Duke fonts vendored, closing the gap in ADR-0024
+
+Date: 2026-08-28
+Status: accepted
+Supersedes: the typography half of ADR-0024
+
+**Context.** ADR-0024 declared Merriweather and Open Sans in the font stack but left the files unvendored, so most machines rendered the Georgia and system-sans fallbacks. Both families are on Google Fonts under the SIL Open Font License 1.1, which permits redistribution.
+
+**Decision.** Vendor the Latin-subset woff2 files into `app/fonts/`, taken from the `@fontsource` packages that repackage the Google Fonts releases. Five faces: Merriweather 400 and 700, Open Sans 400, 600, and 700. Both licences are committed alongside them. `@font-face` rules use `font-display: swap`.
+
+**Alternatives.** Link the Google Fonts CDN, rejected because it breaks offline use, adds a third-party request on every load, and the artifact is meant to be self-contained. Ship the full Unicode range, rejected as unnecessary weight for an app whose content is English course titles.
+
+**Consequences.** 176 KB added to the repo, cached after first load. The app now renders in the intended Duke pairing with no network dependency. Adding a weight means adding a file and a rule, deliberately. The fallback stack stays in place for the moment before the fonts load and for anyone who blocks font downloads.
+
+**Note.** The font files were obtained through the npm package manager in the same way pdfplumber was obtained through pip, and only the woff2 binaries and licences were copied into the repo. No package manifest, lockfile, or `node_modules` enters the tree, which keeps the no-dependency rule in CONVENTIONS.md intact: these are assets, not a runtime dependency.

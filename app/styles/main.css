@@ -5,6 +5,48 @@
    transparent blues. Type is the Duke pairing Merriweather + Open Sans, with
    Georgia and a system sans as fallbacks until the font files are vendored. */
 
+/* Vendored from the @fontsource packages, which repackage the Google Fonts
+   releases. Both families are SIL Open Font License 1.1; the licences are in
+   app/fonts/. Latin subset only, which is what this app needs, and 176 KB total.
+   Vendored rather than linked so the app works offline and makes no third-party
+   request (ADR-0026). */
+
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/merriweather-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/merriweather-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/open-sans-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/open-sans-latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/open-sans-latin-700-normal.woff2') format('woff2');
+}
+
 :root {
   --duke-navy: #012169;
   --duke-royal: #00539B;
@@ -51,7 +93,7 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 700; margin: 0; }
   border-bottom: 4px solid var(--duke-royal);
 }
 .masthead-row { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
-.wordmark { font-family: var(--serif); font-size: 26px; letter-spacing: 0.2px; }
+.wordmark { font-family: var(--serif); font-size: 24px; letter-spacing: -0.1px; }
 .wordmark em { font-style: normal; color: var(--dandelion); }
 .tagline { margin: 0; color: var(--hatteras); font-size: 14px; }
 .notice {
